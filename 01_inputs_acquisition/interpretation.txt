@@ -1,0 +1,76 @@
+# 01_inputs_acquisition — Acquisition and provenance locking of raw inputs
+
+## What this step did
+Retrieved the protein scaffold (PDB 2CHT, BsCM with Bartlett's transition-state analogue
+bound in each active site) and the terminal-repair donor (PDB 1DBF, the 1.30 A BsCM
+catalytic homotrimer) from the RCSB. Retrieved three pre-aligned chorismate geometries
+from the CP2K examples repository at a pinned commit. Registered each ligand to the
+crystallographic analogue site it was aligned against, by nearest centre. Locked the
+identity of all five raw inputs by SHA-256.
+
+No structural modification happens at this step. Its whole product is identified inputs
+plus a provenance record.
+
+## Key numbers
+- 2CHT: 13529 ATOM, 1815 HETATM, chains A-L. Only non-water hetero is TSA (204 atoms)
+  across twelve sites: A203 B201 C202 D206 E204 F205 G209 H207 I208 J212 K210 L211.
+- 1DBF: 3156 ATOM, 499 HETATM, chains A, B, C.
+- Ligands liga/ligb/ligc: 24 atoms, 24 bonds, formula C10H8O6, net charge -2.0000 each.
+- Registration: liga -> TSA K210 (0.161 A), ligb -> J212 (0.160 A), ligc -> L211 (0.203 A).
+- Registration margin to the runner-up site: 22.11 / 22.05 / 21.98 A, i.e. 138x / 139x /
+  109x the winning distance.
+- Retrieved 2026-07-06T06:57:45Z; CP2K examples commit d71583a411a0a7d8557e94a24b87a3ceb87ec34e.
+
+## Acceptance threshold and verdict
+No formal gate is defined by the script itself. The check script applies these:
+  - all five recorded SHA-256 values reproduce against the committed files
+  - 2CHT carries twelve TSA sites and no non-water hetero other than TSA
+  - each ligand is 24 atoms / 24 bonds / C10H8O6 / net charge -2
+  - each registration is unambiguous against its runner-up
+PASS: 20 of 20 checks. See checks/step01_verify.out.
+
+## Literature comparison
+Claeyssens et al. (2011, doi:10.1039/c0ob00691b), Methods: they start from the same
+entry, "the structure of Bacillus subtilis chorismate mutase taken from the protein
+databank (PDB code 2CHT), containing Bartlett's inhibitor (a TS analogue) bound in the
+active site", and substitute chorismate for the analogue. Our starting point and our
+substitution strategy therefore match the primary comparator.
+
+Two deviations at this step, both real and both currently unstated in the repos:
+
+1. TERMINAL REPAIR IS NOT CLAEYSSENS'. Their Methods make no mention of repairing chain
+   termini or of a donor structure. Agbaglo et al. (2024, doi:10.1039/d3cp06100k, p. 6)
+   do exactly what we do: "Missing residues in the 2CHT X-ray crystal structure were
+   added from the C-terminus using PDB entry 1DBF ... residues 1 and 116-127 from 1DBF
+   were added to 2CHT for chain A, residues 1 and 115-127 were added for chain B, and
+   residues 1-2 and 115-127 were added for chain C". So at this step we follow Agbaglo,
+   not the primary comparator. -> 00_crosscutting/protocol_deviations.txt
+
+2. LIGAND PROVENANCE DIFFERS. We take pre-aligned CP2K example geometries registered to
+   specific analogue sites. Claeyssens substituted chorismate "as described in references
+   9 and 10", i.e. Ranaghan, Ridder, Szefczyk, Sokalski, Hermann and Mulholland,
+   Mol. Phys. 2003, 101, 2695-2714, and Org. Biomol. Chem. 2004, 2, 968-980. Neither is
+   in the reference repository and no DOI is held for either, so the procedure we are
+   deviating from cannot currently be inspected. -> 00_crosscutting, and SOURCING GAP.
+
+## Caveats and known issues
+- THE SCRIPT PROMISES A CHECK IT DOES NOT PERFORM. step01's comment says 24 atoms "is
+  consistent with the chorismate dianion (C10H8O6) - confirm element composition and net
+  charge from the mol2 before it sets the QM-region charge". The code prints only name,
+  atom count and bond count. No committed output contains the elemental or charge
+  confirmation. The QM-region charge of -2 therefore rested on an unperformed check until
+  checks/step01_verify.py was added. The check passes; the point is that it was absent.
+- step01b takes the nearest TSA centre unconditionally (dists[0]) with no ambiguity guard.
+  The assignment is in fact unambiguous by 109-139x, but that is now measured rather than
+  assumed.
+- scripts/ and scripts_as_run/ DIFFER for both scripts, by one added environment line
+  (OMP/OPENBLAS/MKL thread limits). Immaterial to output. Recorded because this same
+  archive has been found materially stale for step04.
+- The TSA is a different molecule from the substrate: 17 heavy atoms at site K210 against
+  16 in the chorismate dianion. Expected - it is an oxabicyclic analogue - but it means
+  the superposition at step 04 is not an atom-for-atom mapping.
+- step01_provenance.txt records the retrieval date but not an RCSB file version. RCSB
+  entries can be re-versioned; the SHA-256 record is what actually pins identity here.
+
+## Cited by
+Methods X.1.1. Table of raw inputs and provenance (if built).

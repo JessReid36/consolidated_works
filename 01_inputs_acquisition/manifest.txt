@@ -1,0 +1,42 @@
+step: 01_inputs_acquisition
+title: Acquisition and provenance locking of raw inputs
+scripts: step01_download_inputs.sh, step01b_ligand_tsa_registration.sh
+cited_by: Methods X.1.1
+
+## scripts   (canonical home: JessReid36/chorismate-thesis-code)
+   branch=tier1-realism commit=f0e059cf11eda91dea939c42f8e12d1a8bf829a1
+  phase1_system_dev/step01_download_inputs.sh  3721  a6c1b75e57bb51855d11daacd009aa90408483c525906f608bb4f1f85a357e99
+  phase1_system_dev/step01b_ligand_tsa_registration.sh  2348  333f3aaa660e172d2a2795aaee285fd9dea13243446dcc0c8d6df2c64f210a54
+
+## scripts_as_run   (copies archived in results 00_admin at run time; MAY DIVERGE from scripts/)
+   canonical home: JessReid36/chorismate-thesis-results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  00_admin/step01_download_inputs.sh  3655  e0a066c37dbb25d95bb84a0817613613e4b5857350ea3094f47745c2e2e09654
+  00_admin/step01b_ligand_tsa_registration.sh  2282  026be9164bfecfdbad8ddb9512567fa00d846aa74d527412e40aca8b6c6b12aa
+  divergence: both files differ from scripts/ by one added line,
+    'export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1'.
+    Environment only; no effect on any output.
+
+## outputs   (canonical home: JessReid36/chorismate-thesis-results)
+   branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  01_inputs/structures/2cht_raw.pdb  1346787  b938020bbbcbe301c3a0579e4e8117b65678b77d6609cb62d2aafa00287d831e
+  01_inputs/structures/1dbf_raw.pdb  635931  59183f711ea35c1b9294332cd8fd814128bd455e4549ffb04fa52c92ffb71e91
+  01_inputs/ligands/liga.mol2  2145  fd19c40914739e57635f8495d331d49303395786cb97c4b4b70dcd34b40ab26a
+  01_inputs/ligands/ligb.mol2  2145  31800dab8780e66a16d24ced4b9ed580c160ef42a2d4768ed72d92a2967154bf
+  01_inputs/ligands/ligc.mol2  2145  a4b8584c16f4237c334a531066405ed99952b5b5267c3cec4f00441381b36836
+  00_admin/step01_download_manifest.tsv  423  8fef403c4f99a4a06f9ecc7e113ace86bc116323468291451d2c3a4363b57469
+  00_admin/sha256_step01_inputs.txt  652  889d0ad24be0e56c535a5f89585d0542cd47ab59d010de6d0c31b50d82aee0b2
+  00_admin/step01_provenance.txt  97  c7b6ab50dd417bcfb4bfbe8e75f60e165e6466390aa20bf0c2f7178dea6c9d1c
+  00_admin/ligand_tsa_registration.tsv  138  d6bb13f60f539ac547ca02b39afb435e029cc847393294049d43fe1b43456016
+
+## checks
+  step01_verify.py  6325  181c3d186e7739537a2dff5ee2884bdde591010bfa554b16ce7b34c2080fb1c5
+  result: 20 checks, 20 PASS, 0 FAIL  (see checks/step01_verify.out)
+
+## environment of the recorded check run
+  date_utc: 2026-09-28T16:21:19+00:00
+  python:   3.12.3
+  platform: Linux-6.18.44-fc-v42-x86_64-with-glibc2.39
+  host:     drafting container, NOT the HPC working tree.
+            The check ran against the committed copies in outputs/, so it
+            validates the committed record, not the live cluster state.
+            Re-run on the HPC to confirm the working tree still agrees.

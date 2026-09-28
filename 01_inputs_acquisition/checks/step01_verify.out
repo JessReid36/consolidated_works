@@ -1,0 +1,36 @@
+step 01 verification against /home/claude/repos/cw_build/01_inputs_acquisition/outputs
+
+1. raw-input checksums vs sha256_step01_inputs.txt
+  [PASS] sha256 2cht_raw.pdb — b938020bbbcbe301
+  [PASS] sha256 1dbf_raw.pdb — 59183f711ea35c1b
+  [PASS] sha256 liga.mol2 — fd19c40914739e57
+  [PASS] sha256 ligb.mol2 — 31800dab8780e66a
+  [PASS] sha256 ligc.mol2 — a4b8584c16f4237c
+
+2. PDB inventory
+  [PASS] 2CHT chain set is A-L — chains=ABCDEFGHIJKL
+  [PASS] 2CHT ATOM/HETATM — ATOM=13529 HETATM=1815
+  [PASS] 2CHT non-water hetero is TSA only — {'TSA': 204}
+  [PASS] 1DBF chain set is A-C — chains=ABC
+  [PASS] 1DBF ATOM/HETATM — ATOM=3156 HETATM=499
+
+3. TSA site inventory
+  [PASS] twelve TSA sites, one per chain — A203 B201 C202 D206 E204 F205 G209 H207 I208 J212 K210 L211
+
+4. ligand composition and net charge (not done by step01 itself)
+  [PASS] liga 24 atoms / 24 bonds — 24/24
+  [PASS] liga formula C10H8O6 — C10H8O6
+  [PASS] liga net charge -2 — -2.0000
+  [PASS] ligb 24 atoms / 24 bonds — 24/24
+  [PASS] ligb formula C10H8O6 — C10H8O6
+  [PASS] ligb net charge -2 — -2.0000
+  [PASS] ligc 24 atoms / 24 bonds — 24/24
+  [PASS] ligc formula C10H8O6 — C10H8O6
+  [PASS] ligc net charge -2 — -2.0000
+
+5. registration margin (step01b has no ambiguity guard)
+  [PASS] liga.mol2 registered to K210 as recorded — 0.161 A, runner-up 22.272 A, margin 22.11 A (138x)
+  [PASS] ligb.mol2 registered to J212 as recorded — 0.160 A, runner-up 22.207 A, margin 22.05 A (139x)
+  [PASS] ligc.mol2 registered to L211 as recorded — 0.203 A, runner-up 22.184 A, margin 21.98 A (109x)
+
+ALL CHECKS PASSED

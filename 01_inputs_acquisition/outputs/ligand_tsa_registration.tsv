@@ -1,0 +1,4 @@
+ligand	atoms	source_tsa_chain	source_tsa_resid	centre_offset_A
+liga.mol2	24	K	210	0.161
+ligb.mol2	24	J	212	0.160
+ligc.mol2	24	L	211	0.203
