@@ -1,2 +1,2 @@
 step	subsection	scripts	n_outputs	checks	status
-01_inputs_acquisition	Methods X.1.1	step01_download_inputs.sh, step01b_ligand_tsa_registration.sh	9	20 PASS	verified
+01_inputs_acquisition	Methods X.1.1	step01_download_inputs.sh, step01b_ligand_tsa_registration.sh	9	20 PASS	verified, drafted

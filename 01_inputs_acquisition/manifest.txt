@@ -32,6 +32,11 @@ cited_by: Methods X.1.1
   step01_verify.py  6325  181c3d186e7739537a2dff5ee2884bdde591010bfa554b16ce7b34c2080fb1c5
   result: 20 checks, 20 PASS, 0 FAIL  (see checks/step01_verify.out)
 
+## writeup   (drafted here; assembled into the chapter later)
+  writeup/methods_X1_1.docx  16163  845fb9d2862c7b8942650a2f8faf522de9b8f3b7194f398f0b12ac95a96a23cd
+  writeup/methods_X1_1.md  11689  2c5c2ba9635a2a3c44284c7e66bf16511f6d5d24182234509b8d629aa2b2ccb8
+  note: methods_X1_1.docx is generated from the .md by pandoc; the .md is the source.
+
 ## environment of the recorded check run
   date_utc: 2026-09-28T16:21:19+00:00
   python:   3.12.3

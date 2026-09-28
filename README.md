@@ -23,6 +23,7 @@ rather than a judgement call.
       checks/               re-runnable verification script + recorded output
       manifest.txt          provenance and checksums for every file, plus check environment
       interpretation.txt    fixed skeleton, see below
+      writeup/              this step's Methods subsection, .md source + .docx
 
 Files over 10 MB are not copied; they are recorded as `<name>.pointer` carrying canonical
 path, commit, size and SHA-256, preserving the existing large-file policy in
@@ -53,5 +54,5 @@ should reconcile against the write-up's reference list.
 
 ## Status
 
-01 built and verified 2026-09-28 (code tier1-realism f0e059c, results main aa131d5).
+01 built, verified and drafted 2026-09-28 (code tier1-realism f0e059c, results main aa131d5).
 Steps 02 onward not yet added.
