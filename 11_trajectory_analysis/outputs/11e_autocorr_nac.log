@@ -1,0 +1,46 @@
+site CHA#2 = residue 383
+
+reading 20000 of 20000 frames (stride 1) ...
+
+(A) AUTOCORRELATION
+    frame interval 1 ps
+
+    quantity                tau_int (frames)   tau_int (ps)    eff. N
+    -----------------------------------------------------------------
+    forming C1-C6                       14.9           14.9       671
+    Arg90-O13 contact                    4.6            4.6      2178
+
+    selected frames: 12, spacing 1595-1750 ps (mean 1670)
+    slowest tau_int: 14.9 ps
+    minimum spacing is 107.1 x the slowest correlation time
+    -> frames are effectively independent; the sem may be quoted as sd/sqrt(n)
+
+(B) NAC ORBITAL ALIGNMENT at the selected frames
+    Freindorf & Kraka (2019): a NAC requires the forming bond within
+    3.7 A AND the pi-orbitals of the reacting carbons pointing toward
+    one another. step12a tests the distance only.
+
+    pi-axis at C1 from neighbours ['C2', 'O3']
+    pi-axis at C6 from neighbours ['C5', 'C7']
+
+      frame   form (A)   angle C1   angle C6     verdict
+    ------------------------------------------------------
+        820      3.220       29.1       21.6         NAC
+       2450      3.407       27.4       19.1         NAC
+       4085      3.149       38.9       23.8         NAC
+       5680      3.032       43.1       17.8         NAC
+       7310      3.288       41.2       23.9         NAC
+       9025      3.496       26.7       27.1         NAC
+      10775      3.566       25.7       27.7         NAC
+      12485      3.461       33.8       23.6         NAC
+      14155      3.284       24.3       20.6         NAC
+      15825      3.385       41.1       26.6         NAC
+      17505      3.387       32.2       27.8         NAC
+      19185      2.990       21.7       16.8         NAC
+
+    Angles are between the forming-bond vector and the local pi
+    axis at each carbon; 0 deg is perfect head-on overlap. A cutoff
+    of 45 deg is used here as a working threshold - if the frames
+    cluster well below it the distinction is moot, and if they
+    straddle it the threshold must be justified or the orbital
+    clause dropped from the stated criterion with an explanation.

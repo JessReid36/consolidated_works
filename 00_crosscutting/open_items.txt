@@ -138,9 +138,74 @@ as-run copy needs to know to check two places.
 
 To close: either consolidate the archives into one location, or document the convention.
 
+ITEM 10 - The step 11 document sets a selection criterion that was not applied
+  raised at: 11_trajectory_analysis
+  closes at: a correction to step11_trajectory_analysis.md, plus a decision on how X.2
+             describes the selection
+  status: OPEN
+
+step11_trajectory_analysis.md closes with:
+    "Select catalytically-competent reactant frames ... Draws from all three sites,
+     weighted toward CHA#2; gives a Claeyssens-style spread of competent conformations."
+
+The canonical manifest 05_qmmm/selection_manifest.tsv holds 45 frames and every one is
+CHA#2, residue 383, site B. Sites A and C contribute nothing.
+
+The execution is the defensible one. Near-attack occupancy over the 20 ns production is
+3.6% at site A, 99.0% at site B and 32.4% at site C - a 27-fold spread. Drawing competent
+frames from site A would mean cherry-picking 3.6% of the trajectory.
+
+But the document as committed states a criterion that was not used, and conclusion 2 of
+the same document argues the three-site asymmetry is "a feature for Claeyssens-style
+multi-pathway sampling" - a feature that was then not used. The write-up must not quote
+either.
+
+To close: correct the document to state the criterion actually applied and the occupancy
+figures that justify it, and make sure X.2 says plainly that the ensemble is single-site.
+
+ITEM 12 - NAC as a filter must not be read as NAC as a mechanism
+  raised at: 11_trajectory_analysis
+  closes at: a sentence in X.2
+  status: OPEN
+
+Frame selection uses the Hur & Bruice near-attack-conformer criterion (PNAS 2003, 100,
+12015), correctly sourced and fully implemented in step11f_nac_check.py.
+
+Ranaghan et al. 2004 (doi:10.1039/b313759g, held as B313759G.pdf, reference 10 of
+Claeyssens 2011) sets out the controversy: Bruice's claim that ~90% of the catalytic
+effect arises from NAC formation "has been criticized as being unreliable", Jorgensen's
+MC/FEP study suggests NAC conversion contributes no free energy to catalysis, and the
+Mulholland lineage - including our primary comparator - argues for transition-state
+stabilisation instead.
+
+Using a NAC criterion to SELECT reactant-like frames is not the same as endorsing NAC as
+the EXPLANATION of catalysis. The two must be distinguished in one explicit sentence, or a
+reader will take the filter as a mechanistic commitment that the rest of the thesis, and
+the comparator it benchmarks against, contradicts.
+
 ===============================================================================
 CLOSED
 ===============================================================================
+
+ITEM 11 - The QC document covers 20 ns of a 60 ns trajectory   CLOSED 2026-09-28
+  discharged at: 11_trajectory_analysis, checks/step11_verify.out section 7
+  No simulation was needed. The full-range statistics were computed from the already
+  committed rmsd_vs_time_full.dat and rxn_coord_per_frame_full.dat.
+
+  RMSD per 10 ns block: 2.65, 3.67, 3.89, 4.03, 3.83, 4.03. Mean over 60 ns 3.69 A.
+  The 1.61 A drift the 20 ns document flagged as REVIEW is a RISE TO A PLATEAU: blocks
+  from 20 ns onward span 0.20 A. The document reported as a concern something the fuller
+  data resolves.
+
+  Near-attack occupancy, 20 ns -> 60 ns:  A 3.6 -> 1.8,  B 99.0 -> 99.4,  C 32.4 -> 14.4.
+  Site B holds; A and C fall further away. Since 29 of the 44 ensemble frames come from
+  beyond 20 ns, the single-site choice is more justified over the range actually sampled
+  than over the range the document analyses.
+
+  REMAINING WRITE-UP OBLIGATION: X.2 should quote the 60 ns figures, not the 20 ns ones,
+  and should say that the early drift plateaus. Correcting step11_trajectory_analysis.md
+  itself is folded into item 10.
+
 
 ITEM 1 - Post-minimisation re-check of the graft joins   CLOSED 2026-09-28
   discharged at: 10_md, evidence in 10_md/checks/step10_verify.out section 3

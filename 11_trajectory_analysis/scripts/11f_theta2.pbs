@@ -1,0 +1,21 @@
+#!/bin/bash
+#PBS -N cm_theta2
+#PBS -l select=1:ncpus=4:mem=16gb
+#PBS -l walltime=12:00:00
+#PBS -m ae
+#PBS -M 18660916@sun.ac.za
+#PBS -j oe
+#PBS -o /home/18660916/system_development/05_qmmm/11f_theta2.pbs.out
+#
+# Correlation time of theta2, the near-attack angle that predicts the intrinsic
+# barrier, over the full 60 ns trajectory. The existing autocorrelation analysis
+# measured the forming distance and the Arg90 contact, neither of which
+# correlates with the barrier across the frames computed so far.
+set -uo pipefail
+cd /home/18660916/system_development/05_qmmm || exit 1
+echo "host=$(hostname) start=$(date)"; echo
+[[ -s /home/18660916/system_development/phase1_system_dev/step11f_nac_check.py ]] \
+  || { echo "FAIL step11f_nac_check.py not on the cluster"; exit 1; }
+export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1
+python3 theta2_autocorr.py
+echo; echo "exit=$? end=$(date)"

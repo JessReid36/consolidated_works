@@ -1,0 +1,140 @@
+# 11_trajectory_analysis — Production trajectory quality control
+
+## What this step did
+Fork-independent QC of the production trajectory before QM/MM frame selection: backbone
+RMSD, per-residue RMSF, reaction-coordinate tracking, catalytic-contact validation,
+autocorrelation, and a near-attack-conformer test. All cpptraj-free, because cpptraj is
+broken cluster-wide; a stdlib NetCDF3 reader plus numpy is used instead.
+
+This is also where the step 12 selection criterion was set, and where the interpretation
+of the three-site asymmetry was fixed.
+
+## Key numbers, all reproduced from the committed .dat files
+- 11a backbone RMSD vs production frame 0: mean 3.16 A, max 4.31 A, first 2 ns 1.98 ->
+  last 2 ns 3.59, drift 1.61 A. All reproduce exactly.
+- 11b RMSF, 381 residues: lower-80% mean 0.686 A. Flexibility is entirely in the C-terminal
+  tails - B253 13.9, B254 12.9, B252 11.7, B251 10.4, B250 8.0, C381 7.3 A.
+  Contact-set residues plus Arg116: n=13, mean 0.70 A, max 0.97 A.
+- 11c reaction coordinate, per copy, means over 20000 frames:
+      CHA#1 (site A)  break 1.45  form 4.15  r -2.70   min form 2.97
+      CHA#2 (site B)  break 1.46  form 3.29  r -1.83   min form 2.84
+      CHA#3 (site C)  break 1.45  form 3.83  r -2.38   min form 2.89
+  All reproduce exactly. Breaking bond spans 1.324-1.581 A across all copies, confirming
+  it is a fixed force-field bond in classical MD.
+
+## Acceptance threshold and verdict
+Verification: 15 of 17 checks pass. TWO FAIL, and both are discrepancies against the
+committed document rather than errors in the data. See below. The step is verified as to
+its numbers; the document needs two corrections before the write-up quotes it.
+
+## THE NUMBER THAT IS NOT IN THE DOCUMENT AND SHOULD BE
+The document says "All three sample near-attack conformations (form min 2.84-2.97 A,
+below the 3.7 A NAC threshold)". That is true of the MINIMA and it hides the occupancies:
+
+      CHA#1 (site A):   3.6% of frames with d(form) <= 3.7 A
+      CHA#2 (site B):  99.0%
+      CHA#3 (site C):  32.4%
+
+A 27-fold difference between site B and site A. Site B is in near-attack distance almost
+always; site A almost never. Quoting the minima alone makes three very different sites
+look comparable.
+
+THIS IS THE REAL JUSTIFICATION FOR THE SINGLE-SITE ENSEMBLE, and it is much stronger than
+the one recorded at step 10. Selecting reactant-competent frames from site A would have
+meant cherry-picking 3.6% of the trajectory. Site B offers a near-continuous supply. The
+choice was not merely convenient, it was close to forced by the sampling.
+
+## TWO DOCUMENTATION DISCREPANCIES
+1. RMSF STATISTICS MIX TWO POPULATIONS. The document quotes "Core (lower-80%) mean 0.69 A,
+   median 0.74 A". 0.686 is indeed the lower-80% mean, but 0.737 is the median of ALL 381
+   residues; the lower-80% median is 0.685. Both figures are individually correct and they
+   describe different populations, so they must not be quoted as one statistic.
+
+2. "ACTIVE-SITE RESIDUES ARE NOT IN THE FLEXIBLE SET" IS LOOSE. On a strict 80th-percentile
+   reading (threshold 0.91 A), Arg63 and Arg116 of chain A sit marginally above it, at 0.97
+   and 0.94 A. The substantive claim is sound - all 13 are below 1.0 A while the tails reach
+   13.9 A - but the better sentence is the measurement: contact-set mean RMSF 0.70 A,
+   maximum 0.97 A, against tails to 13.9 A. Note also that Arg63 being the most mobile
+   contact-set residue is consistent with the rotamer heterogeneity established at step 05.
+
+## A THIRD DISCREPANCY, AND IT IS THE SERIOUS ONE
+The document's closing section sets the step 12 criterion as:
+
+    "Draws from all three sites, weighted toward CHA#2; gives a Claeyssens-style spread of
+     competent conformations."
+
+THE EXECUTION DID NOT DO THIS. The canonical selection manifest, 05_qmmm/
+selection_manifest.tsv, contains 45 frames and every one is CHA#2, residue 383, site B.
+Sites A and C contribute nothing.
+
+The design document and the executed selection disagree. Given the occupancies above, the
+execution is the defensible one and the document is what should change - but the write-up
+must not quote a criterion that was not applied. This also undercuts conclusion 2 of the
+document, which argues the site asymmetry is "a feature for Claeyssens-style multi-pathway
+sampling": the feature was identified and then not used.
+
+## Literature comparison
+- RMSD comparator. Agbaglo et al. 2024, scheme S2: whole-protein backbone RMSD, mean
+  2.66 A, sd 0.76. Ours is 3.16 A with 1.61 A of drift over 20 ns. Same order, ours a
+  little higher and drifting.
+  THE 2026 CORRECTION IS LOAD-BEARING HERE. It restates that for schemes S2-S7 the RMSD was
+  measured against the INITIAL EQUILIBRATED MD STRUCTURE, not the X-ray structure as
+  originally published. Our RMSD is measured against production frame 0, i.e. the
+  post-equilibration structure. The two are like for like ONLY under the corrected
+  reading; under the original wording they would have been measuring different things.
+  The document makes the comparison without stating which reference is used.
+
+- NAC criterion. The 3.7 A threshold is properly sourced to Hur & Bruice, PNAS 2003, 100,
+  12015, doi:10.1073/pnas.1534873100, held in the reference repository as
+  pnas.1534873100.pdf. step11f_nac_check.py implements their FULL three-condition
+  definition - distance plus two approach angles - and records that the step-12a filter
+  tested distance only. Of the 12 pilot frames, 9 satisfy the full definition; 5680, 7310
+  and 15825 do not, and those three are exactly the frames labelled near_NAC in
+  ensemble_barriers.tsv. The labelling is traceable and correct.
+
+- AN INTERPRETIVE HAZARD THAT MUST NOT BE BLURRED. Using a NAC criterion to SELECT
+  reactant-like frames is not the same as endorsing the NAC hypothesis as an EXPLANATION
+  of catalysis. Ranaghan et al. 2004 (Org. Biomol. Chem. 2, 968-980, doi:10.1039/b313759g,
+  held as B313759G.pdf, and reference 10 of Claeyssens 2011) sets out the controversy
+  directly: Bruice's proposal that ~90% of the catalytic effect comes from NAC formation
+  has "been criticized as being unreliable", Jorgensen's MC/FEP work suggests NAC
+  conversion contributes no free energy to catalysis, and the Mulholland lineage - which
+  includes Claeyssens 2011, our primary comparator - argues instead for transition-state
+  stabilisation.
+  So the thesis uses a Bruice criterion as a filter while benchmarking against a body of
+  work that disputes Bruice's mechanistic claim. That is perfectly coherent, but it must be
+  said explicitly in X.2, or a reader will take the NAC filter as a mechanistic commitment
+  the rest of the thesis contradicts.
+
+## Caveats and known issues
+- The barriers of the three near_NAC frames average 17.34 kcal/mol against 13.65 for the
+  ten full_NAC frames of the same set. n=3, so this is not a result. It is directionally
+  what Hur & Bruice would predict, and it is a reason to report the near_NAC frames
+  separately rather than pooling them silently.
+- Frame 08170 is labelled "other" and carries a barrier of 0.00, the collapsed band. It is
+  already on the do-not-quote list.
+- The document's provenance block cites prod.nc by sha256, which is good practice and
+  should be kept.
+- THE DOCUMENT COVERS 20 NS OF A 60 NS TRAJECTORY. The full-range statistics have now
+  been computed from the committed rmsd_vs_time_full.dat and rxn_coord_per_frame_full.dat,
+  with no new simulation, and they tell a BETTER story than the 20 ns document:
+
+    RMSD per 10 ns block:  2.65  3.67  3.89  4.03  3.83  4.03
+    Mean over 60 ns 3.69 A, max 4.53 A.
+
+  The 1.61 A "drift" the 20 ns document flagged as REVIEW is a rise to a PLATEAU. Blocks
+  from 20 ns onward span only 0.20 A. The document saw the rise and not the plateau, so it
+  reports as a concern something the fuller data resolves.
+
+    Near-attack occupancy, 20 ns -> 60 ns:
+      CHA#1 (site A)   3.6% ->  1.8%
+      CHA#2 (site B)  99.0% -> 99.4%
+      CHA#3 (site C)  32.4% -> 14.4%
+
+  Site B holds. Sites A and C fall further away over the longer run. The ensemble draws
+  29 of its 44 frames from beyond 20 ns - precisely the range where A and C are worse and
+  B is unchanged. The single-site choice is therefore MORE justified over the range
+  actually sampled than over the range the document analyses.
+
+## Cited by
+Methods X.2.

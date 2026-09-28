@@ -1,0 +1,64 @@
+step: 11_trajectory_analysis
+title: Production trajectory quality control
+scripts: step11a-f, step11_plots.sh, theta2_autocorr.py, 11d_all_to_all.pbs, 11f_theta2.pbs
+cited_by: Methods X.2
+status: numbers verified over the FULL 60 ns; TWO documentation discrepancies and
+        one criterion mismatch recorded as open_items 10 and 12. Item 11 CLOSED here.
+
+## scripts   (canonical home: JessReid36/chorismate-thesis-code)
+   branch=tier1-realism commit=f0e059cf11eda91dea939c42f8e12d1a8bf829a1
+  phase1_system_dev/11d_all_to_all.pbs  6838  25cdb37a671c7d5c30aa98ecd0be66417654eec607b86fef188506749d376d44
+  phase1_system_dev/11f_theta2.pbs  886  6ca4f8fb667944a732e4c2c0ea5700865a993f782f3e067bfaf232b1f79d4a1a
+  phase1_system_dev/step11_plots.sh  2464  6a4e449d01f9d1c5ecd70bce1d73212767059cf59cf7c0a58c94bd521f441fe8
+  phase1_system_dev/step11a_rmsd.sh  6459  b7bb9a51dc6bc643c2b15bd531dd6a2e7348ce9311236577eef534cc244a21e2
+  phase1_system_dev/step11a_rmsd_full.sh  7734  09229cf4a853a0a58d3aeb104f2ffa6cf7a42a5cf9e3b194dd37921c58b1178d
+  phase1_system_dev/step11b_rmsf.sh  6014  acfdf2f887d905265515a7fa20724cd169ae18a35a01c70847e5a818481a738d
+  phase1_system_dev/step11c_rxn_coord.sh  5620  f1f2916c3c315e3f54a88114c5e0c5eb422878e383a3ceecee86a00a9ff84f82
+  phase1_system_dev/step11c_rxn_coord_full.sh  6347  c0460f0c7b8a2b02b52626782a081c62d704de1e2b6a3a3652c2c2e8caa36c86
+  phase1_system_dev/step11d_contacts.sh  6147  44bae556b29655f18632407e4c7561c066e3deb7fed3e759eab26eae34053cc1
+  phase1_system_dev/step11e_autocorr.py  9843  90c81d98536bc31ff9cb9b8d57835eef7a9532926002cce8b135a06d7094ca6d
+  phase1_system_dev/step11f_nac_check.py  12969  5309c2c07350243857be1ff449bdf4c9e58ac04e685ed80e00f2f51348f07e70
+  phase1_system_dev/theta2_autocorr.py  12420  9b5df6cb1e9fbd20391ffd36536fb5dba446284fba88a5e1ce0a5e5c9d25317c
+
+## scripts_as_run
+  NONE EXISTS, as for steps 08-10.
+
+## outputs   (canonical home: JessReid36/chorismate-thesis-results)
+   branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  05_qmmm/11e_autocorr_nac.log  2150  de37d1ff83baf0087af53ff68f14ec85b925a2ea1391db6fda18e5f59749f233
+  05_qmmm/11f_nac_check.log  1419  2b15f0808ad07f085d999685ce1d964e6ec8bb8ab1b111dc98d6aaa925d6b99f
+  04_amber_md/11_analysis/all_to_all_rmsd.dat  2163540  48a09daa08e7321e884955dc0234358308d03ce4547a4bac40fe985b2575e8be
+  04_amber_md/11_analysis/rmsd_vs_time.dat  357857  2aa41f11f029e32508f93783e9255547aa4d80c0c3aaee747db32574a667e88f
+  04_amber_md/11_analysis/rmsd_vs_time_ext.dat  737857  456ff43bb0d21fd42f586c9da58720c8099d14f1edddaf89b57eed50f6c402b7
+  04_amber_md/11_analysis/rmsd_vs_time_full.dat  1117857  6d1ee315b2259280fc2faf17e98d09da960cf57a842fcfe9a0d68b51e546c9c0
+  04_amber_md/11_analysis/rmsf_per_residue.dat  6021  0251c24d381d440b2df11c4e8c6b9c2d8367315eef2c0f5ee63fc3ca6362eb58
+  04_amber_md/11_analysis/rxn_coord_per_frame.dat  1248985  4b151245ba143fd2901293e2be0d1f6f1d0e173a6502821a3eb6f71b60ab6ed3
+  04_amber_md/11_analysis/rxn_coord_per_frame_full.dat  3768985  9a346dbb5f26615ed46c77d92b647b0a193bfb398142f8678b83fd26a6346acf
+  04_amber_md/11_analysis/step11_trajectory_analysis.md  5678  ce2aa35e9222d9fa021e0beef120aab03fc12a1abf68b74070229cbceaa038ee
+  05_qmmm/11_analysis/theta_per_frame.dat  1428653  4aeb07a5e485e1a036d6ce024b4cf2ad19ced4e250757b885a90fe00f590cbe9
+
+## checks
+  step11_verify.out  4273  8b9d94b45d86beb9d80e6c0521038582f2cd7d02c56977ff0709f7c2ffe5ede6
+  step11_verify.py  11241  60e6d5e4b08f24ed2159753b887b837ae81cab68c3868e96c14891936392e30c
+  result: 25 checks, 23 PASS, 2 FAIL  (see checks/step11_verify.out)
+  The two failures are DISCREPANCIES AGAINST THE COMMITTED DOCUMENT, not errors in
+  the data. Every .dat figure reproduces exactly. They are retained as failures so
+  that the check keeps failing until step11_trajectory_analysis.md is corrected.
+
+## depends on
+  ../10_md/  (prod.nc, held outside the repository)
+  ../../chorismate-thesis-results/05_qmmm/selection_manifest.tsv
+  ../../chorismate-thesis-results/05_qmmm/19_ensemble_barriers/ensemble_barriers.tsv
+
+## literature used
+  Hur & Bruice, PNAS 2003, 100, 12015, doi:10.1073/pnas.1534873100
+    held in chorismate-refs as pnas.1534873100.pdf; source of the 3.7 A NAC criterion
+  Ranaghan et al., Org. Biomol. Chem. 2004, 2, 968-980, doi:10.1039/b313759g
+    held in the project folder as B313759G.pdf; the NAC-versus-TS-stabilisation debate
+  Agbaglo et al. 2024 scheme S2, with the 2026 correction applied to the RMSD reference
+
+## environment of the recorded check run
+  date_utc: 2026-09-28T19:32:43+00:00
+  python:   3.12.3
+  platform: Linux-6.18.44-fc-v42-x86_64-with-glibc2.39
+  host:     drafting container, NOT the HPC working tree.

@@ -1,0 +1,27 @@
+NAC verification against Hur & Bruice (PNAS 2003, 100, 12015)
+  criteria: d <= 3.7 A, |theta1 - 8.2| <= 20.0, |theta2 - 18.6| <= 20.0
+
+IMPLEMENTATION VALIDATION against the published TS geometry
+  this work's TS : theta1 12.9   theta2 18.2
+  Hur & Bruice   : theta1 8.2    theta2 18.6
+  difference     : 4.7       0.4
+
+  frame    d (A)   theta1    dev   theta2    dev   verdict
+----------------------------------------------------------
+    820    3.220     21.6   13.4     27.9    9.3       NAC
+   2450    3.407     19.1   10.9     21.6    3.0       NAC
+   4085    3.149     23.8   15.6     35.3   16.7       NAC
+   5680    3.032     17.8    9.6     40.0   21.4distance only
+   7310    3.288     23.9   15.7     43.3   24.7distance only
+   9025    3.496     27.1   18.9     25.4    6.8       NAC
+  10775    3.566     27.7   19.5     30.3   11.7       NAC
+  12485    3.461     23.6   15.4     34.6   16.0       NAC
+  14155    3.284     20.6   12.4     28.2    9.6       NAC
+  15825    3.385     26.6   18.4     41.6   23.0distance only
+  17505    3.387     27.8   19.6     36.0   17.4       NAC
+  19185    2.990     16.8    8.6     24.7    6.1       NAC
+
+  9 of 12 frames satisfy the full three-condition definition
+  Not all frames satisfy the full definition. The distance-only filter
+  has admitted structures that are not near-attack conformers, and the
+  affected frames should be reported explicitly or excluded.

@@ -1,0 +1,168 @@
+#!/bin/bash
+#PBS -N cm_alltoall
+#PBS -l select=1:ncpus=4:mem=32gb
+#PBS -l walltime=24:00:00
+#PBS -m ae
+#PBS -M 18660916@sun.ac.za
+#PBS -j oe
+#PBS -o /home/18660916/system_development/05_qmmm/11d_all_to_all.pbs.out
+#
+# 11d_all_to_all.pbs - does the trajectory revisit states it has already sampled?
+#
+# WHY
+#   Grossfield et al. (2018) recommend this in place of the deviation against a
+#   single reference: "A better RMSD-based convergence measure is the all-to-all
+#   RMSD plot; taking the RMSD of each snapshot in the trajectory with respect to
+#   all others allows you to use RMSD for what it does best, identifying very
+#   similar structures."
+#
+#   What it shows: "occupation of a given state shows up as a block of similar
+#   RMSD along the diagonal... Off diagonal 'peaks' (regions of low RMSD between
+#   structures sampled far apart in time) indicate that the system is revisiting
+#   previously sampled states, a necessary condition for good statistics."
+#
+#   That condition is the question here. If this trajectory moves monotonically
+#   away from its starting structure and never returns, the number of
+#   statistically independent configurations is small however the correlation
+#   time is computed, and thirty QM/MM frames would be sampling one basin thirty
+#   times.
+#
+# METHOD
+#   Frames are taken on a stride, since a full 60000 by 60000 comparison is
+#   neither necessary nor affordable. At 100 ps that is 600 structures and
+#   179700 pairwise fits, which is tractable and far finer than the correlation
+#   time being tested.
+#
+#   Alignment and atom selection follow step11a: the protein backbone, imaged
+#   into a common cell, superposed by the Kabsch algorithm.
+#
+# OUTPUT
+#   A matrix written as text, and a summary of what fraction of far-separated
+#   pairs are structurally close. The matrix is small enough to plot later.
+
+set -uo pipefail
+cd /home/18660916/system_development/05_qmmm || exit 1
+echo "host=$(hostname) start=$(date)"; echo
+
+STRIDE=${STRIDE:-100}
+SRC=step11a_rmsd_full.sh
+[[ -s "$SRC" ]] || { echo "FAIL missing $SRC; run patch_step11a_dual.sh first"; exit 1; }
+grep -q "prod_ext.nc" "$SRC" || { echo "FAIL $SRC does not read both trajectories"; exit 1; }
+
+# Reuse the reader, imaging and Kabsch routines from step11a rather than writing
+# a second implementation. The script is sourced up to the point where it starts
+# its own loop, by extracting its python block and appending a different tail.
+python3 - "$SRC" "$STRIDE" <<'DRIVER'
+import sys, re, subprocess, os, tempfile
+
+src, stride = sys.argv[1], int(sys.argv[2])
+t = open(src).read()
+
+m = re.search(r"python3 - (.*?) <<'PY'\n(.*?)\nPY\n", t, re.S)
+if not m:
+    sys.exit("FAIL could not find the analysis block in %s" % src)
+args_line, body = m.group(1), m.group(2)
+
+# cut the body at the point where it computes its own RMSD trace, keeping the
+# prmtop parsing, the netCDF reader, the imaging and the Kabsch routine
+cut = body.find("# The two files are one trajectory")
+if cut < 0:
+    cut = body.find("x0,b0=frame(0)")
+if cut < 0:
+    sys.exit("FAIL could not find where the trace loop begins")
+prelude = body[:cut]
+
+tail = '''
+# ---- all-to-all, on a stride
+H2=nc_open(traj2); assert H2["atom"]==natom
+cvar2=next(v for v in H2["rec"] if v["name"]=="coordinates")
+lvar2=next((v for v in H2["rec"] if v["name"]=="cell_lengths"),None)
+N1=H["frames"]; N2=H2["frames"]; NT=N1+N2
+def frame_any(i):
+    if i < N1:
+        return frame_from(traj,H,cvar,lvar,i)
+    return frame_from(traj2,H2,cvar2,lvar2,i-N1)
+
+STRIDE=%d
+idx=list(range(0,NT,STRIDE))
+print("  %%d frames at stride %%d from %%d total"%%(len(idx),STRIDE,NT))
+snap=[]
+for i in idx:
+    xi,bi=frame_any(i)
+    snap.append(image(xi,bi)[bb_idx])
+print("  loaded, computing %%d pairs"%%(len(idx)*(len(idx)-1)//2))
+
+n=len(idx)
+M=np.zeros((n,n))
+for a in range(n):
+    for b in range(a+1,n):
+        r=kabsch(snap[a],snap[b])
+        M[a,b]=r; M[b,a]=r
+out="%s/all_to_all_rmsd.dat"
+with open(out,"w") as fh:
+    fh.write("# all-to-all backbone RMSD, stride %%d ps\\n"%%STRIDE)
+    fh.write("# frames: "+" ".join(str(i) for i in idx)+"\\n")
+    for a in range(n):
+        fh.write("\\t".join("%%.3f"%%M[a,b] for b in range(n))+"\\n")
+print("  wrote",out)
+
+# ---- does it revisit?
+import itertools
+far=[]; near=[]
+for a in range(n):
+    for b in range(a+1,n):
+        dt=(idx[b]-idx[a])
+        if dt >= 10000:
+            far.append(M[a,b])
+        if dt <= 500:
+            near.append(M[a,b])
+if far and near:
+    near.sort(); far.sort()
+    thr=near[int(0.95*len(near))]
+    revisit=sum(1 for v in far if v <= thr)
+    print()
+    print("="*70)
+    print("Does the trajectory revisit previously sampled states?")
+    print("="*70)
+    print("  pairs separated by <= 500 ps   : %%d, median RMSD %%.3f A"%%(len(near),near[len(near)//2]))
+    print("  pairs separated by >= 10000 ps : %%d, median RMSD %%.3f A"%%(len(far),far[len(far)//2]))
+    print()
+    print("  threshold from the 95th percentile of close-in-time pairs: %%.3f A"%%thr)
+    print("  far-separated pairs at or below it: %%d of %%d (%%.1f%%%%)"%%(revisit,len(far),100*revisit/len(far)))
+    print()
+    print("  Grossfield et al. (2018): off-diagonal regions of low RMSD between")
+    print("  structures sampled far apart in time 'indicate that the system is")
+    print("  revisiting previously sampled states, a necessary condition for good")
+    print("  statistics'.")
+    print()
+    if revisit == 0:
+        print("  NO far-separated pair is as close as a typical close-in-time pair.")
+        print("  The trajectory does not revisit its earlier states on this")
+        print("  timescale. The number of independent configurations is therefore")
+        print("  small regardless of which correlation time is quoted, and running")
+        print("  many frames from this trajectory would sample one basin many times.")
+    elif 100*revisit/len(far) < 5:
+        print("  Revisiting is rare. Treat the effective sample size as an upper")
+        print("  bound and say so.")
+    else:
+        print("  The trajectory does revisit earlier states, which is the condition")
+        print("  the guide names as necessary for good statistics.")
+''' % (stride, os.path.expanduser("~/system_development/04_amber_md/11_analysis"))
+
+with tempfile.NamedTemporaryFile("w", suffix=".py", delete=False) as fh:
+    fh.write(prelude + tail)
+    script = fh.name
+
+# the original block takes prmtop, traj, outdat, traj2
+root = os.path.expanduser("~/system_development")
+cmd = ["python3", script,
+       f"{root}/03_amber/tleap_build/complex_solvated.prmtop",
+       f"{root}/04_amber_md/10c_production/prod.nc",
+       f"{root}/04_amber_md/11_analysis/unused.dat",
+       f"{root}/04_amber_md/10d_production_extend/prod_ext.nc"]
+sys.exit(subprocess.call(cmd))
+DRIVER
+rc=$?
+echo
+echo "exit=$rc end=$(date)"
+exit $rc

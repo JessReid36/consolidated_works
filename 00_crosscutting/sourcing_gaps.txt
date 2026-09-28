@@ -55,14 +55,19 @@ OPEN
      by rerunning anything - it is a record of a past interactive submission.
 
 5. Ranaghan et al. - the chorismate-for-analogue substitution procedure
-   Mol. Phys. 2003, 101, 2695-2714  AND  Org. Biomol. Chem. 2004, 2, 968-980
-     (authors: Ranaghan, Ridder, Szefczyk, Sokalski, Hermann, Mulholland)
-   These are references 9 and 10 of Claeyssens 2011, cited there as the description of
-     how chorismate was substituted for the bound analogue.
-   Blocks: protocol_deviations.txt deviation 2 cannot be assessed without them - the
-     procedure we deviate from is currently uninspectable.
-   No DOI held for either; not reconstructed.
-   Closes: supply DOIs, then add the PDFs.
+   PARTLY CLOSED 2026-09-28. One of the two IS held and I had missed it.
+     Org. Biomol. Chem. 2004, 2, 968-980, doi:10.1039/b313759g  ->  HELD as B313759G.pdf
+       in the project folder. Confirmed from its own DOI line. This is reference 10 of
+       Claeyssens 2011.
+     Mol. Phys. 2003, 101, 2695-2714  ->  still not held, no DOI. This is reference 9.
+   Also now identified: ja049376t.pdf is Szefczyk, Mulholland, Ranaghan and Sokalski,
+     "Differential Transition-State Stabilization in Enzyme Catalysis: Quantum Chemical
+     Analysis of Interactions in the Chorismate Mutase Reaction and Prediction of the
+     Optimal Catalytic Field", J. Am. Chem. Soc. - reference 12 of Claeyssens 2011.
+     DIRECTLY RELEVANT TO PHASE 2: it predicts an optimal catalytic field for this exact
+     reaction. It should be read before the charge-design work is written up.
+   LESSON: the project folder was not inventoried against the citation needs before gaps
+     were declared. Do that first next time.
 
 6. Bartlett and Johnson 1985 - the transition-state analogue bound in 2CHT
    Cited by Claeyssens 2011 as J. Am. Chem. Soc. 1985, 107, 7792-7793.

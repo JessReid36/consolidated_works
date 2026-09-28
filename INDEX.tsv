@@ -9,3 +9,4 @@ step	subsection	scripts	n_outputs	checks	status
 08_ligand_gaff	Methods X.1.6	step08a_am1bcc_charges.sh, step08b_ligand_gaff.sh	10	28 PASS	verified, drafted
 09_tleap_build	Methods X.1.7	step09a_combine_pretleap.sh, step09b_tleap_build.sh	20 (+1 pointer)	36 PASS	verified
 10_md	Methods X.2	step10a/b/c/d submit + audit	49	29 PASS	verified; closes items 1, 8, 9
+11_trajectory_analysis	Methods X.2	step11a-f, plots, theta2	11	23 PASS / 2 FAIL	verified over full 60 ns; doc corrections needed (items 10, 12)

@@ -1,0 +1,62 @@
+step 11 verification against /home/claude/repos/cw_build/11_trajectory_analysis/outputs
+
+1. 11a backbone RMSD
+  [PASS] frame count is the 20 ns production at 1 ps — 20000
+  [PASS] mean RMSD is 3.16 A as documented — 3.16
+  [PASS] maximum RMSD is 4.31 A as documented — 4.31
+  [PASS] first 2 ns mean is 1.98 A — 1.98
+  [PASS] last 2 ns mean is 3.59 A — 3.59
+         drift 1.61 A over 20 ns
+
+2. 11b per-residue RMSF
+  [PASS] 381 residues analysed — 381
+  [PASS] lower-80% mean is 0.69 A as documented — 0.686
+  [FAIL] the documented median 0.74 is the lower-80% median — lower-80% median is 0.685; the all-residue median is 0.737. The document pairs a lower-80% MEAN with an all-residue MEDIAN.
+         most flexible: B253 13.9, B254 12.9, B252 11.7, B251 10.4, B250 8.0, C381 7.3
+  [PASS] every contact-set residue is below 1.0 A RMSF — n=13, mean 0.70, max 0.97
+  [FAIL] the document's claim that none is in the flexible set holds strictly — ['A63', 'A116'] sit at or above the 80th-percentile threshold of 0.91 A, though all are under 1.0 A while the tails reach 13.9 A
+
+3. 11c reaction coordinate
+  [PASS] CHA#1 (site A) forming mean and r reproduce — form 4.15 (doc 4.15), r -2.70 (doc -2.7)
+  [PASS] CHA#2 (site B) forming mean and r reproduce — form 3.29 (doc 3.29), r -1.83 (doc -1.83)
+  [PASS] CHA#3 (site C) forming mean and r reproduce — form 3.83 (doc 3.83), r -2.38 (doc -2.38)
+  [PASS] the breaking bond is effectively fixed in classical MD — range 1.324-1.581 A across all copies
+
+         NOT IN THE COMMITTED DOCUMENT — occupancy of the Hur & Bruice distance criterion:
+           CHA#1 (site A):   3.6% of frames with d(form) <= 3.7 A   min 2.97 A
+           CHA#2 (site B):  99.0% of frames with d(form) <= 3.7 A   min 2.84 A
+           CHA#3 (site C):  32.4% of frames with d(form) <= 3.7 A   min 2.89 A
+  [PASS] the three sites differ enormously in near-attack occupancy — 99.0% at site B against 3.6% at site A. The document says 'all three sample near-attack conformations', which is true of the MINIMA but hides a 27-fold difference in occupancy.
+
+4. the NAC criterion is sourced and fully applied
+  [PASS] the threshold is attributed to a primary source — Hur & Bruice, PNAS 2003, 100, 12015
+  [PASS] all three published conditions are tested, not distance alone
+  [PASS] the full test was actually evaluated — 9 of 12 frames satisfy the full
+
+5. ensemble group labels match the NAC test
+  [PASS] the frames the full NAC test rejected are labelled near_NAC — non-full_NAC frames: ['05680', '07310', '08170', '15825']
+  [PASS] every frame in the extended set is a full NAC — n=30
+
+6. literature comparator
+         Agbaglo et al. 2024, scheme S2: backbone RMSD of the entire protein,
+         mean 2.66 A, sd 0.76. Ours is 3.16 A, drift 1.61 A over 20 ns.
+         THE 2026 CORRECTION MATTERS HERE: it restates that for schemes S2-S7
+         the RMSD was computed against the INITIAL EQUILIBRATED MD STRUCTURE,
+         not the X-ray structure as originally published. Our RMSD is measured
+         against production frame 0, which is the post-equilibration structure,
+         so the two are like for like ONLY under the corrected reading.
+  [PASS] our RMSD is of the same order as the published comparator — 3.16 vs 2.66 A
+
+7. the full 60 ns, which the committed document does not cover
+  [PASS] the full trajectory is 60 ns — 60000 frames
+         RMSD over 20 ns: mean 3.16   over 60 ns: mean 3.69, max 4.53
+         per 10 ns block: 2.65  3.67  3.89  4.03  3.83  4.03
+  [PASS] RMSD rises then plateaus rather than drifting without bound — blocks 20-60 ns span 0.20 A; the 20 ns document saw only the rise
+         near-attack occupancy, 20 ns -> 60 ns:
+           CHA#1 (site A):   3.6% ->   1.8%
+           CHA#2 (site B):  99.0% ->  99.4%
+           CHA#3 (site C):  32.4% ->  14.4%
+  [PASS] site B holds its near-attack occupancy over the full range — 99.4% over 60 ns
+  [PASS] sites A and C fall further away over the full range — A 1.8%, C 14.4%. The ensemble draws 29 of 44 frames from beyond 20 ns, precisely where A and C are worse and B is unchanged.
+
+FAILURES: the documented median 0.74 is the lower-80% median, the document's claim that none is in the flexible set holds strictly
