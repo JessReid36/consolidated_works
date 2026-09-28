@@ -1,0 +1,18 @@
+#!/bin/bash
+#PBS -N cm17_prodopt
+#PBS -l select=1:ncpus=8:mem=120gb
+#PBS -l walltime=168:00:00
+#PBS -m ae
+#PBS -M 18660916@sun.ac.za
+#PBS -j oe
+#PBS -o /home/18660916/system_development/05_qmmm/17_product_opt/product_opt.pbs.out
+cd /home/18660916/system_development/05_qmmm/17_product_opt
+export PATH="/apps/openmpi/4.1.1/bin:$PATH"
+export LD_LIBRARY_PATH="/home/apps2/ORCA/6.0.1/lib:/apps/openmpi/4.1.1/lib:/apps/mambaforge/envs/medaka/lib:$LD_LIBRARY_PATH"
+export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1
+echo "host=$(hostname) start=$(date)"
+/home/apps2/ORCA/6.0.1/orca product_opt.inp > product_opt.out 2>&1
+echo "orca_exit=$? end=$(date)"
+grep -iE "The minimization has converged|ORCA TERMINATED NORMALLY" product_opt.out | tail -3
+grep -q "ORCA TERMINATED NORMALLY" product_opt.out && grep -q "The minimization has converged" product_opt.out && echo PRODUCT_OPT_PASS || echo PRODUCT_OPT_INCOMPLETE
+rm -f product_opt_trj.dcd 2>/dev/null

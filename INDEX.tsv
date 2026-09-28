@@ -13,3 +13,4 @@ step	subsection	scripts	n_outputs	checks	status
 12_frame_selection	Methods X.2/X.3	step12a_select.sh, step12b_nac_select.py, step12b_extract.sh	10 (+8 stage)	18 PASS	verified; site outcome shown algorithmic
 13_qmmm_setup	Methods X.3	step13a_bridge.sh, step13b_smoketest.sh, step14_dft_sp.sh	10	26 PASS	verified; covers steps 13a/13b/14
 13_14_qmmm_bridge	Methods X.3	step13a_bridge.sh, step13b_smoketest.sh, step14_dft_sp.sh	10	19 PASS	verified; deviation 9 (level of theory)
+15_17_path_endpoints_scan	Methods X.3	step15b, step16_restraint_scan, step17_product_opt	6	16 PASS	verified; scan cannot resolve the TS

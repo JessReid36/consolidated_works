@@ -1,0 +1,56 @@
+step: 15_17_path_endpoints_scan
+title: Reaction-path endpoints and the restrained scan (steps 15, 16, 17 combined)
+scripts: step15b_reactant_opt.sh, step16_restraint_scan*, step17_product_opt*, run_scan.sh
+cited_by: Methods X.3, reaction path. The scan is a DIAGNOSTIC, never a barrier.
+combined because: the scan is uninterpretable without both endpoints, and the
+  endpoints are only useful because the scan connects them.
+
+## scripts   (canonical home: JessReid36/chorismate-thesis-code)
+   branch=tier1-realism commit=f0e059cf11eda91dea939c42f8e12d1a8bf829a1
+  phase1_system_dev/run_scan.sh  2806  29a40bb6bfc1f7b197fee1a3e85f69bd7ddfe54edc29f0db25fe0f8bcf4508ce
+  phase1_system_dev/step15b_reactant_opt.sh  3176  712b055a0268065ae2c8b28aac2cb43ec486123703721a63b3349a60f726f0f8
+  phase1_system_dev/step16_restraint_scan.pbs  557  668af8fc12130b1564fdf76f856855b479931d1fa1493dfb1c2022998dc056a6
+  phase1_system_dev/step16_restraint_scan_driver.sh  2650  7c21446d77317a7a179fac2b1d9887519435e665002b46745f79d7ca13eecc89
+  phase1_system_dev/step16_scan_targets.txt  240  ec0dfe53a05792dc41266095772d3a6a1144878b2cce76c268f34201aa0a600a
+  phase1_system_dev/step17_product_opt.inp  10039  d72c79fa54f7f0c2fa10a29acd84ab0fe903d56d9f34dbb4071a5a5d50113847
+  phase1_system_dev/step17_product_opt.pbs  942  03ca22818e6158ee043eb8a5cc81ec5ea6926553a498906c016824975779aeda
+
+## scripts_as_run
+  NONE EXISTS.
+
+## outputs   (canonical home: JessReid36/chorismate-thesis-results)
+   branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  05_qmmm/17_product_opt/product_opt.pdb  5624072  535aea7a2e754a8e27aadf03720f9dfe3555fd9c7b14f44d13d5c478b83ce68d
+  05_qmmm/17_product_opt/product_opt.property.txt  25286  b2c605939a1a86a67fadcb4eb1dc4eed08726544debb1878e71618e081f74c6b
+  05_qmmm/15_reactant_opt/reactant_opt.pdb  5624073  61febeb4904b4a1720b6e4ea607d942cf36d528d59b705a4125bc84d6d59ed75
+  05_qmmm/15_reactant_opt/reactant_opt.property.txt  25081  466af39e6555d68709b225c2a7b4cf3634d7c4948d6241ca1993a7c91df1e783
+  05_qmmm/16_scan/scan_bonds_all.tsv  588  93e2af881e0bad698c899699e77da8de64873265a2bfb7278e9e161c94b4b33f
+  05_qmmm/16_scan/scan_energies.tsv  460  2ce18a6e96843c12ba82e6250ea246b163de954bcde97f95849ee593e1821f08
+
+## checks
+  step15_17_verify.out  3127  67463541918a3a1ce391e473ccad27ffae14ba12cb9e907a6ac3a44bd52841ee
+  step15_17_verify.py  7865  7b2d9f61fa3bcec89f4d7f9e672dc283d035c7d1e6cbe64c5a444fdb067e3e06
+  result: 16 checks, 16 PASS, 0 FAIL  (see checks/step15_17_verify.out)
+  The checks PASS by asserting that the scan's pathology is present and correctly
+  characterised. If the scan were ever re-run and DID resolve the TS region, checks 3
+  and 4 would fail and should be revisited rather than silenced.
+
+## the finding, in one line
+  The scan snaps from r = -0.947 to r = +0.416, a 1.363 A gap. Claeyssens place the
+  TS at r = -0.50, inside that gap. The scan cannot resolve the transition state, so
+  its maximum is a terminus and its barrier is a lower bound.
+
+## depends on
+  ../13_14_qmmm_bridge/  (the ORCAFF bridge and the validated level of theory)
+  ../12_frame_selection/  (the starting frame)
+
+## NOT committed
+  The ORCA output files for the two endpoint optimisations. Only the .property.txt
+  records and the final structures survive, so convergence history cannot be
+  inspected from this repository.
+
+## environment of the recorded check run
+  date_utc: 2026-09-28T20:02:23+00:00
+  python:   3.12.3
+  platform: Linux-6.18.44-fc-v42-x86_64-with-glibc2.39
+  host:     drafting container, NOT the HPC working tree.

@@ -1,0 +1,101 @@
+# 15_17_path_endpoints_scan — Reaction-path endpoints and the restrained scan
+
+## Why these are one step
+Step 15 optimises the reactant, step 16 drives a restrained scan along the reaction
+coordinate, step 17 optimises the product. The scan is only interpretable against the two
+endpoints, and the endpoints are only useful because the scan connects them. Splitting
+them gives three folders none of which can be read alone.
+
+## What this step did
+Optimised both endpoints under QM/MM, then ran a 20-window restrained scan from
+d(C4-O3) = 1.464 / d(C6-C1) = 3.251 to 2.400 / 1.540, i.e. nominally from r = -1.787 to
+r = +0.860.
+
+## Key numbers
+- 20 windows, 20 energies, all on the QM/MM total scale (-1076.15 to -1076.10 Eh).
+- Maximum on the reactant branch: window 11, r = -0.947, E = -1076.102940 Eh.
+- Reactant-branch minimum: window 02, r = -1.705.
+- Global minimum: window 20, r = +1.004, on the PRODUCT side.
+
+## Acceptance threshold and verdict
+Verification: 16 checks, 16 PASS, 0 FAIL. See checks/step15_17_verify.out.
+The checks PASS by asserting the pathology below is present and correctly characterised.
+That is deliberate: the point is to make it impossible to later quote the scan maximum as
+a barrier without the check objecting.
+
+## THE SCAN DOES NOT REACH THE TRANSITION STATE
+Between windows 11 and 12 the achieved coordinate jumps from r = -0.947 to r = +0.416, a
+gap of 1.363 A against a typical window step of 0.082 A. The system snapped over the
+barrier.
+
+CLAEYSSENS PLACE THE TRANSITION STATE AT r = -0.50, WHICH LIES INSIDE THAT GAP.
+
+So the scan never samples the TS region at all. Its maximum, window 11, is the last point
+before the snap - a terminus, not a stationary point. Any barrier read from it is a lower
+bound on a quantity the scan cannot resolve.
+
+This is the concrete justification for moving to NEB-TS, and it justifies the project's
+existing rule that 1D relaxed-scan barriers are diagnostics and must never be quoted as
+barriers. The rule is not caution; the scan demonstrably cannot do the job.
+
+## THE RESTRAINTS DO NOT HOLD THE COORDINATE
+Comparing achieved against target r, window by window:
+
+      window   target r   achieved r      lag
+        01       -1.787      -1.787     +0.000
+        05       -1.230      -1.493     -0.263
+        10       -0.534      -1.072     -0.538
+        11       -0.393      -0.947     -0.554
+        12       -0.254      +0.416     +0.670
+        20       +0.860      +1.004     +0.144
+
+On the reactant branch the lag grows monotonically to -0.554 A: the restraint pulls toward
+the target and the optimiser never arrives. After the snap the sign flips, because the
+system has fallen past the target.
+
+Two consequences. The scan is not a controlled walk along the coordinate, so the window
+labels do not mean what they appear to mean. And the lag is largest exactly where the
+barrier is, so the scan is least trustworthy precisely where it matters.
+
+## THE BARRIER DEPENDS ON THE REFERENCE, AND THE COMMONLY QUOTED VALUE IS DEFENSIBLE
+      vs window 01 (r = -1.787)              16.59 kcal/mol
+      vs reactant-branch minimum, window 02  17.58 kcal/mol
+      vs global minimum, window 20           27.13 kcal/mol
+
+The third is meaningless: window 20 is on the product side, so that number is
+product-to-maximum.
+
+The 16.6 kcal/mol that appears in the project notes uses window 01 as the reference. That
+turns out to be the RIGHT choice for comparison with Claeyssens, and for a reason worth
+stating: window 01 sits at r = -1.787 and Claeyssens' fixed reference state RS* is
+r = -1.800. The two references differ by 0.013 A. So 16.6 is referenced almost exactly
+where Claeyssens reference their barriers, which is a better-founded choice than it looks.
+See protocol_deviations.txt deviation 3 on reference states.
+
+Whichever is used, the reference must be stated alongside the number: the choice moves it
+by a full kcal/mol.
+
+## Literature comparison
+Claeyssens et al. 2011 generate their profiles by adiabatic mapping along the same
+coordinate and report that they converge no saddle point, taking instead "the highest
+point" as the approximate TS structure, at r values between -0.5 and -0.7. Their approach
+and ours share the same limitation, and they say so openly.
+
+The difference is that their mapping resolves the region around r = -0.5; ours skips it
+entirely. Their sampling is also restrained throughout at r = -0.3 during the MD that
+generates starting structures, so their profiles begin from configurations already close
+to the TS, whereas ours begin from a free reactant. That is deviation 8.
+
+## Caveats and known issues
+- The scan was run from a single frame. Nothing in this step is an ensemble result.
+- reactant_opt.property.txt and product_opt.property.txt are committed but the ORCA output
+  files themselves are not, so the optimisation convergence history cannot be inspected
+  from this repository. Only the final property records survive.
+- The scan targets file specifies both bond lengths per window, so the coordinate is
+  driven as a pair of distance restraints rather than as r directly. That is why achieved
+  r can lag: r is a derived quantity and nothing restrains it.
+- No frequency analysis is possible on window 11, because it is not a stationary point.
+  The TS characterisation belongs entirely to the NEB-TS work at step 18.
+
+## Cited by
+Methods X.3, reaction path. The scan appears as a diagnostic, not as a barrier.

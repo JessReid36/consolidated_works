@@ -1,0 +1,47 @@
+steps 15-17 verification against /home/claude/repos/cw_build/15_17_path_endpoints_scan/outputs
+
+1. continuity and completeness
+  [PASS] every scan window produced an energy — 20 windows, 20 targets
+  [PASS] energies are on the QM/MM total scale, not the bare-QM scale — -1076.146 to -1076.103 Eh; the bare-QM scale would be near -836
+  [PASS] a per-window bond record accompanies the energies — 20 rows
+
+2. do the restraints hold the target coordinate?
+          pt  target r  achieved r      lag
+          01    -1.787      -1.787   +0.000
+          05    -1.230      -1.493   -0.263
+          10    -0.534      -1.072   -0.538
+          11    -0.393      -0.947   -0.554
+          12    -0.254       0.416   +0.670
+          20     0.860       1.004   +0.144
+  [PASS] before the snap, the achieved coordinate trails the target throughout — windows 02-11: lag -0.554 to -0.057 A, growing monotonically. The restraint pulls toward the target but the optimiser never reaches it, so the scan coordinate is not under control.
+  [PASS] after the snap, the system has fallen PAST the target — windows 12-20: lag +0.144 to +0.670 A
+
+3. is the transition-state region sampled?
+  [PASS] the scan spans both sides of the coordinate — 11 reactant-side, 9 product-side
+         last reactant-side point  r = -0.947
+         first product-side point  r = +0.416
+         UNSAMPLED GAP             1.363 A
+  [PASS] a discontinuity is present, i.e. the system snapped over the barrier — 1.363 A, against a typical window step of 0.082 A
+  [PASS] the gap contains the coordinate at which Claeyssens locate the TS — their TS is at r = -0.50, inside [-0.947, +0.416]. The scan therefore cannot locate a saddle.
+
+4. the scan maximum, and what it is not
+  [PASS] the maximum on the reactant branch is the last point before the snap — point 11 at r = -0.947
+         so it is a terminus, not a stationary point. Any barrier read from
+         it is a LOWER BOUND, and the project's own rule already says 1D
+         relaxed-scan barriers are diagnostics and must never be quoted.
+
+5. the barrier depends entirely on the reference chosen
+         vs point 01 (r = -1.787)             16.59 kcal/mol
+         vs reactant-branch minimum, point 02   17.58 kcal/mol
+         vs global minimum, point 20          27.13 kcal/mol
+  [PASS] the first point is the reference nearest Claeyssens' fixed RS* — r = -1.787 against their RS* of -1.800. The commonly quoted 16.6 kcal/mol uses this reference, which is the Claeyssens-consistent one.
+  [PASS] the global minimum lies on the PRODUCT side, so that reference is invalid — point 20 at r = +1.004; a barrier of 27.13 kcal/mol against it is product-to-maximum and meaningless
+  [PASS] the choice of reference moves the number by about a kcal/mol — 16.59 against 17.58; state which reference is used whenever this number appears
+
+6. endpoint optimisations
+  [PASS] reactant_opt property file is committed — 0.0 MB
+  [PASS] reactant_opt structure is committed
+  [PASS] product_opt property file is committed — 0.0 MB
+  [PASS] product_opt structure is committed
+
+ALL CHECKS PASSED
