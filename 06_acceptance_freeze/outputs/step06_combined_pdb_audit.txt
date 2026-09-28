@@ -1,0 +1,5 @@
+combined_pdb	/home/18660916/system_development/02_preparation/accepted_preprotonation/abc_cha_preprotonation.pdb
+protein_atoms	3030
+hetatm_atoms	72
+ligand_residues	3
+ligand_duplicate_name_residues	0

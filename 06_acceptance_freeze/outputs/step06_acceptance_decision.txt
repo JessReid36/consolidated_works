@@ -1,0 +1,31 @@
+Step 06 - accepted pre-protonation complex
+
+Accepted files (frozen):
+  02_preparation/accepted_preprotonation/abc_cha_preprotonation.pdb
+  02_preparation/accepted_preprotonation/cha_a.mol2
+  02_preparation/accepted_preprotonation/cha_b.mol2
+  02_preparation/accepted_preprotonation/cha_c.mol2
+
+Protein scaffold:
+  Paper-frame A/B/C trimer (2CHT core + 1DBF terminal repair), residues 1-127
+  per chain, heavy-atom only, no altlocs, no duplicate atom names, backbone
+  continuity intact, all active-site residues present.
+
+Ligand:
+  Chorismate placed by superposition onto the crystallographic TSA pose
+  (TSA-fit RMSD 0.08-0.15 A). Net charge -2. CP2K duplicate atom names (C,H,O)
+  renamed uniquely (C1,H1,O1,...) for AMBER/tleap safety; coordinates, atom
+  types, charges, and bonds preserved.
+
+Active-site architecture (corrected, proven):
+  The active site is inter-subunit; each site is completed by residues from the
+  adjacent chain (Arg63', Lys60', Thr74', Cys75', Phe57', Ala59'). Contact
+  measurement across all chains recovered this with zero mismatches.
+
+  The site-C Arg63' rotamer (guanidinium swung away, ~6-8 A vs ~3 A at A/B) is
+  INHERITED CRYSTALLOGRAPHIC heterogeneity, not a workflow artifact:
+    - raw 2CHT shows Arg63' conformational heterogeneity across its 12 TSA sites
+      (guanidinium 2.9-7.3 A; 7/12 swung); the cha_c source site was already
+      swung in the crystal.
+    - repaired A/B/C Arg63 side chains are identical to raw 2CHT (RMSD 0.000 A).
+  Expected to relax during MD equilibration.

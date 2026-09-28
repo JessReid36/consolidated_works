@@ -1,0 +1,66 @@
+step 06 verification against /home/claude/repos/cw_build/06_acceptance_freeze/outputs
+
+1. continuity
+  [PASS] step03 abc_repaired_clean.pdb reachable — 0bb491624bbed701
+  [PASS] step04 cha_a_placed.mol2 reachable
+  [PASS] step04 cha_b_placed.mol2 reachable
+  [PASS] step04 cha_c_placed.mol2 reachable
+
+2. renaming is a pure relabelling
+  [PASS] cha_a: renaming table covers every atom — table 24, src 24, frozen 24
+  [PASS] cha_a: coordinates preserved — max displacement 0.00e+00 A
+  [PASS] cha_a: atom types preserved — 0 changed
+  [PASS] cha_a: charges preserved — 0 changed
+  [PASS] cha_a: renaming table agrees with both files — 0 mismatched
+  [PASS] cha_a: bond block unchanged — 24 bonds
+  [PASS] cha_b: renaming table covers every atom — table 24, src 24, frozen 24
+  [PASS] cha_b: coordinates preserved — max displacement 0.00e+00 A
+  [PASS] cha_b: atom types preserved — 0 changed
+  [PASS] cha_b: charges preserved — 0 changed
+  [PASS] cha_b: renaming table agrees with both files — 0 mismatched
+  [PASS] cha_b: bond block unchanged — 24 bonds
+  [PASS] cha_c: renaming table covers every atom — table 24, src 24, frozen 24
+  [PASS] cha_c: coordinates preserved — max displacement 0.00e+00 A
+  [PASS] cha_c: atom types preserved — 0 changed
+  [PASS] cha_c: charges preserved — 0 changed
+  [PASS] cha_c: renaming table agrees with both files — 0 mismatched
+  [PASS] cha_c: bond block unchanged — 24 bonds
+
+3. atom names are unique after renaming
+  [PASS] cha_a: 24 distinct names — 24 distinct of 24
+  [PASS] cha_b: 24 distinct names — 24 distinct of 24
+  [PASS] cha_c: 24 distinct names — 24 distinct of 24
+
+4. net charge preserved
+  [PASS] cha_a: net charge is exactly -2 — -2.000000
+  [PASS] cha_a: audit row reproduced — 24/16/24 vs 24/16/24
+  [PASS] cha_b: net charge is exactly -2 — -2.000000
+  [PASS] cha_b: audit row reproduced — 24/16/24 vs 24/16/24
+  [PASS] cha_c: net charge is exactly -2 — -2.000000
+  [PASS] cha_c: audit row reproduced — 24/16/24 vs 24/16/24
+
+5. combined complex composition
+  [PASS] protein atom count reproduced — 3030 vs 3030
+  [PASS] heteroatom count reproduced — 72 vs 72
+  [PASS] substrate residue count reproduced — 3 vs 3
+  [PASS] no substrate residue carries duplicate names — 0 vs 0
+  [PASS] protein + heteroatoms account for every record in the file — 3030+72=3102
+
+6. the freeze moved nothing
+  [PASS] every protein atom traces to step 03 — 0 untraceable
+  [PASS] protein coordinates unchanged by the freeze — max displacement 0.00e+00 A
+  [PASS] substrate coordinates unchanged by the freeze, to PDB rounding — max displacement 7.68e-04 A, rounding limit 8.7e-04 A
+
+7. frozen checksums
+  [PASS] abc_cha_preprotonation.pdb matches its frozen checksum — e1c50d535e95789e
+  [PASS] cha_a.mol2 matches its frozen checksum — 64af94697df36583
+  [PASS] cha_b.mol2 matches its frozen checksum — dbcb11ebe1ceaeed
+  [PASS] cha_c.mol2 matches its frozen checksum — 08cb6d7a4df768df
+
+NOTE, not a check:
+         step06_acceptance_decision.txt is a heredoc literal inside the script.
+         It enumerates only the adjacent-chain contributors to the active site.
+         Measured cross-chain contacts it does NOT name: ['Val73']
+         The frozen structure does not depend on this text. See 00_crosscutting/open_items.txt item 5.
+
+ALL CHECKS PASSED

@@ -1,0 +1,64 @@
+# 06_acceptance_freeze — Acceptance freeze of the pre-protonation complex
+
+## What this step did
+Renamed the substrate atoms uniquely, rebuilt the combined complex with the safe names,
+audited it, and froze the accepted files with checksums. The CP2K-derived geometries use
+repeated generic atom names (C, H, O), which tleap cannot handle; the renaming replaces
+them with C1, H1, O1 and so on.
+
+The renaming is the only substantive operation, and it must be a pure relabelling. Check 2
+establishes that it is: coordinates identical to machine precision, atom types and charges
+unchanged, bond block byte-identical, and the renaming table consistent with both the
+input and the frozen output.
+
+## Key numbers
+- Three substrates, each 24 atoms in 24 bonds, 16 heavy, net charge exactly -2.000000.
+- 24 distinct atom names per substrate after renaming, from 3 distinct before.
+- Combined complex: 3030 protein atoms + 72 heteroatoms = 3102 records, 3 substrate
+  residues, 0 residues with duplicate names.
+- Protein coordinates unchanged from step 03: maximum displacement 0.00e+00 A.
+- Substrate coordinates unchanged from step 04: maximum displacement 7.68e-04 A, which is
+  below the 8.7e-04 A limit imposed by PDB three-decimal rounding.
+- Four frozen files checksummed; all four reproduce.
+
+## Acceptance threshold and verdict
+Script gates: every substrate's rounded net charge must be -2, and no substrate residue may
+retain duplicate atom names. Both passed.
+Verification: 43 checks, 43 PASS, 0 FAIL. See checks/step06_verify.out.
+
+## Literature comparison
+None applicable. Atom renaming for force-field compatibility is a tooling requirement, not
+a modelling choice, and neither Claeyssens et al. (2011) nor Agbaglo et al. (2024) report
+anything at this level. The write-up should not imply a precedent.
+
+The one point worth carrying is that the net charge of -2 survives the renaming exactly,
+because that value sets the quantum-region charge used from X.3 onward. It was confirmed
+at step 01 from the source geometries and is confirmed again here after the relabelling.
+
+## Caveats and known issues
+- THE ACCEPTANCE DECISION TEXT NAMES A SUPERSEDED RESIDUE LIST. step06_acceptance_decision
+  .txt is a heredoc literal inside step06_freeze_preprotonation.sh. Its active-site
+  architecture paragraph enumerates the adjacent-chain contributors as Arg63', Lys60',
+  Thr74', Cys75', Phe57' and Ala59'. The measured cross-chain contact set also contains
+  Val73'. Confirmed by checks/step06_verify.py: Val73 is the only measured cross-chain
+  contact the text does not name.
+  The frozen structure does not depend on this text, so nothing needs re-running. It is a
+  heredoc edit in the code repo. Tracked as 00_crosscutting/open_items.txt item 5.
+
+- The substrate coordinate agreement is limited by PDB precision, not by the freeze. The
+  combined file stores three decimals while the mol2 source carries more, so a discrepancy
+  up to sqrt(3) * 5e-4 = 8.7e-04 A is expected from rounding alone. The observed maximum is
+  7.68e-04 A. The frozen mol2 files, which carry full precision, agree with their step 04
+  inputs to 0.00e+00 A. Quote the mol2 agreement, not the PDB agreement.
+
+- The acceptance decision text also carries the Arg63' provenance findings, and those are
+  correct: it states the site-C rotamer is inherited crystallographic heterogeneity and
+  cites the 0.000 A repair RMSD. Note that it reaches the right conclusion while the step
+  05 script's header reaches it by the wrong argument. See open_items.txt item 4.
+
+- scripts_as_run/ is IDENTICAL to scripts/ for this step, the first step where that is
+  true. Worth noting only because the divergence elsewhere is what motivated keeping both.
+
+## Cited by
+Methods X.1.5, first half. The subsection is assembled in 07_protonation_hpp/writeup,
+since protonation completes it. This folder holds the freeze fragment.
