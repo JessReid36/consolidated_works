@@ -90,11 +90,25 @@ def nml(path):
     return out
 
 
+
+def _find(*candidates):
+    """First existing path among candidates. Keeps the checks self-contained: the files
+    live in sibling step folders of consolidated_works, and the external results
+    repository is only a fallback for anyone running from a full working tree."""
+    from pathlib import Path as _P
+    for c in candidates:
+        p = _P(c)
+        if p.exists():
+            return p
+    return _P(candidates[0])
+
+
 def main():
     out = Path(sys.argv[1] if len(sys.argv) > 1 else "../outputs")
     s09 = Path(sys.argv[2] if len(sys.argv) > 2 else "../../09_tleap_build/outputs")
-    qmm = Path(sys.argv[3] if len(sys.argv) > 3 else
-               "../../../chorismate-thesis-results/05_qmmm")
+    manifest = _find(*( [sys.argv[3]] if len(sys.argv) > 3 else [] ),
+                     "../../12_frame_selection/outputs/selection_manifest.tsv",
+                     "../../../chorismate-thesis-results/05_qmmm/selection_manifest.tsv")
     print(f"step 10 verification against {out.resolve()}\n")
 
     print("1. continuity")
@@ -236,7 +250,7 @@ def main():
         print(f"         10c production {ns:g} ns + 10d extension {ens:g} ns")
 
     print("\n7. ITEM 8 — which substrate copy the ensemble draws from")
-    man = qmm / "selection_manifest.tsv"
+    man = manifest
     if not man.exists():
         check("canonical selection manifest reachable", False, str(man))
     else:

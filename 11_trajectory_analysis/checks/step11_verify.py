@@ -40,10 +40,26 @@ def check(label, ok, detail=""):
         FAIL.append(label)
 
 
+
+def _find(*candidates):
+    """First existing path among candidates. Keeps the checks self-contained: the files
+    live in sibling step folders of consolidated_works, and the external results
+    repository is only a fallback for anyone running from a full working tree."""
+    from pathlib import Path as _P
+    for c in candidates:
+        p = _P(c)
+        if p.exists():
+            return p
+    return _P(candidates[0])
+
+
 def main():
     out = Path(sys.argv[1] if len(sys.argv) > 1 else "../outputs")
-    qmm = Path(sys.argv[2] if len(sys.argv) > 2 else
-               "../../../chorismate-thesis-results/05_qmmm")
+    nac_log = _find("../outputs/11f_nac_check.log",
+                    "../../../chorismate-thesis-results/05_qmmm/11f_nac_check.log")
+    ens_tsv = _find("../../19_ensemble/outputs/ensemble_barriers.tsv",
+                    "../../../chorismate-thesis-results/05_qmmm/"
+                    "19_ensemble_barriers/ensemble_barriers.tsv")
     print(f"step 11 verification against {out.resolve()}\n")
 
     print("1. 11a backbone RMSD")
@@ -132,7 +148,7 @@ def main():
           f"true of the MINIMA but hides a 27-fold difference in occupancy.")
 
     print("\n4. the NAC criterion is sourced and fully applied")
-    log = qmm / "11f_nac_check.log"
+    log = nac_log
     if not log.exists():
         check("NAC verification log reachable", False, str(log))
     else:
@@ -148,7 +164,7 @@ def main():
               f"{m.group(0)}" if m else "")
 
     print("\n5. ensemble group labels match the NAC test")
-    ens = qmm / "19_ensemble_barriers/ensemble_barriers.tsv"
+    ens = ens_tsv
     rows, hdr = [], None
     for l in ens.read_text().splitlines():
         if l.startswith("#"):

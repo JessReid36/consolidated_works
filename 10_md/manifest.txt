@@ -79,7 +79,7 @@ discharges: open_items 1, 8 and 9
 
 ## checks
   step10_verify.out  4062  cd978b05ce25247cd595897d080930a87cc58c7a160e54ccc0da66bde3893663
-  step10_verify.py  12907  0d3f68890b61c8c869b8eeed244fb1f852d5fd663b51a7302214769f1c79a310
+  step10_verify.py  13440  6aba134863717b3afe8ae07c66ecd2e46e63a07a009d7df2ed430c8507f45720
   step11g_torsion_check.py  12125  0fc74e121dcc22bf1180796d51c55e55f85c90af64da6f8fe2b2222a69580e30
   result: 29 checks, 29 PASS, 0 FAIL  (see checks/step10_verify.out)
   step11g_torsion_check.py is the HPC-side test for open item 8. It needs prod.nc and

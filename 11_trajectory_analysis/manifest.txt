@@ -39,7 +39,7 @@ status: numbers verified over the FULL 60 ns; TWO documentation discrepancies an
 
 ## checks
   step11_verify.out  4273  8b9d94b45d86beb9d80e6c0521038582f2cd7d02c56977ff0709f7c2ffe5ede6
-  step11_verify.py  11241  60e6d5e4b08f24ed2159753b887b837ae81cab68c3868e96c14891936392e30c
+  step11_verify.py  11834  37c33271a5494e80864fd5668d54092f1dfcd889d75e85cf7d67603f409661b7
   result: 25 checks, 23 PASS, 2 FAIL  (see checks/step11_verify.out)
   The two failures are DISCREPANCIES AGAINST THE COMMITTED DOCUMENT, not errors in
   the data. Every .dat figure reproduces exactly. They are retained as failures so

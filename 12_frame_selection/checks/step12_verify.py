@@ -52,10 +52,26 @@ def read_manifest(p):
     return rows
 
 
+
+def _find(*candidates):
+    """First existing path among candidates. Keeps the checks self-contained: the files
+    live in sibling step folders of consolidated_works, and the external results
+    repository is only a fallback for anyone running from a full working tree."""
+    from pathlib import Path as _P
+    for c in candidates:
+        p = _P(c)
+        if p.exists():
+            return p
+    return _P(candidates[0])
+
+
 def main():
     out = Path(sys.argv[1] if len(sys.argv) > 1 else "../outputs")
-    qmm = Path(sys.argv[2] if len(sys.argv) > 2 else
-               "../../../chorismate-thesis-results/05_qmmm")
+    nac_log = _find("../../11_trajectory_analysis/outputs/11f_nac_check.log",
+                    "../../../chorismate-thesis-results/05_qmmm/11f_nac_check.log")
+    ens_tsv = _find("../../19_ensemble/outputs/ensemble_barriers.tsv",
+                    "../../../chorismate-thesis-results/05_qmmm/"
+                    "19_ensemble_barriers/ensemble_barriers.tsv")
     print(f"step 12 verification against {out.resolve()}\n")
 
     print("1. which manifest is canonical")
@@ -67,7 +83,7 @@ def main():
     for s in stage:
         print(f"         stage file: {s.name}, {len(read_manifest(s))} rows")
     ens_rows, hdr = [], None
-    for l in (qmm / "19_ensemble_barriers/ensemble_barriers.tsv").read_text().splitlines():
+    for l in ens_tsv.read_text().splitlines():
         if l.startswith("#"):
             continue
         p = l.rstrip("\n").split("\t")
@@ -122,7 +138,7 @@ def main():
     check("the near_NAC labels are exactly the frames the full test rejected",
           nonfull == REJECTED_BY_FULL_NAC,
           f"labelled {sorted(nonfull)}, rejected by the test {sorted(REJECTED_BY_FULL_NAC)}")
-    nac = qmm / "11f_nac_check.log"
+    nac = nac_log
     if nac.exists():
         t2 = nac.read_text()
         devs = []

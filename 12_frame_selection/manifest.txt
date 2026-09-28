@@ -39,7 +39,7 @@ cited_by: Methods X.2/X.3, frame selection
 
 ## checks
   step12_verify.out  2830  4f4c811f457af44616a62c8e4c0010293412ca523fa8024ff9ad91a7d9a2fc50
-  step12_verify.py  7889  c27adffcb80fc7769bedee94f8ac4eddfedbb1464536e974f5dda1d2bd669654
+  step12_verify.py  8506  45e4820b5d8e3863af49aceb2d55391f8e044bf2b5afd6a8f6c4f5228c291681
   result: 18 checks, 18 PASS, 0 FAIL  (see checks/step12_verify.out)
 
 ## depends on

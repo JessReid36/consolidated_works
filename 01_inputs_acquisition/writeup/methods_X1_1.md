@@ -147,4 +147,29 @@ Performed by `checks/step01_verify.py` against the committed copies in
 - Twelve analogue sites enumerated: A203, B201, C202, D206, E204, F205, G209, H207, I208,
   J212, K210, L211.
 - 1DBF inventory reproduced: 3156 ATOM, 499 HETATM, chains A–C.
-- Substrate geometry confirmed for all three files: 24 atoms, 24 bo
+- Substrate geometry confirmed for all three files: 24 atoms, 24 bonds, C₁₀H₈O₆, net charge
+  −2.0000.
+- Registration margins measured: 22.11, 22.05 and 21.98 Å to the nearest alternative site.
+- No barrier is quoted in this subsection, so no barrier re-derivation applies.
+
+# References
+
+Agbaglo, D.A., Summers, T.J., Cheng, Q. and DeYonker, N.J. (2024) 'The influence of model
+building schemes and molecular dynamics sampling on QM-cluster models: the chorismate
+mutase case study', *Physical Chemistry Chemical Physics*, 26, pp. 12467–12482.
+doi:10.1039/d3cp06100k.
+
+Chook, Y.M., Ke, H. and Lipscomb, W.N. (1993) 'Crystal structures of the monofunctional
+chorismate mutase from *Bacillus subtilis* and its complex with a transition state analog',
+*Proceedings of the National Academy of Sciences USA*, 90, pp. 8600–8603.
+doi:10.1073/pnas.90.18.8600.
+
+Claeyssens, F., Ranaghan, K.E., Lawan, N., Macrae, S.J., Manby, F.R., Harvey, J.N. and
+Mulholland, A.J. (2011) 'Analysis of chorismate mutase catalysis by QM/MM modelling of
+enzyme-catalysed and uncatalysed reactions', *Organic & Biomolecular Chemistry*, 9,
+pp. 1578–1590. doi:10.1039/c0ob00691b.
+
+Ladner, J.E., Reddy, P., Davis, A., Tordova, M., Howard, A.J. and Gilliland, G.L. (2000)
+'The 1.30 Å resolution structure of the *Bacillus subtilis* chorismate mutase catalytic
+homotrimer', *Acta Crystallographica Section D*, 56, pp. 673–683.
+doi:10.1107/S0907444900004625.
