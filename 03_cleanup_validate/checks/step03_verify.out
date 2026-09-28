@@ -1,0 +1,50 @@
+step 03 verification against /home/claude/repos/cw_build/03_cleanup_validate/outputs
+
+1. continuity: step03's input is step02's output
+  [PASS] step02 abc_repaired.pdb present — a724508653436e95
+  [PASS] audit names abc_repaired.pdb as its input — /home/18660916/system_development/02_preparation/protein_only/abc_repaired.pdb
+  [PASS] cleaned output present
+
+2. atom-count arithmetic, reproduced from the structures
+  [PASS] initial atom count matches the audit — 3638 vs 3638
+  [PASS] hydrogens removed matches the audit — 601 vs 601
+  [PASS] altloc groups resolved matches the audit — 7 vs 7
+  [PASS] initial - hydrogens - altloc duplicates = final heavy atoms — 3638 - 601 - 7 = 3030, final 3030
+
+3. purity of the output
+  [PASS] no hydrogens remain
+  [PASS] no altloc flags remain
+  [PASS] no duplicate atom names within a residue — []
+  [PASS] no non-standard residue names — []
+  [PASS] three OXT, one per chain — 3
+
+4. peptide continuity, recomputed
+  [PASS] links checked matches the audit — 378 vs 378
+  [PASS] bad links matches the audit — 0 vs 0
+         worst link: ('C', 114, 115) at 1.647 A (+0.318 from canonical, window 1.15-1.7)
+
+5. completeness
+  [PASS] chain A is 127 residues, 1-127 — n=127
+  [PASS] chain B is 127 residues, 1-127 — n=127
+  [PASS] chain C is 127 residues, 1-127 — n=127
+  [PASS] all twelve contact-set residues present in every chain — none missing
+
+6. altloc resolution: rule, margin and structural consequence
+  [PASS] recorded altloc decisions match the audit count — 7 decisions, 7 duplicates
+  [PASS] A THR122 CB: kept conformer is the highest-occupancy one — kept B, report says B
+  [PASS] A THR122 OG1: kept conformer is the highest-occupancy one — kept B, report says B
+  [PASS] A THR122 CG2: kept conformer is the highest-occupancy one — kept B, report says B
+  [PASS] C LEU127 CB: kept conformer is the highest-occupancy one — kept A, report says A
+  [PASS] C LEU127 CG: kept conformer is the highest-occupancy one — kept A, report says A
+  [PASS] C LEU127 CD1: kept conformer is the highest-occupancy one — kept A, report says A
+  [PASS] C LEU127 CD2: kept conformer is the highest-occupancy one — kept A, report says A
+
+         occupancy margin and conformer separation per residue:
+           A THR122: occ A=0.47 B=0.53, margin 0.06, kept B; conformer rmsd 2.123 A, max 2.673 A
+           C LEU127: occ A=0.64 B=0.36, margin 0.28, kept A; conformer rmsd 1.941 A, max 3.246 A
+
+7. cleanup moved nothing
+  [PASS] every retained atom is traceable to the input — []
+  [PASS] no retained atom changed coordinates — max displacement 0.000 A
+
+ALL CHECKS PASSED

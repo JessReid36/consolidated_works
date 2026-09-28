@@ -1,0 +1,79 @@
+# 03_cleanup_validate — Cleanup and structural validation
+
+## What this step did
+Took the repaired A/B/C trimer from step 02, removed crystallographic hydrogens, resolved
+alternate-location groups to a single conformer, and validated the resulting heavy-atom
+scaffold against six hard gates. No coordinate is changed; the step is deletion and
+selection only, and check 7 confirms that.
+
+Hydrogen removal uses the PDB element column as authoritative, with a name-based fallback
+only if the element column is empty throughout. The element column was fully populated
+here (3638 of 3638), so the fallback never engaged. The script prints what the fallback
+WOULD have matched, as a diagnostic against over-matching heavy atoms named H*.
+
+## Key numbers
+- Input 3638 atoms (abc_repaired.pdb); element column populated for all 3638.
+- 601 hydrogens removed by element column.
+- 7 alternate-location groups resolved, across 2 residues.
+- Output 3030 heavy atoms. Arithmetic reproduced: 3638 - 601 - 7 = 3030.
+- 0 hydrogens, 0 altloc flags, 0 duplicate atom names, 0 non-standard residue names
+  remaining. 3 OXT, one per chain.
+- 378 peptide links checked, 0 outside the 1.15-1.70 A window.
+- Worst surviving link: C 114-115 at 1.647 A, +0.318 A from canonical.
+- 127 residues per chain, numbered 1-127. All twelve contact-set residues present in all
+  three chains.
+- No retained atom moved: maximum displacement 0.000 A against the input.
+
+## Acceptance threshold and verdict
+The script's own hard gates, all of which exit non-zero on failure: no hydrogens remain,
+no altlocs remain, no non-standard residue names, no duplicate atom names, no bad peptide
+links, no missing active-site residues. All six passed.
+Verification: 28 checks, 28 PASS, 0 FAIL. See checks/step03_verify.out.
+
+## Literature comparison
+Neither Claeyssens et al. (2011) nor Agbaglo et al. (2024) report how alternate locations
+were handled, or whether crystallographic hydrogens were stripped before rebuilding. This
+is normal and not a criticism; it is below the level of detail either paper reports. It
+does mean there is NO literature comparator for this step, and the write-up should say so
+rather than imply a precedent.
+
+The only literature-adjacent point is negative and worth stating: because neither paper
+reports its altloc policy, any difference between our structure and theirs at A122 or
+C127 cannot be attributed or excluded. Both residues are outside the active site, so this
+does not propagate to the reaction.
+
+## Caveats and known issues
+- ONE ALTLOC DECISION IS EFFECTIVELY A COIN FLIP, AND IT IS STRUCTURALLY REAL.
+  A THR122: occupancies 0.47 (A) vs 0.53 (B), a margin of 0.06. Conformer B was kept
+  because it had the higher occupancy. The two conformers differ by an RMSD of 2.123 A
+  over the three affected side-chain atoms, with OG1 and CG2 separated by 2.5 and 2.7 A.
+  So a genuine rotamer choice was made on a 6% occupancy difference.
+  C LEU127: 0.64 vs 0.36, margin 0.28, conformer rmsd 1.941 A, max separation 3.246 A.
+  This one is a clearer call.
+  The script records WHICH conformer was kept but not the margin or the separation.
+  Neither quantity appears in any committed output; both are produced by
+  checks/step03_verify.py.
+
+  MITIGATION, and it is strong: both residues sit in the C-terminal region grafted from
+  1DBF at step 02 (A122 is inside A's 116-127 patch, C127 inside C's 115-127 patch), and
+  neither is in the contact set. The step 11 trajectory analysis subsequently found that
+  all flexibility in the trimer is in the chain C-terminal tails, with RMSF up to 13.9 A,
+  while the core and active site are rigid. A 2 A rotamer choice in a tail residue that
+  moves by an order of magnitude more during MD is immaterial to the reaction. State the
+  margin, state the mitigation, and move on.
+
+- THE ALTLOC HETEROGENEITY IS INHERITED FROM THE DONOR, NOT THE SCAFFOLD. Both affected
+  residues came from 1DBF, not 2CHT, per step02_residue_source_report.tsv. The repair
+  imported them. Worth noting because it means the alternate locations are a property of
+  the 1.30 A donor structure, which resolves more disorder than the 2.2 A scaffold.
+
+- The peptide-continuity gate here repeats step 02's window (1.15-1.70 A), so C 114-115
+  at 1.647 A passes again without being flagged. This is the same open item, not a new
+  one. See 00_crosscutting/open_items.txt items 1 and 2.
+
+- The script validates the file it just wrote by re-parsing it from disk rather than
+  trusting its in-memory state. That is good practice and worth keeping when this step is
+  described.
+
+## Cited by
+Methods X.1.3.

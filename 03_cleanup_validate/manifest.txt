@@ -1,0 +1,42 @@
+step: 03_cleanup_validate
+title: Cleanup and structural validation of the repaired trimer
+scripts: step03_cleanup_validate.sh
+cited_by: Methods X.1.3
+
+## scripts   (canonical home: JessReid36/chorismate-thesis-code)
+   branch=tier1-realism commit=f0e059cf11eda91dea939c42f8e12d1a8bf829a1
+  phase1_system_dev/step03_cleanup_validate.sh  8525  1f2ff08eaaf65aaf1bad01e27bcda47c2ed517b4ed368bc196c97001d7d190f2
+
+## scripts_as_run   (archived in results 00_admin at run time; MAY DIVERGE)
+   canonical home: JessReid36/chorismate-thesis-results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  00_admin/step03_cleanup_validate.sh  8459  4cb0b9294fdc0e86ed954900563dafd614e7233ece44b14d4994270498a52935
+  divergence: differs from scripts/ by one added line,
+    'export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1'.
+    Environment only; no effect on any output.
+
+## outputs   (canonical home: JessReid36/chorismate-thesis-results)
+   branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  02_preparation/protein_only/abc_repaired_clean.pdb  239386  0bb491624bbed701cc134be849897655cb0413371c57065eed3022331b7cbc7b
+  00_admin/step03_cleanup_report.tsv  226  3226aa4a74588efa99a91a7bc6cb78b57e6caddb49538cebbf4cc44ab5f8c450
+  00_admin/step03_validation_audit.txt  473  2fa3847a2d814249f94a8685aea559cacbc89441059f38b753ab115721f27f94
+
+## checks
+  step03_verify.py  10466  30891668aca997cc3ae05ebab5135282b7b916a3827229446a22597e91994f17
+  step03_verify.out  2656  251b228a909be249f3251650588423ab84041fa69a61145cbc3e99dfe207b31a
+  result: 28 checks, 28 PASS, 0 FAIL  (see checks/step03_verify.out)
+
+## writeup   (drafted here; assembled into the chapter later)
+  writeup/methods_X1_3.docx  14053  63ad8f8317267faf8a659cd99157aea09fbf2313f32d8f54b7bdbdb8083f5193
+  writeup/methods_X1_3.md  7472  f47378daf06758a8b3bedff8aa6cc71356ed19db09830aa6b67b460a78854206
+  note: the .docx is generated from the .md by pandoc; the .md is the source.
+
+## depends on
+  ../02_terminal_repair/outputs/abc_repaired.pdb   (step03's input; check 1)
+
+## environment of the recorded check run
+  date_utc: 2026-09-28T17:05:34+00:00
+  python:   3.12.3
+  platform: Linux-6.18.44-fc-v42-x86_64-with-glibc2.39
+  host:     drafting container, NOT the HPC working tree.
+            Validates the committed record, not the live cluster state.
+            Re-run on the HPC to confirm the working tree still agrees.
