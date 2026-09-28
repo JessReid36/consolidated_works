@@ -27,11 +27,12 @@ consumes: 01_inputs_acquisition/outputs/2cht_raw.pdb, 1dbf_raw.pdb
   00_admin/step02_repair_decision.txt  422  7bdac99172bfcec7537c115d9a0339a666e6f192053f2dff3fbea067447ab776
 
 ## checks
-  step02_verify.py  8664  35e65e110033a0bf1e2e74e033e80853e82943b83a63b24219a84e3279d01d7f
-  result: 19 checks, 19 PASS, 0 FAIL  (see checks/step02_verify.out)
+  step02_verify.py  11131  54ca622be7e11ab97a73bdd82680d8f0296d3660b23816d95f93f62e548c71da
+  step02_verify.out  2714  ecc6e85c8d4d1bc72e489a093be6524f08a06aaf5b11f8d5cb431c81194813c1
+  result: 27 checks, 27 PASS, 0 FAIL  (see checks/step02_verify.out)
 
 ## writeup   (drafted here; assembled into the chapter later)
-  writeup/methods_X1_2.docx  14227  b80bd3ad3a70e6f7ea9c777575339d21ffcd52e9f986894795164b606c9eeb2d
+  writeup/methods_X1_2.docx  14226  003cabdab856ccb945750f51d0d4ba1dc2e799a1f896fd1a0607f699718b4ff1
   writeup/methods_X1_2.md  8085  9f17bc43a6a4abc487dbd46f43eb4dedf921849edcd04468145730a39fac77c8
   note: the .docx is generated from the .md by pandoc; the .md is the source.
 

@@ -33,4 +33,14 @@ step 02 verification against /home/claude/repos/cw_build/02_terminal_repair/outp
   [PASS] B 1-2: shift equals initial C-N minus 1.329 — 1.320 vs 1.320  (block B:1-1)
   [PASS] B 1-2 is an allowed join
 
+7. the closures were rigid translations, confined to the declared blocks
+  [PASS] atom set unchanged by adjustment — 3638 vs 3638
+  [PASS] only the chains named in the adjustment report moved — moved ['A', 'B'], expected ['A', 'B']
+  [PASS] chain A: displacement confined to the declared block — moved 116-127 (n=12), declared 116-127
+  [PASS] chain A: displacement is a single translation, not a distortion — per-axis spread 1.0e-03 A across 100 atoms
+  [PASS] chain A: magnitude matches the recorded shift — 0.791 A vs 0.791 recorded
+  [PASS] chain B: displacement confined to the declared block — moved 1-1 (n=1), declared 1-1
+  [PASS] chain B: displacement is a single translation, not a distortion — per-axis spread 1.0e-03 A across 8 atoms
+  [PASS] chain B: magnitude matches the recorded shift — 1.320 A vs 1.320 recorded
+
 ALL CHECKS PASSED

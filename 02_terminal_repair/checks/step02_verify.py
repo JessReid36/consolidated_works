@@ -198,6 +198,52 @@ def main():
         check(f"{c} {r1}-{r2} is an allowed join",
               (c, r1, r2) in ALLOWED_JOINS)
 
+    print("\n7. the closures were rigid translations, confined to the declared blocks")
+    # The script closes a join by translating a whole terminal block. Two things must
+    # hold and neither is asserted by the script itself: nothing outside the named block
+    # moved, and every atom inside it moved by the SAME vector (a translation, not a
+    # distortion). Tolerance is 2e-3 A, set by PDB coordinate rounding to 3 decimals.
+    def xyz_map(path):
+        m = {}
+        for L in Path(path).read_text().splitlines():
+            if L.startswith("ATOM  "):
+                m[(L[21], int(L[22:26]), L[12:16], L[16])] = (
+                    float(L[30:38]), float(L[38:46]), float(L[46:54]))
+        return m
+
+    before = xyz_map(out / "abc_repaired_unadjusted.pdb")
+    after = xyz_map(out / "abc_repaired.pdb")
+    check("atom set unchanged by adjustment", set(before) == set(after),
+          f"{len(before)} vs {len(after)}")
+    moved = collections.defaultdict(list)
+    for k in set(before) & set(after):
+        d = math.dist(before[k], after[k])
+        if d > 1e-6:
+            moved[k[0]].append((k[1], d,
+                                tuple(after[k][i] - before[k][i] for i in range(3))))
+    expect = {}
+    for c, r1, r2, d0, shift, block in adj:
+        lo, hi = block.split(":")[1].split("-")
+        expect[c] = (set(range(int(lo), int(hi) + 1)), shift)
+    check("only the chains named in the adjustment report moved",
+          set(moved) == set(expect), f"moved {sorted(moved)}, expected {sorted(expect)}")
+    for c in sorted(moved):
+        resids = {r for r, d, v in moved[c]}
+        mags = [d for r, d, v in moved[c]]
+        vecs = [v for r, d, v in moved[c]]
+        spread = max(max(v[i] for v in vecs) - min(v[i] for v in vecs) for i in range(3))
+        exp_res, exp_mag = expect[c]
+        check(f"chain {c}: displacement confined to the declared block",
+              resids == exp_res,
+              f"moved {sorted(resids)[0]}-{sorted(resids)[-1]} (n={len(resids)}), "
+              f"declared {sorted(exp_res)[0]}-{sorted(exp_res)[-1]}")
+        check(f"chain {c}: displacement is a single translation, not a distortion",
+              spread < 2e-3,
+              f"per-axis spread {spread:.1e} A across {len(vecs)} atoms")
+        check(f"chain {c}: magnitude matches the recorded shift",
+              abs(sum(mags) / len(mags) - exp_mag) < 2e-3,
+              f"{sum(mags)/len(mags):.3f} A vs {exp_mag:.3f} recorded")
+
     print(f"\n{'ALL CHECKS PASSED' if not FAIL else 'FAILURES: ' + ', '.join(FAIL)}")
     return 1 if FAIL else 0
 
