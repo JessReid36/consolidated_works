@@ -14,7 +14,7 @@ Status key:
 ===============================================================================
 DEVIATION 1 - Terminal repair follows Agbaglo, not Claeyssens
   origin step: 02_terminal_repair (inputs registered at 01)
-  status: UNSTATED
+  status: UNSTATED in the repos; CORROBORATED against Agbaglo as of 2026-09-28
 ===============================================================================
 
 Claeyssens 2011 Methods (p. 2-3) describe taking 2CHT, substituting chorismate for the
@@ -27,13 +27,22 @@ chain B, and 1-2 and 115-127 for chain C.
 
 So at this step we follow the secondary reference, not the primary one.
 
-Reason: the repair is a structural-completeness decision independent of the reaction
-modelling. Leaving termini unresolved would leave unphysical chain breaks in an MD
-system. Claeyssens' silence is not an argument against repair - it may simply be
-unreported - but it does mean the primary comparator cannot be cited for it.
+CORROBORATION. step02_verify.py section 4 reads the donor provenance of every residue in
+abc_repaired.pdb from step02_residue_source_report.tsv and compares it against both the
+patch definition hard-coded in the script AND the ranges published by Agbaglo. All three
+chains match Agbaglo's ranges EXACTLY - 13 grafted residues in chain A, 14 in B, 15 in C,
+no extras and no omissions. The agreement is residue for residue.
 
-To do: check our grafted residue ranges against Agbaglo's, per chain, at step 02.
-Agreement would make this a corroborated choice; disagreement needs its own reason.
+This is therefore not "we followed a protocol we read about". It is a reproduction of a
+published repair, verified against the publication, on a choice the primary comparator
+does not report at all. State it that way.
+
+Reason for repairing at all: leaving termini unresolved would leave unphysical chain
+breaks in an MD system. Claeyssens' silence is not an argument against repair - it may
+simply be unreported - but it does mean the primary comparator cannot be cited for it.
+
+Note that step02_terminal_repair_abc.sh credits "the reference MD-preparation protocol"
+without naming it. See open_items.txt item 3.
 
 ===============================================================================
 DEVIATION 2 - Substrate geometry provenance differs

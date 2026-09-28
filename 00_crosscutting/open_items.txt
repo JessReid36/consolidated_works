@@ -1,0 +1,80 @@
+# open_items.txt
+
+Commitments made by one step that must be honoured at a later one, and questions raised
+by the audit that cannot be closed where they arise. Each entry names the step that
+raised it, the step that must close it, and what closing it requires.
+
+An item leaves this file only when it is closed, and the entry is then moved to the
+CLOSED section with the evidence.
+
+===============================================================================
+OPEN
+===============================================================================
+
+ITEM 1 - Post-minimisation re-check of the graft joins
+  raised at: 02_terminal_repair
+  closes at: 10_md (minimisation, step10a) at the earliest; equilibration at the latest
+  status: OPEN
+
+step02_terminal_repair_abc.sh closes bad graft joins by rigid translation and states in
+its own header comment that this is "geometric pre-conditioning only - bond angles/
+dihedrals at the graft are relaxed later by minimisation and MD equilibration, and the
+affected joins must be re-checked post-minimisation". step02_repair_decision.txt repeats
+the commitment.
+
+That re-check is a promise made by step 02 and dischargeable only at step 10. It is
+currently recorded nowhere else, and no committed output demonstrates that it was done.
+
+Three joins are at issue, all in the script's allowed_joins set:
+  A 115-116  initial C-N 2.120 A, closed by translating A:116-127 by 0.791 A
+  B 1-2      initial C-N 2.649 A, closed by translating B:1-1    by 1.320 A
+  C 114-115  1.647 A, NEVER FLAGGED AND NEVER ADJUSTED - see item 2
+
+To close: after minimisation, recompute C-N for these three joins plus the full 378-link
+set, and record the result. If the grafted blocks have relaxed toward canonical geometry,
+the commitment is discharged and the write-up can say so. If they have not, the repair
+needs revisiting and that is a flag under the no-rerun rule.
+
+ITEM 2 - The peptide-continuity acceptance window is wide, and one join exploits it
+  raised at: 02_terminal_repair
+  closes at: a decision, not a computation
+  status: OPEN
+
+step02's continuity gate flags a link as bad only if the C-N distance falls below 1.15 A
+or above 1.70 A. Canonical is 1.329 A. The window is therefore roughly +/- 0.3 A.
+
+The graft join at C 114-115 sits at 1.647 A, which is 0.318 A longer than canonical and
+0.053 A inside the failure threshold. It was never flagged, never adjusted, and appears
+in no report other than as part of the "0 bad links" count. It is the worst surviving
+link in abc_repaired.pdb.
+
+The two joins that WERE adjusted, at 2.120 and 2.649 A, differ from it in degree rather
+than in kind. Whether C 114-115 is acceptable is a judgement the gate made implicitly by
+its choice of window.
+
+To close: either state in the write-up that the window is +/- 0.3 A and that one graft
+join sits near its edge, which is the honest minimum, or tighten the gate and re-run
+step 02, which is a flag under the no-rerun rule. Do not leave it implicit.
+  -> Already stated in writeup/methods_X1_2.md, Inconsistencies. Keep it there.
+
+ITEM 3 - Script comments do not cite the source they follow
+  raised at: 02_terminal_repair (and 04_substrate_placement)
+  closes at: a commit to chorismate-thesis-code
+  status: OPEN
+
+step02_terminal_repair_abc.sh says the repair follows "the reference MD-preparation
+protocol" without naming it. The protocol is Agbaglo et al. 2024, and the grafted ranges
+match theirs residue for residue (verified, checks/step02_verify.out section 4).
+
+step04_place_chorismate_abc.sh attributes the active-site residue set to the Agbaglo
+supporting information. It is in the main text, p. 8, in the description of frame-
+selection scheme S3. The comment also repeats the pre-correction wording of that scheme.
+
+To close: correct both comments in the code repo, then refresh scripts/ in the affected
+consolidated_works step folders and re-run their checks.
+
+===============================================================================
+CLOSED
+===============================================================================
+
+(none yet)

@@ -15,6 +15,8 @@ rather than a judgement call.
 ## Layout
 
     00_crosscutting/        claims that span steps, written as encountered
+                            (comparator_decision, literature_position,
+                             protocol_deviations, sourcing_gaps, open_items)
     INDEX.tsv               step -> subsection -> scripts -> outputs -> check status
     NN_step_name/
       scripts/              from the code repo, pinned
