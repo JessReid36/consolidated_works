@@ -1,0 +1,69 @@
+step 08 verification against /home/claude/repos/cw_build/08_ligand_gaff/outputs
+
+1. continuity: the charge template is step06's frozen cha_a.mol2
+  [PASS] provenance records a template hash
+  [PASS] recorded hash matches step06's frozen cha_a.mol2 — 64af94697df36583
+
+2. charge file integrity
+  [PASS] one charge per atom — 24 values
+  [PASS] charges sum to exactly -2 — -2.00000000
+
+3. the renormalisation reproduces
+  [PASS] raw mol2 charges sum to the recorded -1.997000 — -1.997000
+  [PASS] the residual was distributed EVENLY over all 24 atoms — per-atom shift spread 1.11e-16 e
+  [PASS] the per-atom shift equals -0.003/24 — -0.00012500 vs -0.00012500
+
+4. read-charge mode preserved the charges and the atom order
+  [PASS] cha_gaff.mol2 charges equal charges_am1bcc.dat — max difference 0.00e+00 e
+  [PASS] atom names preserved from the template
+  [PASS] bond CONNECTIVITY preserved from the template — 24 bonds
+         NOTE: 4 bond ORDERS rewritten by antechamber:
+           C3-O1: 'ar' -> '1'
+           C3-O2: 'ar' -> '1'
+           C10-O5: 'ar' -> '1'
+           C10-O6: 'ar' -> '1'
+         These are the two carboxylates. GAFF represents carboxylate
+         delocalisation through equal charges and identical 'o' types on
+         both oxygens, not through an aromatic bond order, so the rewrite
+         is the expected GAFF treatment. Connectivity is unchanged.
+
+5. GAFF typing
+  [PASS] no Tripos dot-types survive — ['c', 'c2', 'c3', 'ce', 'h1', 'ha', 'ho', 'o', 'oh', 'os']
+  [PASS] type set matches the audit — c,c2,c3,ce,h1,ha,ho,o,oh,os
+  [PASS] net charge matches the audit
+
+6. frcmod substituted parameters, ranked by penalty
+  [PASS] frcmod ATTN count is zero — audit records 0
+         penalty  237.0   c2-ce-os-c3   2    2.100       substituted by X -c2-os-X
+         penalty  237.0   c -ce-os-c3   2    2.100       substituted by X -c2-os-X
+         penalty    3.0   ce-o -c -o          1.1        substituted by general  improper torsional angle 
+         penalty    2.0   c2-ce-os   70.100     123.700 substituted by c2-ce-oh
+         2 parameter(s) carry a penalty at or above 100.
+         Both span os-c3, i.e. the O3-C4 bond, which step 11 identifies
+         as the BREAKING bond. GAFF governs the MD sampling that feeds
+         frame selection, not the QM/MM reaction itself. See
+         interpretation.txt and 00_crosscutting/open_items.txt.
+  [PASS] the high-penalty parameters are recorded, not silently accepted — 2 at penalty >= 100, max 237.0
+
+7. three-copy identity licenses one parameter set
+  [PASS] cha_a: names and topology match cha_a — 24 atoms, 24 bonds, q=-2.0000
+  [PASS] cha_b: names and topology match cha_a — 24 atoms, 24 bonds, q=-2.0000
+  [PASS] cha_c: names and topology match cha_a — 24 atoms, 24 bonds, q=-2.0000
+
+8. frozen checksums
+  [PASS] charges_am1bcc.dat matches its checksum — ff141d36bed39d5e
+  [PASS] cha_gaff.mol2 matches its checksum — 43e12e46d89c5a35
+  [PASS] cha.frcmod matches its checksum — 3de63bdd6a13e37c
+
+9. declared but absent
+         ['parmchk2_cha_gaff.log', 'antechamber_am1bcc.log']
+         Both are run logs declared by the scripts but never committed. They
+         carry no result; the parmchk2 outcome is captured in cha.frcmod and
+         the audit. Recorded so the absence is deliberate, not overlooked.
+
+NOT CHECKABLE HERE:
+         Toolchain split. Charges derived with AmberTools 19 on a local workstation; GAFF typing and parmchk2
+         run with antechamber 22.0 on the HPC. Both versions are recorded but
+         no committed output tests whether the two agree on typing.
+
+ALL CHECKS PASSED

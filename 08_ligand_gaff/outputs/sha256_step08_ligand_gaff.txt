@@ -1,0 +1,3 @@
+ff141d36bed39d5ecc654783b0dd3406d68937c4b44d61aed2bbe3002f94e908  /home/18660916/system_development/03_amber/ligand_gaff/charges_am1bcc.dat
+43e12e46d89c5a3580bc79d8add8b14a7feb66f394544842cfa9a4b7f97b39c5  /home/18660916/system_development/03_amber/ligand_gaff/cha_gaff.mol2
+3de63bdd6a13e37cbfa537be0e6655811117f35e48920dbaf5fb25369affd2a9  /home/18660916/system_development/03_amber/ligand_gaff/cha.frcmod

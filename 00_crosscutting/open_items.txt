@@ -163,3 +163,34 @@ CLOSED
 ===============================================================================
 
 (none yet)
+
+ITEM 6 - The two worst GAFF parameters sit on the breaking bond
+  raised at: 08_ligand_gaff
+  closes at: an analysis of the existing step 10 trajectories; no re-run required
+  status: OPEN
+
+parmchk2 reports 0 ATTN for cha.frcmod, and that is accurate. But ranking the substituted
+parameters by penalty score gives two dihedrals at 237.0 against a next-highest of 3.0:
+
+    c2-ce-os-c3   substituted by  X-c2-os-X   penalty 237.0
+    c -ce-os-c3   substituted by  X-c2-os-X   penalty 237.0
+
+Both span os-c3. In cha_gaff.mol2, O3 is the only atom typed os and C4 is typed c3, and
+the committed step 11 analysis maps the reaction coordinate as "breaking C2-O13 -> C4-O3".
+The two worst-parameterised terms in the ligand force field are therefore the dihedrals
+about the bond that breaks.
+
+SCOPE, stated carefully. This does not touch the QM/MM barrier: the substrate is in the QM
+region, so the reaction is not computed with GAFF. It does touch the classical MD of step
+10, which samples the reactant conformational distribution, and hence step 12, which
+selects QM/MM frames from it. The near-attack geometry is dihedral-sensitive. The exposure
+is a biased conformational ENSEMBLE, not a biased barrier at a given geometry.
+
+To close: compare the C4-O3 dihedral distribution over the production trajectory against
+the same dihedral in the QM/MM optimised reactants of the ensemble. Agreement would show
+the parameterisation is adequate for sampling, which is all it is asked to do. This is an
+analysis of trajectories that already exist and does not trip the no-rerun rule.
+
+If it does NOT agree, the finding is not that the barriers are wrong but that the frames
+were drawn from a distorted distribution, which is a sampling caveat for X.2 and the
+ensemble sections.

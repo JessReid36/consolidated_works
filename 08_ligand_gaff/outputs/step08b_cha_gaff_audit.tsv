@@ -1,0 +1,11 @@
+item	value
+atoms	24
+bonds	24
+net_charge	-2.000000
+duplicate_atom_names	none
+gaff_atom_types	c,c2,c3,ce,h1,ha,ho,o,oh,os
+tripos_dot_types_remaining	none
+max_charge_diff_vs_am1bcc	0.00000000
+charge_model	AM1-BCC (derived off-HPC in step 08a)
+frcmod_ATTN_count	0
+frcmod_MISSING_word_count	0

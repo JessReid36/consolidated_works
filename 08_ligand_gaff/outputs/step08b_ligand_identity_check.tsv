@@ -1,0 +1,4 @@
+label	atoms	bonds	net_charge	names_match_cha_a	bonds_match_cha_a
+cha_a	24	24	-2.0000	True	True
+cha_b	24	24	-2.0000	True	True
+cha_c	24	24	-2.0000	True	True

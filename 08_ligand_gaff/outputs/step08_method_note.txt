@@ -1,0 +1,22 @@
+Step 08 method note (chorismate GAFF parameterisation):
+
+Reference protocol:
+  Chorismate parameterised with Antechamber + GAFF before AMBER MD.
+
+Charge model (deviation recorded):
+  Charges are AM1-BCC - the standard Antechamber/GAFF scheme, and the method
+  implied by the protocol (which states "Antechamber/GAFF" without naming the
+  charge model). AM1-BCC needs sqm, which cannot run on this HPC
+  (missing libopenblas.so.0). Charges were therefore derived AM1-BCC on a local
+  Ubuntu workstation with a self-contained conda AmberTools (step 08a), then read
+  in here via antechamber -c rc -cf charges_am1bcc.dat. GAFF atom typing and
+  parmchk2 run natively on the HPC AMBER22 (no sqm required).
+  Provenance of the derivation: 00_admin/step08a_provenance.txt.
+
+Implementation:
+  AMBER18 unavailable -> AMBER22 tools; GAFF (not gaff2) selected explicitly.
+  One canonical CHA template (cha_a) used for all three ligand copies; cha_b/cha_c
+  share atom names and bond topology (their charges may differ but are not used).
+    antechamber -i cha_a.mol2 -fi mol2 -o cha_gaff.mol2 -fo mol2 \
+                -at gaff -c rc -cf charges_am1bcc.dat -nc -2 -rn CHA
+    parmchk2 -i cha_gaff.mol2 -f mol2 -o cha.frcmod -s gaff

@@ -1,0 +1,26 @@
+Step 08a - AM1-BCC charge derivation (off-HPC)
+
+Reason for off-HPC derivation:
+  The HPC AMBER22 sqm cannot run (missing libopenblas.so.0; no BLAS module fixed
+  it). AM1-BCC requires sqm, so charges were derived on a local Ubuntu workstation
+  with a self-contained conda AmberTools that ships a working BLAS.
+
+Method:
+  antechamber -i cha_a.mol2 -fi mol2 -o cha_am1bcc.mol2 -fo mol2 \
+              -at gaff -c bcc -nc -2 -rn CHA
+  AmberTools: 19
+  Charges extracted in canonical atom order; renormalised to exactly -2 by
+  distributing the -0.003000 e mol2 rounding residual evenly over 24 atoms.
+
+Charge summary:
+  raw AM1-BCC sum (mol2, 4 dp) = -1.997000
+  renormalised sum             = -2.000000
+  GAFF atom types              = c,c2,c3,ce,h1,ha,ho,o,oh,os
+
+Inputs / outputs (sha256):
+  cha_a.mol2         64af94697df365836da309351ad5cc4fae16ca59cdc02e64e9e50135138c6d68
+  cha_am1bcc.mol2    73932929c640a7527aad2ebe036d9c48d25ef564577c376bdb6155cc3fcd173d
+  charges_am1bcc.dat ff141d36bed39d5ecc654783b0dd3406d68937c4b44d61aed2bbe3002f94e908
+
+Next: scp charges_am1bcc.dat to the HPC; step 08b runs
+  antechamber -at gaff -c rc -cf charges_am1bcc.dat -nc -2 (no sqm needed).

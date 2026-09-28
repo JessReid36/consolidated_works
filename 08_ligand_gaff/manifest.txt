@@ -1,0 +1,60 @@
+step: 08_ligand_gaff
+title: Chorismate GAFF parameterisation (AM1-BCC charges + GAFF typing)
+scripts: step08a_am1bcc_charges.sh (workstation), step08b_ligand_gaff.sh (HPC)
+cited_by: Methods X.1.6, Table X.1.6a
+
+## scripts   (canonical home: JessReid36/chorismate-thesis-code)
+   branch=tier1-realism commit=f0e059cf11eda91dea939c42f8e12d1a8bf829a1
+  phase1_system_dev/local_workstation/step08a_am1bcc_charges.sh  6962  131a1305b9f0e6c905b00a9373a8af81ca9ba261ea074b783d9233e1f6304dee
+  phase1_system_dev/step08b_ligand_gaff.sh  9175  00e90c2a20e9672c97b14745afab5d3f418c390446340ccb211ab574a439e337
+  phase1_system_dev/local_workstation/README.md  652  7a1250b12bf58b9f25ddd9378f96a1050351fd6dc1c0fd223a5f93f9da97da5a
+  note: step08a lives in local_workstation/ because it runs on the PC, not the HPC.
+        AM1-BCC needs sqm, which is broken on the HPC (missing libopenblas.so.0).
+
+## scripts_as_run
+  NONE EXISTS. Neither step08a nor step08b is archived in results 00_admin,
+  unlike every script in steps 01-07. No substitute has been filed; the absence
+  is the record.
+
+## outputs   (canonical home: JessReid36/chorismate-thesis-results)
+   branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  03_amber/ligand_gaff/antechamber_cha_gaff.log  626  53b3ef5a1fd76690c5c3383c8321d949e18e0a42ffe4dc1b81c982cb75ec69fa
+  03_amber/ligand_gaff/cha.frcmod  892  3de63bdd6a13e37cbfa537be0e6655811117f35e48920dbaf5fb25369affd2a9
+  03_amber/ligand_gaff/cha_am1bcc.mol2  2720  73932929c640a7527aad2ebe036d9c48d25ef564577c376bdb6155cc3fcd173d
+  03_amber/ligand_gaff/cha_gaff.mol2  2719  43e12e46d89c5a3580bc79d8add8b14a7feb66f394544842cfa9a4b7f97b39c5
+  03_amber/ligand_gaff/charges_am1bcc.dat  288  ff141d36bed39d5ecc654783b0dd3406d68937c4b44d61aed2bbe3002f94e908
+  00_admin/sha256_step08_ligand_gaff.txt  407  5badf42a2eb3bec9758ac1ec3159349da55f224eb96926c75ae4163c67d39e02
+  00_admin/step08_method_note.txt  1223  9bf38e6a1aca1e5b7c599c017512712e71bd42a3c026af52e8bc6a192cae3abb
+  00_admin/step08a_provenance.txt  1182  569944b1a1ae8e5d4d05ce281b98aa1d4fd79f490b17b84d1e063eab525e5d07
+  00_admin/step08b_cha_gaff_audit.tsv  288  0a602527f5cfaa60457c44c7f5a02c474efadc077a21b9f9e0cef9036333032b
+  00_admin/step08b_ligand_identity_check.tsv  155  cda90c476a9abcbac0ce13cdc10d6093fdd9e2eb0751a7053e0a3095ad244d9e
+
+## declared but absent   (written by the scripts, never committed)
+  03_amber/ligand_gaff/parmchk2_cha_gaff.log
+  03_amber/ligand_gaff/antechamber_am1bcc.log
+  Both are run logs with no result content. The parmchk2 outcome is fully
+  captured in cha.frcmod and step08b_cha_gaff_audit.tsv.
+
+## checks
+  step08_verify.py  10141  bacb834079a30f90639d42ecb8a87154261091960f76532f70daef213034fec6
+  step08_verify.out  3633  ab143459becc1b1e8c8c4e30e9f2d0644a99bbc2cf4540d95854981fc9fab8fd
+  result: 28 checks, 28 PASS, 0 FAIL  (see checks/step08_verify.out)
+
+## writeup
+  writeup/methods_X1_6.docx  14355  6c8e512b5214aef4239677448a7aae1af540fb286ea126e6a153052c420da5f7
+  writeup/methods_X1_6.md  7875  53518f426b72f7f9b9c542841e37a82859c38e3a4f43c9242d78f892d1da4d99
+  note: the .docx is generated from the .md by pandoc; the .md is the source.
+
+## depends on
+  ../06_acceptance_freeze/outputs/cha_a.mol2   (charge derivation template)
+
+## toolchain
+  charges: AmberTools 19, local Ubuntu workstation (not the HPC)
+  typing:  antechamber 22.0, HPC. GAFF selected explicitly, not gaff2.
+  The two versions are recorded but no committed output tests their agreement.
+
+## environment of the recorded check run
+  date_utc: 2026-09-28T17:51:59+00:00
+  python:   3.12.3
+  platform: Linux-6.18.44-fc-v42-x86_64-with-glibc2.39
+  host:     drafting container, NOT the HPC working tree.

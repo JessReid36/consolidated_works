@@ -63,6 +63,6 @@ should reconcile against the write-up's reference list.
 
 ## Status
 
-01 to 07 built, verified and drafted 2026-09-28 (code tier1-realism f0e059c, results main aa131d5).
+01 to 08 built, verified and drafted 2026-09-28 (code tier1-realism f0e059c, results main aa131d5).
 Methods X.1.1 to X.1.5 drafted. H++ settings in X.1.5 left blank pending the lab workbook.
 Step 08 onward not yet added.

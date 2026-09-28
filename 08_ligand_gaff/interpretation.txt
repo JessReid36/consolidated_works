@@ -1,0 +1,102 @@
+# 08_ligand_gaff — Chorismate GAFF parameterisation
+
+## What this step did
+Derived AM1-BCC partial charges for chorismate and assigned GAFF atom types and missing
+force-field parameters. The step runs on TWO MACHINES: step08a derives the charges on a
+local Ubuntu workstation because the HPC AMBER22 sqm cannot run (missing libopenblas.so.0,
+no BLAS module fixed it), and step08b does GAFF typing and parmchk2 on the HPC in
+read-charge mode, which needs no sqm. Only the charge file crosses between them.
+
+One canonical template (cha_a) parameterises all three substrate copies. That is licensed
+by step08b's identity check: all three share atom names and bond topology exactly.
+
+## Key numbers
+- charges_am1bcc.dat: 24 values summing to exactly -2.00000000.
+- Raw AM1-BCC charges as written to mol2 at 4 dp summed to -1.997000. The -0.003 residual
+  was distributed EVENLY over 24 atoms, -0.000125 e each. Reproduced: per-atom shift
+  spread 1.11e-16 e.
+- cha_gaff.mol2 charges equal charges_am1bcc.dat to 0.00e+00 e (read-charge mode, -c rc).
+- GAFF types: c, c2, c3, ce, h1, ha, ho, o, oh, os. No Tripos dot-types survive.
+- frcmod: 0 ATTN, 0 MISSING. Four substituted parameters, penalties 237.0, 237.0, 3.0, 2.0.
+- Three-copy identity: cha_a/b/c all 24 atoms, 24 bonds, net -2.0000, names and topology
+  matching.
+- Toolchain: AmberTools 19 for the charges (workstation), antechamber 22.0 for the typing
+  (HPC).
+
+## Acceptance threshold and verdict
+Script gates: all inputs present and non-empty; the three copies must share names and
+topology; antechamber and parmchk2 must return zero; cha_gaff.mol2 and cha.frcmod must be
+non-empty. All passed.
+Verification: 28 checks, 28 PASS, 0 FAIL. See checks/step08_verify.out.
+
+## THE FINDING: two dihedral parameters at penalty 237, on the breaking bond
+parmchk2 reports 0 ATTN, and the audit records that faithfully. ATTN is not the only
+signal. Ranking the substituted parameters by penalty score gives:
+
+    penalty 237.0   c2-ce-os-c3   substituted by  X-c2-os-X
+    penalty 237.0   c -ce-os-c3   substituted by  X-c2-os-X
+    penalty   3.0   ce-o-c-o      general improper
+    penalty   2.0   c2-ce-os      substituted by  c2-ce-oh
+
+The two high-penalty dihedrals are two orders of magnitude worse than anything else in the
+file. Both span os-c3.
+
+In cha_gaff.mol2, atom 8 (O3) is the only atom typed os and atom 9 (C4) is typed c3. The
+committed step 11 analysis maps the reaction coordinate as "breaking C2-O13 -> C4-O3".
+
+SO THE TWO WORST-PARAMETERISED TERMS IN THE LIGAND FORCE FIELD ARE THE DIHEDRALS ABOUT THE
+BOND THAT BREAKS IN THE REACTION.
+
+Why it matters, stated carefully:
+  - It does NOT affect the QM/MM barrier directly. The substrate is in the QM region, so
+    the reaction is not computed with GAFF.
+  - It DOES affect the classical MD of step 10, which samples the reactant conformational
+    distribution, and therefore step 12, which selects QM/MM frames from that
+    distribution. The near-attack geometry is a dihedral-sensitive quantity.
+  - The risk is therefore a biased conformational ENSEMBLE, not a biased barrier at a
+    given geometry.
+
+What would settle it: compare the C4-O3 dihedral distribution in the MD against the same
+dihedral in the QM/MM optimised reactants. If they agree, the parameterisation is adequate
+for sampling. Tracked as 00_crosscutting/open_items.txt item 6. This is an ANALYSIS of
+existing trajectories, not a re-run.
+
+## Literature comparison
+Claeyssens et al. (2011) use CHARMM22 for the protein and the CHARMM TIP3P water model,
+and do not report ligand parameterisation separately; their substrate is in the QM region
+throughout. Agbaglo et al. (2024) use Antechamber and GAFF, which is the direction step 08
+follows and which step08b's header cites as "the reference protocol's Antechamber + GAFF
+direction".
+
+Two deviations from that reference direction, both recorded in the script's own header:
+  - AMBER22 rather than AMBER18, because AMBER18 is unavailable on the HPC.
+  - GAFF selected explicitly rather than gaff2, to stay close to the reference.
+Neither is a free choice; both are stated.
+
+## Caveats and known issues
+- ANTECHAMBER REWROTE FOUR BOND ORDERS. C3-O1, C3-O2, C10-O5 and C10-O6 change from 'ar'
+  in the template to '1' in cha_gaff.mol2. These are the two carboxylates. Connectivity is
+  unchanged, both oxygens in each pair are typed 'o' and carry equal charges, which is how
+  GAFF represents carboxylate delocalisation. Benign, but it means cha_gaff.mol2 is not
+  byte-comparable to the template on the bond block.
+- THE CHARGE RENORMALISATION IS A REAL OPERATION, NOT A ROUNDING NOTE. The AM1-BCC charges
+  as written summed to -1.997, and -0.000125 e was added to every atom to reach exactly
+  -2. This is defensible and is recorded in step08a_provenance.txt, but it should be
+  stated in the methods rather than left implicit, because the QM region charge of -2 is
+  load-bearing from X.3 onward.
+- TOOLCHAIN SPLIT IS UNTESTED. Charges come from AmberTools 19, typing from antechamber
+  22.0. Both versions are recorded. No committed output tests whether the two versions
+  agree on GAFF typing for this molecule. Low risk, since typing is rule-based and the
+  type set is chemically unremarkable, but it is untested.
+- TWO DECLARED LOGS ARE ABSENT: parmchk2_cha_gaff.log and antechamber_am1bcc.log. Both are
+  run logs with no result content; the parmchk2 outcome is fully captured in cha.frcmod
+  and step08b_cha_gaff_audit.tsv. Recorded so the absence is deliberate.
+- NO AS-RUN SCRIPT ARCHIVE EXISTS FOR STEP 08. Neither step08a nor step08b is archived in
+  results 00_admin, unlike steps 01-07. scripts_as_run/ is therefore absent for this step
+  rather than empty or fabricated.
+- step08a runs on a workstation, so its run environment is not the HPC and is not captured
+  by any HPC provenance. step08a_provenance.txt records AmberTools 19 and the input and
+  output hashes, which is the whole of the record.
+
+## Cited by
+Methods X.1.6.
