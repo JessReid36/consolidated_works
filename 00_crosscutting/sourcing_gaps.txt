@@ -1,0 +1,84 @@
+# sourcing_gaps.txt
+
+Citations and parameters the write-up needs that are not currently held. Each entry says
+what is missing, what it blocks, and what would close it. Remove an entry when closed;
+do not leave closed entries behind.
+
+DOIs are never reconstructed from memory. Where a DOI is given below it was read from a
+committed file or retrieved from a database, and the source is stated.
+
+===============================================================================
+OPEN
+===============================================================================
+
+1. lategan_computational_2025.pdf - the house-style exemplar
+   Blocks: formatting of every Methods and Results section. The draft currently follows
+     the written specification in WRITEUP_PROMPT.md sections 2-3 instead of the exemplar.
+   Not present in the project folder, chorismate-refs, write-up-files, or uploads.
+   Closes: upload the PDF.
+
+2. Ladner et al. 2000 - the terminal-repair donor structure paper
+   DOI 10.1107/S0907444900004625, read from the JRNL DOI record of
+     01_inputs/structures/1dbf_raw.pdb. The DOI is held; the PDF is not.
+   Blocks: citation in Methods X.1.1 and X.1.2.
+   Closes: add the PDF to chorismate-refs.
+
+3. H++ method paper
+   No DOI held, none recoverable from any committed file.
+   Blocks: citation in Methods X.1.5.
+   Search terms: Anandakrishnan, Aguilar, Onufriev - H++ 3.0 automating pK prediction and
+     the preparation of biomolecular structures - Nucleic Acids Research 2012.
+   Closes: supply the DOI, then add the PDF.
+
+4. H++ run parameters - NOT A CITATION GAP, A DATA GAP
+   pH 7.0 is agreed across all copies. Salinity and the two dielectric constants are
+     recorded ONLY in script comments, and the comments contradict each other:
+       results 00_admin archived copy of step07a : internal 80, external 10
+       code repo step07a and step07b            : internal 10, external 80
+   The server output 03_amber/protonation_hpp/hpp_output_from_server.pdb carries no
+     parameter record, only a URL remark.
+   Two records against one, and internal 10 / external 80 is the conventional assignment
+     for a solute in water, but NO COMMITTED OUTPUT ESTABLISHES IT.
+   Blocks: Methods X.1.5 currently carries a PLACEHOLDER.
+   Closes: confirm what was actually entered on the server. Note this is not recoverable
+     by rerunning anything - it is a record of a past interactive submission.
+
+5. Ranaghan et al. - the chorismate-for-analogue substitution procedure
+   Mol. Phys. 2003, 101, 2695-2714  AND  Org. Biomol. Chem. 2004, 2, 968-980
+     (authors: Ranaghan, Ridder, Szefczyk, Sokalski, Hermann, Mulholland)
+   These are references 9 and 10 of Claeyssens 2011, cited there as the description of
+     how chorismate was substituted for the bound analogue.
+   Blocks: protocol_deviations.txt deviation 2 cannot be assessed without them - the
+     procedure we deviate from is currently uninspectable.
+   No DOI held for either; not reconstructed.
+   Closes: supply DOIs, then add the PDFs.
+
+6. Bartlett and Johnson 1985 - the transition-state analogue bound in 2CHT
+   Cited by Claeyssens 2011 as J. Am. Chem. Soc. 1985, 107, 7792-7793.
+   Blocks: naming the analogue in Methods X.1.1. Only needed if it is cited by name.
+   No DOI held; not reconstructed.
+
+7. Agbaglo supporting information
+   The main text is held as nihms1987271.pdf and the residue set was verified from it
+     (p. 8), so the immediate need is closed. The SI is still wanted for the QM-cluster
+     model compositions themselves, if the residue set is ever to be checked against the
+     models rather than against the prose.
+   The 2026 correction points to an updated SI with all optimised PDB structures at
+     github.com/natedey/cm-MD_to_QM.
+
+===============================================================================
+CLOSED
+===============================================================================
+
+- Agbaglo et al. 2024 DOI and residue-set attribution.
+  DOI 10.1039/d3cp06100k, correction 10.1039/d6cp90040b, both retrieved from PubMed.
+  Residue set verified in the main text, p. 8, not the SI as the script comment claims.
+  Closed 2026-09-28.
+
+- Chook, Ke and Lipscomb 1993 - the 2CHT structure paper.
+  DOI 10.1073/pnas.90.18.8600, read from the JRNL DOI record of 2cht_raw.pdb. PDF held
+  in chorismate-refs as pnas.90.18.8600.pdf. Closed 2026-09-28.
+
+- Claeyssens 2005 regression sign and R value.
+  Not in the paper's text. Read from Fig. 2(b) by rasterising page 3: Y = 16.02 - 0.95 X,
+  R = 0.97. Closed 2026-09-28. See comparator_decision.txt.

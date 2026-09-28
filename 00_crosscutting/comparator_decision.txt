@@ -1,0 +1,56 @@
+# comparator_decision.txt
+
+Which paper each claim is measured against. Fixed before drafting; do not revisit
+without recording the reason here.
+
+## The decision
+
+Claeyssens et al. 2011, Org. Biomol. Chem. 9, 1578-1590, doi:10.1039/c0ob00691b
+  -> PRIMARY for every claim.
+
+Claeyssens et al. 2005, Chem. Commun. 5068-5070, doi:10.1039/b508181e
+  -> comparator for ONE quantity only: the enzyme-only barrier-versus-stabilisation
+     regression.
+
+Agbaglo et al. 2024, Phys. Chem. Chem. Phys. 26, 12467-12482, doi:10.1039/d3cp06100k
+  (correction: PCCP 2026, 28, 8283-8284, doi:10.1039/d6cp90040b)
+  -> secondary. Used for system-preparation precedent and for independent corroboration
+     of residue sets. NOT a barrier comparator: it is a QM-cluster study, not QM/MM, and
+     reports free energies where we report potential-energy barriers.
+
+## Why 2005 for that one regression
+
+2011 states its fit explicitly: "The gradient of the linear relationship fitted to both
+datasets is -0.95 (R value of 0.96), and the intercept is 18.3 kcal mol-1" (p. 6). Both
+datasets means the 16 enzyme paths AND the 24 water paths, 40 points combined. It is
+therefore not an enzyme-only gradient and cannot be compared against an enzyme-only fit.
+
+2005 fits 16 enzyme paths and nothing else. Its regression is the correct comparator for
+an enzyme-only barrier-versus-stabilisation relation.
+
+## Sign convention - READ BEFORE COMPARING ANY GRADIENT
+
+The two papers use the SAME convention: stabilisation positive = stabilising, so a more
+stabilised TS gives a lower barrier and the gradient is NEGATIVE.
+
+2005's body text says only "The gradient is 0.95 and the intercept is 16.0", unsigned.
+The signed fit is printed inside Fig. 2(b) and is not in the text at all:
+
+    Y = 16.02 - 0.95 X,  R = 0.97
+
+So both papers' gradients are -0.95 to two decimals. 2005's R = 0.97 exists only in the
+figure.
+
+OUR convention is the opposite. ensemble_barriers.tsv defines stab_TS = barrier -
+barrier_vac, with negative = the environment lowers the barrier. Our gradient is
+therefore the negative of theirs: our +0.978 is the same signed quantity as their -0.95.
+This MUST be stated explicitly at the point of comparison or it reads as a contradiction.
+
+## Do not do this
+
+- Do not compare our enzyme-only gradient against 2011's -0.95. That is the combined fit.
+- Do not quote 2005's 4.2 kcal/mol TS stabilisation as agreement if the claim is being
+  measured against 2011, whose value is 7.3 +/- 2.0.
+- Do not compare our potential-energy barriers against Agbaglo's free energies.
+- Do not carry 2005 figures forward for anything except the enzyme-only regression. 2011
+  supersedes it; using 2005 elsewhere needs a stated reason.

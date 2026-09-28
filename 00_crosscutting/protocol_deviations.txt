@@ -1,0 +1,94 @@
+# protocol_deviations.txt
+
+Every place this work departs from Claeyssens et al. 2011, the primary comparator, with
+the reason and the step where it originates. Written as each deviation is ENCOUNTERED
+during the step-by-step audit, so this file is incomplete until the audit reaches step 19.
+
+A deviation is not a fault. An UNSTATED deviation is.
+
+Status key:
+  RECORDED  - stated somewhere in the repos already
+  UNSTATED  - found during the audit, not yet written into any script comment, note or
+              draft section other than this file
+
+===============================================================================
+DEVIATION 1 - Terminal repair follows Agbaglo, not Claeyssens
+  origin step: 02_terminal_repair (inputs registered at 01)
+  status: UNSTATED
+===============================================================================
+
+Claeyssens 2011 Methods (p. 2-3) describe taking 2CHT, substituting chorismate for the
+bound analogue, hydrogenating and solvating. They make NO mention of unresolved termini,
+of repairing them, or of a donor structure.
+
+We graft the unresolved chain termini from PDB 1DBF. So does Agbaglo et al. 2024 (p. 6),
+using the same donor, specifying residues 1 and 116-127 for chain A, 1 and 115-127 for
+chain B, and 1-2 and 115-127 for chain C.
+
+So at this step we follow the secondary reference, not the primary one.
+
+Reason: the repair is a structural-completeness decision independent of the reaction
+modelling. Leaving termini unresolved would leave unphysical chain breaks in an MD
+system. Claeyssens' silence is not an argument against repair - it may simply be
+unreported - but it does mean the primary comparator cannot be cited for it.
+
+To do: check our grafted residue ranges against Agbaglo's, per chain, at step 02.
+Agreement would make this a corroborated choice; disagreement needs its own reason.
+
+===============================================================================
+DEVIATION 2 - Substrate geometry provenance differs
+  origin step: 01_inputs_acquisition
+  status: UNSTATED
+===============================================================================
+
+We take three pre-aligned chorismate geometries from the CP2K examples repository at
+commit d71583a411a0a7d8557e94a24b87a3ceb87ec34e, each registered by nearest centre to a
+specific crystallographic analogue site (K210, J212, L211).
+
+Claeyssens substitute chorismate for the analogue "as described in references 9 and 10"
+= Ranaghan et al., Mol. Phys. 2003, 101, 2695-2714, and Org. Biomol. Chem. 2004, 2,
+968-980.
+
+Neither reference is in the reference repository and no DOI is held for either, so the
+procedure being deviated from CANNOT CURRENTLY BE INSPECTED. The deviation may be large
+or may be nil; that is not presently knowable. See sourcing_gaps.txt.
+
+Note that the analogue is a different molecule from the substrate: 17 heavy atoms at site
+K210 against 16 in the chorismate dianion. The superposition at step 04 is therefore not
+an atom-for-atom mapping, whichever procedure is used.
+
+===============================================================================
+DEVIATION 3 - The barrier is a different quantity
+  origin step: spans 15 (reactant opt) through 19 (ensemble harvest)
+  status: UNSTATED
+===============================================================================
+
+Recorded here early because it affects every barrier quoted anywhere in the thesis, and
+because it is currently written down nowhere in either repository.
+
+Claeyssens 2011 computes barriers and stabilisations relative to a FIXED point on the
+reaction coordinate, r = -1.8 A (RS*), not relative to the reactant minimum. The minimum
+sits at r = -1.6 A in the enzyme and -2.0 A in water, so a common reference was chosen to
+compare the two environments. They report the shift as worth 0.1 kcal/mol in the enzyme
+and 0.8 in water. Their Fig. 2 profiles use a second definition - lowest point on the
+reactant side - so two definitions coexist in that paper, 0.1 kcal/mol apart in the
+enzyme.
+
+Claeyssens 2005 uses r = -1.8 A as its reactant ENDPOINT.
+
+Ours is a third definition: converged climbing image minus a FREELY RELAXED reactant
+endpoint. We are the only one of the three that lets the reactant relax.
+
+Direction is predictable - a relaxed reactant sits lower, so our barrier is biased HIGH
+relative to theirs. The MAGNITUDE IS NOT ESTABLISHED and should not be guessed. If it is
+to be quantified, the cheap test is to evaluate our reactant energy at a fixed r = -1.8 A
+and difference it against the relaxed value.
+
+===============================================================================
+DEVIATIONS ALREADY KNOWN BUT NOT YET RE-VERIFIED IN THIS AUDIT
+===============================================================================
+
+The running work log records four protocol deviations from Claeyssens with reasoning.
+They are NOT copied here, because this file records only what the step-by-step audit has
+itself re-established from the papers and the committed files. As the audit reaches each
+of those steps, re-verify and record here, then reconcile the two lists.
