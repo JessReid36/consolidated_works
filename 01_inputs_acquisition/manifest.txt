@@ -33,8 +33,8 @@ cited_by: Methods X.1.1
   result: 20 checks, 20 PASS, 0 FAIL  (see checks/step01_verify.out)
 
 ## writeup   (drafted here; assembled into the chapter later)
-  writeup/methods_X1_1.docx  16163  845fb9d2862c7b8942650a2f8faf522de9b8f3b7194f398f0b12ac95a96a23cd
-  writeup/methods_X1_1.md  11689  2c5c2ba9635a2a3c44284c7e66bf16511f6d5d24182234509b8d629aa2b2ccb8
+  writeup/methods_X1_1.docx  15560  d5a3cca18dbb7511938912b5d3d99743c015206739e4e80e3bb762150c0a5557
+  writeup/methods_X1_1.md  10595  50f7429ce3720b8538ba9362730dde72f20c6e13bebb6f9054a53d42eed0a345
   note: methods_X1_1.docx is generated from the .md by pandoc; the .md is the source.
 
 ## environment of the recorded check run
