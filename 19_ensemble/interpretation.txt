@@ -1,0 +1,111 @@
+# 19_ensemble — The barrier ensemble and the Claeyssens comparison
+
+## What this step did
+Ran the QM/MM reaction path for every selected frame, harvested the barriers, computed an
+in vacuo reference at each optimised geometry, and derived the differential
+transition-state stabilisation. This is the quantity the whole of Phase 1 exists to
+produce, and the only one directly comparable with the published work.
+
+## Key numbers, all re-derived here rather than read
+Two sub-ensembles, distinguished by frame number:
+
+      pilot     14 rows   14 barriers   13 in vacuo   13 stabilisations
+      extended  30 rows    8 barriers    8 in vacuo    8 stabilisations
+
+Barriers were re-derived as (E_ci - E_qmmm_R) for all 22 frames that carry both energies;
+worst disagreement with the tabulated barrier 0.0063 kcal/mol. stab_TS reproduces
+barrier - barrier_vac to 2.7e-15.
+
+## THE REGRESSION, WHICH IS THE HEADLINE RESULT
+Comparator: Claeyssens et al. 2005, enzyme-only fit over 16 paths, read from their
+Fig. 2(b) because the body text gives the gradient unsigned:  Y = 16.02 - 0.95 X, R = 0.97.
+
+      set          n    gradient   in their sign   intercept      r    mean in vacuo
+      pilot       13      +1.062          -1.062       19.08   +0.846        18.818
+      extended     8      +0.978          -0.978       18.27   +0.929        18.391
+      pooled      21      +1.037          -1.037       18.83   +0.873        18.655
+
+THE EXTENDED ENSEMBLE REPRODUCES THE PUBLISHED FIT: gradient -0.978 against -0.95, and
+r = +0.929 against R = 0.97. Leave-one-out gives gradients from +0.910 to +1.022 across
+the eight frames, so no single point controls it.
+
+## THE SIGN CONVENTION, WHICH MUST BE STATED EVERY TIME
+stab_TS is defined here as barrier - barrier_vac, so NEGATIVE means the environment lowers
+the barrier. Our mean is -4.79 kcal/mol over 21 frames.
+
+Claeyssens define stabilisation with the OPPOSITE sign. Their means are +7.3 (2011) and
++4.2 (2005) kcal/mol. Same physics, opposite sign.
+
+Consequently our gradient of +0.978 IS their -0.95. Comparing the raw signs would suggest
+we had found the opposite relationship. The table above gives both columns for exactly
+this reason, and the write-up must do the same wherever the gradient appears.
+
+## THE INTERNAL CONSISTENCY TEST, WHICH THE EXTENDED SET PASSES BEST
+Both papers state that the regression intercept should equal the mean in vacuo barrier,
+because at zero stabilisation the enzyme barrier is the gas-phase one. Claeyssens 2005:
+intercept 16.02 against a mean in vacuo of 16.2, a gap of 0.18.
+
+      pilot     intercept 19.08   mean in vacuo 18.82   gap 0.27
+      extended  intercept 18.27   mean in vacuo 18.39   gap 0.12
+      pooled    intercept 18.83   mean in vacuo 18.66   gap 0.18
+
+The extended ensemble passes the published test better than the published fit does. That
+is worth stating plainly, because it is an independent check that neither the barriers nor
+the in vacuo references are systematically wrong.
+
+## WHY THE TWO SUB-ENSEMBLES MUST NOT BE POOLED
+The pooled row above is computed for completeness and SHOULD NOT BE QUOTED. The two sets
+differ in three ways, any one of which would be enough:
+
+  1. SAMPLING WINDOW. Pilot frames come from before the equilibration cut; extended frames
+     from after it. See deviation 6 on the 60 ns production.
+  2. NAC CRITERION. Extended frames were selected against the full three-condition Hur &
+     Bruice definition; the pilot set was selected on the distance clause alone and three
+     of its members are labelled near_NAC as a result.
+  3. RESTRAINT STRENGTH. The two sets were run with different scan spring constants. This
+     is recorded in the project notes and is the reason the decision was taken that the
+     extended set must reproduce Claeyssens on its own evidence.
+
+IT DOES. That decision is vindicated: the extended eight give -0.978 and r = 0.929 without
+help from the pilot set.
+
+## DO NOT QUOTE
+Frame 08170 carries a barrier of exactly 0.000000 and is labelled group=other. That is the
+collapsed band, not a barrier of zero. It is excluded from every statistic computed here
+and must be excluded from every statistic in the write-up. The check asserts its presence
+and its signature so it cannot be silently reintroduced.
+
+## Literature comparison, stated carefully
+- THE GRADIENT REPRODUCES. -0.978 against -0.95, r 0.929 against 0.97, on an enzyme-only
+  fit against an enzyme-only fit. This is the central positive result.
+- THE INTERCEPT TEST PASSES, better than the published fit.
+- THE MEAN BARRIER IS NOT YET COMPARABLE, and the write-up must not present it as if it
+  were. Ours is computed at B3LYP-D3BJ/def2-SVP (deviation 9), from a freely relaxed
+  reactant rather than a fixed r = -1.8 reference (deviation 3), on a single active site
+  (deviation 7), from unrestrained reactant-state frames rather than TS-restrained ones
+  (deviation 8). Four differences, each of which shifts a barrier. Claeyssens report
+  11.3 +/- 1.8 (2011) and 12.0 +/- 1.7 (2005).
+- THE SPREAD IS NOT THE SAME QUANTITY EITHER. Their standard deviation is across active
+  site configurations from 16 paths; ours is within one site across a 60 ns trajectory.
+
+So the defensible claim is about the RELATIONSHIP, not the absolute value: this work
+reproduces the barrier-versus-stabilisation gradient of the published enzyme-only fit, on
+an independently constructed system with a different force field, a different basis set
+and a different sampling design. That is a stronger claim than matching a number, and it
+is the one the evidence supports.
+
+## Caveats and known issues
+- ONLY 8 OF 30 EXTENDED FRAMES HAVE BARRIERS, and 8 have in vacuo references. The
+  regression rests on eight points. It is a good eight - leave-one-out is stable and the
+  intercept test passes - but eight is eight, and the write-up should say so rather than
+  implying a 30-frame result.
+- 22 of 44 frames have barriers at all. The ensemble is half complete.
+- The in vacuo references are single points at the optimised QM/MM geometries, not
+  separately optimised gas-phase structures. That is the correct construction for a
+  differential stabilisation, and it matches what Claeyssens do, but it should be stated.
+- Frame directories under outputs/frames/ hold the per-frame reactant, TS and product QM
+  geometries and the in vacuo inputs. The ORCA outputs themselves are not committed, so
+  convergence per frame cannot be inspected from this repository.
+
+## Cited by
+Results. The barrier ensemble, the stabilisation regression, and the Claeyssens comparison.

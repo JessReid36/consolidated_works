@@ -1,0 +1,63 @@
+step: 19_ensemble
+title: The barrier ensemble and the Claeyssens comparison
+scripts: step19a-e, run_ensemble_batched.sh, s8_invacuo_new.pbs, renumber_ext_manifest.py
+cited_by: Results. THE HEADLINE RESULT OF PHASE 1 LIVES HERE.
+headline: extended ensemble gradient -0.978 in Claeyssens' sign, r = +0.929,
+          against their enzyme-only Y = 16.02 - 0.95 X, R = 0.97
+
+## scripts   (canonical home: JessReid36/chorismate-thesis-code)
+   branch=tier1-realism commit=f0e059cf11eda91dea939c42f8e12d1a8bf829a1
+  phase1_system_dev/renumber_ext_manifest.py  6072  050c76f0a22b21e32a0cea07836d3b13c17ef362fda5afa2f1e3eeea8cf81dc3
+  phase1_system_dev/run_ensemble_batched.sh  8463  2d77c60fb8c476884720c39b1f6289d97da4dd865795e997bc94dcbe4ab4cd2e
+  phase1_system_dev/s8_invacuo_new.pbs  6176  234f256bbd958cdd0be453a74b0e478b77eafe960046b75bea7c17dd85c0ac89
+  phase1_system_dev/step19a_ensemble_prepare.sh  8058  226942b4ef5680fc41c38c8d91fea1c0641b944fe11e93b882bfe20453b38bf2
+  phase1_system_dev/step19b_collect.py  12954  aeb8afa77add4ce678b9336dfa75f994ff6ada68946ac55419960e8d1458b8e7
+  phase1_system_dev/step19c_scan_product.sh  8325  88a6f4bf16409709598d59ffe46092a16ad425333a850e2782798870a9323d8c
+  phase1_system_dev/step19d_harvest.py  8215  283aac1c98482e25c72e29aa09ac0b1ef50f58465e1444f30480a3f2da593e0b
+  phase1_system_dev/step19e_harvest_barriers.py  11362  fdeb42420bd1b016b40eb04118730b4a1970c59e2ce3aebea50af6a54ea232f5
+
+## scripts_as_run
+  NONE EXISTS.
+
+## outputs   (canonical home: JessReid36/chorismate-thesis-results)
+   branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  05_qmmm/19_ensemble_barriers/ensemble_barriers.tsv  6501  49cbf64e9ac8b7273248f9c8aa7c25dc3075564538caa3bdf01634b4747e1296
+  05_qmmm/19_ensemble_barriers/frame_*/   196 entries, per-frame QM geometries and in vacuo inputs
+    (individually hashed in frames_sha256.txt beside this manifest)
+
+## checks
+  step19_verify.out  2684  d58e71670ec17d69b89c73118c26103bc919c6d75688b2d673c0475c2c2440ec
+  step19_verify.py  9035  032921e5d0e0915d79a7109b69ab3c3a06f7c0f71f425a288a0a4520c85299c3
+  result: 16 checks, 16 PASS, 0 FAIL  (see checks/step19_verify.out)
+
+## THE RESULT
+  set        n   gradient   in their sign  intercept      r   mean in vacuo
+  pilot     13     +1.062         -1.062      19.08   +0.846        18.818
+  extended   8     +0.978         -0.978      18.27   +0.929        18.391
+  pooled    21     +1.037         -1.037      18.83   +0.873        18.655
+  DO NOT QUOTE THE POOLED ROW. The two sub-ensembles differ in sampling window, NAC
+  criterion and scan restraint strength. The extended set reproduces the published
+  fit on its own evidence, which is what the standing decision required.
+
+## SIGN CONVENTION
+  stab_TS = barrier - barrier_vac. NEGATIVE means the environment lowers the barrier.
+  Claeyssens use the opposite sign. Our +0.978 IS their -0.95. State both columns
+  wherever the gradient appears.
+
+## DO NOT QUOTE
+  Frame 08170: barrier exactly 0.000000, group=other. Collapsed band, not a barrier.
+  Excluded from every statistic here and asserted by the check.
+
+## incomplete
+  22 of 44 frames have barriers; 21 have in vacuo references. The regression rests on
+  8 extended frames. Leave-one-out spans +0.910 to +1.022, so it is stable, but the
+  write-up must not imply a 30-frame result.
+
+## depends on
+  ../18_nebts_ts_irc/  (the path method), ../12_frame_selection/  (the frames)
+
+## environment of the recorded check run
+  date_utc: 2026-09-28T20:10:48+00:00
+  python:   3.12.3
+  platform: Linux-6.18.44-fc-v42-x86_64-with-glibc2.39
+  host:     drafting container, NOT the HPC working tree.

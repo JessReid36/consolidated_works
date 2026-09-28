@@ -1,0 +1,4 @@
+! B3LYP D3BJ def2-SVP def2/J RIJCOSX TightSCF
+%maxcore 3000
+%scf MaxIter 300 end
+* xyzfile -2 1 07310_TS.xyz

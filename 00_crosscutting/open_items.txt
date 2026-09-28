@@ -183,6 +183,28 @@ the EXPLANATION of catalysis. The two must be distinguished in one explicit sent
 reader will take the filter as a mechanistic commitment that the rest of the thesis, and
 the comparator it benchmarks against, contradicts.
 
+ITEM 13 - ts_frequencies_summary.txt is self-contradictory and carries a superseded barrier
+  raised at: 18_nebts_ts_irc
+  closes at: a correction to the file in the results repository
+  status: OPEN
+
+The file states three things, two of which are wrong:
+
+  header : "converged TS, one reaction-coordinate imaginary mode"
+           Its own body then lists TWO imaginary modes, -313.30 and -18.65 cm-1.
+  body   : the mode list, which is correct.
+  footer : "barrier: +15.08 kcal/mol (TS -1076.104998 vs reactant -1076.129034 Ha)"
+           This differences a 102-atom reduced-region TS against a band-region reactant.
+           The consistent value is 16.00 kcal/mol.
+
+CONSEQUENCE. This file is the natural place to look for both the TS verification and the
+barrier, and it gives the wrong answer for both. It is cited in WRITEUP_INDEX.md as the
+source for the reduced-region TS vibrational check.
+
+To close: correct the header to state two imaginary modes with the ghost-mode threshold
+and the Agbaglo footnote attribution, and correct the footer to 16.00 kcal/mol with the
+active region named. Until then the file must not be cited for either quantity.
+
 ===============================================================================
 CLOSED
 ===============================================================================

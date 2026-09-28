@@ -1,0 +1,151 @@
+#!/usr/bin/env bash
+#PBS -N cm_vac
+#PBS -l select=1:ncpus=8:mem=24gb
+#PBS -l walltime=24:00:00
+#PBS -m ae
+#PBS -M 18660916@sun.ac.za
+#PBS -j oe
+#PBS -o /home/18660916/system_development/05_qmmm/20_invacuo/s8_invacuo_new.pbs.out
+#
+# s8_invacuo_new.pbs - in vacuo single points for the NEW ensemble frames, by the
+# method of Claeyssens et al. (2005), doi:10.1039/b508181e.
+#
+# DIFFERENCES FROM s8_invacuo.pbs, EACH FOR A MEASURED REASON
+#
+#   1. The frame list is defined ONCE, in FRAMES, and reaches the Python blocks
+#      through the environment. The old script hard-coded it in three places and
+#      the shell variable was never referenced, so editing it did nothing.
+#
+#   2. The transition state is COPIED from neb_NEB-CI_converged.QMRegion.xyz,
+#      not rebuilt from neb.QMRegion_trj.xyz at the climbing-image index. All 13
+#      harvested transition_state_qm.xyz files carry the comment
+#      "Coordinates from ORCA-job neb_NEB-CI_converged.QMRegion", and the string
+#      the old code path would have written appears in none of them. The old
+#      path is not what produced the published geometries.
+#
+#   3. %pal nprocs 8 end is written for the reactant and product and OMITTED for
+#      the transition state, reproducing the archived inputs exactly: all 13
+#      frames show pal(8) on R and P and no %pal on TS. The asymmetry is odd but
+#      it is what the original fourteen ran, and matching it removes a question.
+#
+#   4. Guards at the top of every extraction. A wrong 24 atoms is worse than no
+#      atoms, so the element sequence is checked against the reference order and
+#      the job stops rather than writing a plausible wrong geometry.
+
+set -uo pipefail
+ORCA=/home/apps2/ORCA/6.0.1
+ROOT=/home/18660916/system_development/05_qmmm
+ENS="$ROOT/19_ensemble"
+WORK="$ROOT/20_invacuo"
+
+export PATH="/apps/openmpi/4.1.1/bin:$PATH"
+export LD_LIBRARY_PATH="$ORCA/lib:/apps/openmpi/4.1.1/lib:/apps/mambaforge/envs/medaka/lib:${LD_LIBRARY_PATH:-}"
+export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1
+
+# ---- the frame list, defined once ------------------------------------------
+export FRAMES="24883 26495 34991 43738"
+export ENS WORK
+
+mkdir -p "$WORK"; cd "$WORK" || exit 1
+if ! mkdir .running 2>/dev/null; then echo "FAIL: another job holds .running"; exit 1; fi
+trap 'rmdir .running 2>/dev/null' EXIT
+echo "host=$(hostname) start=$(date)"
+echo "frames: $FRAMES"; echo
+
+# ---------------------------------------------------- extract the geometries
+echo "=== extracting geometries (R and P from PDB, TS copied from the converged CI)"
+python3 - <<'PY'
+import os, sys, shutil
+
+ENS = os.environ["ENS"]
+FR  = os.environ["FRAMES"].split()
+REF = "C H H C C O O O C H C H C C H C H C H O H C O O".split()
+LO, HI = 6207, 6231          # python slice over ATOM/HETATM lines; 24 atoms
+
+def qm_from_pdb(path):
+    a = [l for l in open(path, errors="replace") if l.startswith(("ATOM", "HETATM"))]
+    if len(a) <= HI:
+        raise ValueError(f"only {len(a)} ATOM/HETATM lines, need > {HI}")
+    out = []
+    for l in a[LO:HI]:
+        el = (l[76:78].strip() or l[12:16].strip()[0]).capitalize()
+        out.append((el, float(l[30:38]), float(l[38:46]), float(l[46:54])))
+    return out
+
+def read_xyz(path):
+    L = open(path, errors="replace").read().splitlines()
+    n = int(L[0].split()[0])
+    return [(p[0], float(p[1]), float(p[2]), float(p[3]))
+            for p in (l.split() for l in L[2:2+n])]
+
+def check(atoms, what):
+    if len(atoms) != 24:
+        raise ValueError(f"{what}: {len(atoms)} atoms, expected 24")
+    got = [a[0] for a in atoms]
+    if got != REF:
+        raise ValueError(f"{what}: element order differs from the reference\n"
+                         f"  expected {' '.join(REF)}\n  got      {' '.join(got)}")
+
+def write_xyz(path, atoms, comment):
+    with open(path, "w") as fh:
+        fh.write(f"{len(atoms)}\n{comment}\n")
+        for e, x, y, z in atoms:
+            fh.write(f"{e:2s} {x:12.6f} {y:12.6f} {z:12.6f}\n")
+
+fail = 0
+for f in FR:
+    d = f"{ENS}/frame_{f}"
+    for tag, src in (("R", f"{d}/reactant_opt.pdb"), ("P", f"{d}/product_opt.pdb")):
+        try:
+            if not os.path.exists(src):
+                raise ValueError(f"missing {src}")
+            g = qm_from_pdb(src)
+            check(g, f"{f} {tag}")
+            write_xyz(f"{f}_{tag}.xyz", g, f"frame {f} {tag}")
+            print(f"  {f} {tag}: ok")
+        except Exception as e:
+            print(f"  FAIL {f} {tag}: {e}"); fail += 1
+
+    ci = f"{d}/neb_NEB-CI_converged.QMRegion.xyz"
+    try:
+        if not os.path.exists(ci):
+            raise ValueError(f"missing {os.path.basename(ci)} - band not converged?")
+        check(read_xyz(ci), f"{f} TS")
+        shutil.copy(ci, f"{f}_TS.xyz")      # copied verbatim, ORCA's header kept
+        print(f"  {f} TS: copied from {os.path.basename(ci)}")
+    except Exception as e:
+        print(f"  FAIL {f} TS: {e}"); fail += 1
+
+if fail:
+    print(f"\n{fail} extraction failures - stopping before any single point runs")
+    sys.exit(1)
+print("  all geometries extracted and checked")
+PY
+[ $? -eq 0 ] || { echo "extraction failed, nothing submitted"; exit 1; }
+echo
+
+# ------------------------------------------------------------- run the singles
+echo "=== in vacuo single points, no MM charges and no continuum"
+for f in $FRAMES; do
+  for tag in R TS P; do
+    b="${f}_${tag}"; x="${b}.xyz"
+    [[ -s "$x" ]] || { echo "  no $x"; continue; }
+    [[ -f "sp_${b}.out" ]] && grep -q "TERMINATED NORMALLY" "sp_${b}.out" && { echo "  $b already done"; continue; }
+    {
+      echo "! B3LYP D3BJ def2-SVP def2/J RIJCOSX TightSCF"
+      echo "%maxcore 3000"
+      [ "$tag" = "TS" ] || echo "%pal nprocs 8 end"
+      echo "%scf MaxIter 300 end"
+      echo "* xyzfile -2 1 ${x}"
+    } > "sp_${b}.inp"
+    "$ORCA/orca" "sp_${b}.inp" > "sp_${b}.out" 2>&1 </dev/null
+    if grep -q "TERMINATED NORMALLY" "sp_${b}.out"; then
+      e=$(grep "FINAL SINGLE POINT ENERGY" "sp_${b}.out" | tail -1 | awk '{print $NF}')
+      echo "  $b  E = $e Eh"
+    else
+      echo "  WARN did not terminate: $b"
+    fi
+  done
+done
+echo; echo "end=$(date)"
+echo "now run: bash run_ensemble_batched.sh harvest   (fills barrier_vac and stab_*)"
