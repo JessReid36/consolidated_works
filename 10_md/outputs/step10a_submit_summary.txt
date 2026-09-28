@@ -1,0 +1,8 @@
+step10a restrained minimisation
+enginepmemd.MPI (16 ranks, 1 node), AMBER22 (app/ambermpi/22mpi, openmpi/4.1.1)
+restraint200 kcal/mol/A^2 on solute heavy atoms (mask '!(:WAT,Na+) & !@H=')
+maxcyc/ncyc10000/5000
+prmtop/home/18660916/system_development/03_amber/tleap_build/complex_solvated.prmtop
+inpcrd/home/18660916/system_development/03_amber/tleap_build/complex_solvated.inpcrd
+rundir/home/18660916/system_development/04_amber_md/10a_min
+jobid393347.hpc1.hpc

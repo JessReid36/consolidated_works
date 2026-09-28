@@ -11,39 +11,11 @@ CLOSED section with the evidence.
 OPEN
 ===============================================================================
 
-ITEM 1 - Post-minimisation re-check of the graft joins
-  raised at: 02_terminal_repair
-  closes at: 10_md (minimisation, step10a) at the earliest; equilibration at the latest
-  status: OPEN
-
-step02_terminal_repair_abc.sh closes bad graft joins by rigid translation and states in
-its own header comment that this is "geometric pre-conditioning only - bond angles/
-dihedrals at the graft are relaxed later by minimisation and MD equilibration, and the
-affected joins must be re-checked post-minimisation". step02_repair_decision.txt repeats
-the commitment.
-
-That re-check is a promise made by step 02 and dischargeable only at step 10. It is
-currently recorded nowhere else, and no committed output demonstrates that it was done.
-
-Three joins are at issue, all in the script's allowed_joins set:
-  A 115-116  initial C-N 2.120 A, closed by translating A:116-127 by 0.791 A
-  B 1-2      initial C-N 2.649 A, closed by translating B:1-1    by 1.320 A
-  C 114-115  1.647 A, NEVER FLAGGED AND NEVER ADJUSTED - see item 2
-
-EXTENDED AT STEP 09. The tleap build surfaces seven close contacts, and SIX OF SEVEN
-involve residues grafted from 1DBF: A119 and A121, clashing against native C70:TYR and
-against themselves, the tightest at 1.317 A (A121:LEU:CD1 <-> C70:TYR:HH). So the graft
-introduced steric problems as well as strained joins, and the step 09 audit defers these
-to the same minimisation. The commitment is therefore about steric relief as well as C-N
-geometry.
-
-To close: after minimisation, recompute C-N for these three joins plus the full 378-link
-set, AND recheck the seven close-contact pairs listed in
-09_tleap_build/checks/step09_verify.out section 8, and record both. If the grafted blocks have relaxed toward canonical geometry,
-the commitment is discharged and the write-up can say so. If they have not, the repair
-needs revisiting and that is a flag under the no-rerun rule.
-
 ITEM 2 - The peptide-continuity acceptance window is wide, and one join exploits it
+  RESOLVED 2026-09-28 by the same evidence that closed item 1: C 114-115 relaxed from
+  1.647 A to 1.362 A and is no longer the worst link in the protein. What remains is a
+  WRITE-UP obligation, not an investigation: state the window and note that the one join
+  near its edge relaxed to normal geometry under minimisation.
   raised at: 02_terminal_repair
   closes at: a decision, not a computation
   status: OPEN
@@ -170,58 +142,71 @@ To close: either consolidate the archives into one location, or document the con
 CLOSED
 ===============================================================================
 
-(none yet)
+ITEM 1 - Post-minimisation re-check of the graft joins   CLOSED 2026-09-28
+  discharged at: 10_md, evidence in 10_md/checks/step10_verify.out section 3
 
-ITEM 8 - The two worst GAFF parameters sit on the breaking bond
-  raised at: 08_ligand_gaff
-  closes at: an analysis of the existing step 10 trajectories; no re-run required
-  status: OPEN
+  The three graft joins, recomputed from 10a_min.rst7 and npt5.rst7:
 
-parmchk2 reports 0 ATTN for cha.frcmod, and that is accurate. But ranking the substituted
-parameters by penalty score gives two dihedrals at 237.0 against a next-highest of 3.0:
+      join          pre-tleap   post-min      npt5
+      A 115->116        1.329      1.331     1.373
+      B 1->2            1.329      1.320     1.314
+      C 114->115        1.647      1.397     1.362
 
-    c2-ce-os-c3   substituted by  X-c2-os-X   penalty 237.0
-    c -ce-os-c3   substituted by  X-c2-os-X   penalty 237.0
+  C 114-115, the join that entered minimisation strained at 1.647 A, relaxed by 0.251 A
+  under restrained minimisation and settled at 1.362 A after equilibration.
 
-Both span os-c3. In cha_gaff.mol2, O3 is the only atom typed os and C4 is typed c3, and
-the committed step 11 analysis maps the reaction coordinate as "breaking C2-O13 -> C4-O3".
-The two worst-parameterised terms in the ligand force field are therefore the dihedrals
-about the bond that breaks.
+  All 378 peptide links sit inside the 1.15-1.70 A window at both stages. After
+  equilibration the worst link in the protein is C 39-40 at 1.411 A, an ordinary native
+  residue: the graft joins are no longer distinguishable from the rest of the chain.
 
-SCOPE, stated carefully. This does not touch the QM/MM barrier: the substrate is in the QM
-region, so the reaction is not computed with GAFF. It does touch the classical MD of step
-10, which samples the reactant conformational distribution, and hence step 12, which
-selects QM/MM frames from it. The near-attack geometry is dihedral-sensitive. The exposure
-is a biased conformational ENSEMBLE, not a biased barrier at a given geometry.
+  The step 02 commitment is discharged. Item 2, the wide acceptance window, is answered by
+  the same evidence: the one join that exploited the window relaxed to normal geometry.
 
-To close: compare the C4-O3 dihedral distribution over the production trajectory against
-the same dihedral in the QM/MM optimised reactants of the ensemble. Agreement would show
-the parameterisation is adequate for sampling, which is all it is asked to do. This is an
-analysis of trajectories that already exist and does not trip the no-rerun rule.
+ITEM 9 - The active-site close contact   CLOSED 2026-09-28
+  discharged at: 10_md, evidence in 10_md/checks/step10_verify.out section 4
 
-If it does NOT agree, the finding is not that the barriers are wrong but that the frames
-were drawn from a distorted distribution, which is a sampling caveat for X.2 and the
-ensemble sections.
+  B75:CYS:HG <-> CHA_C:H8:  1.375 A at build -> 2.641 A post-minimisation -> 3.080 A
+  after equilibration.
 
-ITEM 9 - The active-site close contact, and why it exists
-  raised at: 09_tleap_build
-  closes at: 10_md, restrained minimisation
-  status: OPEN
+  The H++ protein-only artefact relieved itself entirely. Cys75's protonation does not
+  need revisiting in the presence of the substrate.
 
-tleap reports B75:CYS:HG <-> C201:CHA:H8 at 1.375 A. Cys75' is a contact-set residue,
-measured at 3.188 A heavy-atom to cha_c at step 04. HG is the cysteine thiol hydrogen.
+  The other six tleap close contacts resolve too, and three of them were never clashes:
+    A121:CD1/HD12/HD11 <-> C70:HH   relieved to 4.174, 3.314 and 4.122 A
+    A121 HD13/HD11, A119 HD23/HD22, A119 HD22/HD21   1.737, 1.774, 1.802 A
+  The second group are geminal hydrogens on a single leucine methyl carbon. Their
+  separation is fixed by covalent geometry at 2 x 1.09 x sin(109.5/2) = 1.780 A. tleap's
+  close-contact check does not exclude 1,3-bonded pairs, so it flags them. They were never
+  steric problems and no minimisation would move them.
 
-CAUSE, established: step07a submitted a protein-only structure to H++.
-hpp_input_protein_only_with_TER.pdb contains 0 HETATM records. H++ placed that thiol
-hydrogen with no substrate in the structure, and it landed 1.375 A from a substrate
-hydrogen. This is a predictable consequence of the protein-only submission, not a defect
-in H++ or in the placement.
+ITEM 8 - The two worst GAFF parameters sit on the breaking bond   CLOSED 2026-09-28
+  discharged at: 10_md, evidence in 10_md/checks/step10_verify.out section 7 and in
+                 00_admin/step11g_torsion_check.tsv
 
-It is the only one of the seven close contacts that touches the substrate or the active
-site, and the active site is where the whole thesis lives, so it does not get the same
-benefit of the doubt as a clash between two leucine methyls in a grafted tail.
+  The torsion test compared C1-C2-O3-C4 and C3-C2-O3-C4 over 20000 production frames
+  against the same torsions in the 22 QM/MM optimised reactants (reference: -94.0 +/- 4.4
+  and +83.3 +/- 4.2 degrees). Per substrate copy:
 
-To close: confirm after restrained minimisation that the Cys75 HG to substrate distance
-has relaxed to a physical value. If it has not, the protonation of Cys75 specifically
-needs revisiting in the presence of the substrate, which WOULD be a flag under the
-no-rerun rule.
+      copy  CHA resid  site   C1-C2-O3-C4 delta / sd    C3-C2-O3-C4 delta / sd
+        0       382      A        -20.4 / 36.7              -22.2 / 23.0
+        1       383      B         -5.4 /  8.0               -3.3 /  7.9
+        2       384      C        -18.7 / 63.9              -30.8 / 26.4
+
+  THE CANONICAL SELECTION MANIFEST, 05_qmmm/selection_manifest.tsv, shows that ALL 44
+  ensemble frames come from CHA#2, residue 383 - site B - and no others. Copies 0 and 2
+  contribute nothing to the ensemble.
+
+  Copy 1 agrees with the QM/MM optimum to 5.4 and 3.3 degrees, with standard deviations of
+  8.0 and 7.9 against a QM/MM spread of 4.4 and 4.2. The high-penalty GAFF torsions did
+  not bias the sampled ensemble.
+
+  TWO METHOD NOTES, recorded so the result is not over-read:
+   - The first run of the test pooled all three copies and used LINEAR mean and standard
+     deviation on a periodic quantity, which inflated the spread through wrap-around and
+     produced a spurious DIVERGENT verdict. Recomputed with circular statistics the pooled
+     distributions are unimodal with R = 0.906 and 0.913, and the QM/MM mean falls in the
+     second-most-populated bin of eighteen, with 68 per cent of frames within 30 degrees.
+     Pooling was the error, not the sampling.
+   - Any future torsion or angle comparison in this project must use circular statistics.
+
+

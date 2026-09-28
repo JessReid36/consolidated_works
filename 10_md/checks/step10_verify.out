@@ -1,0 +1,73 @@
+step 10 verification against /home/claude/repos/cw_build/10_md/outputs
+
+1. continuity
+  [PASS] step09 solvated inpcrd reachable — 54d3accd03c3243a
+  [PASS] step09 solvated pdb reachable (atom order reference)
+
+2. protocol, against Agbaglo et al. (2024) p. 7
+  [PASS] minimisation restrains solute heavy atoms at 200 kcal/mol/A^2 — restraint_wt=200.0, mask=!(:WAT,Na+) & !@H=
+  [PASS] five equilibration stages of 20 ps each — [20.0, 20.0, 20.0, 20.0, 20.0] ps
+  [PASS] restraint relaxed monotonically to zero — 200 -> 100 -> 50 -> 10 -> 0
+  [PASS] production is 20 ns — 20 ns
+  [PASS] frames written every 1 ps — 1 ps, 20000 frames
+  [PASS] Langevin thermostat at 300 K — ntt=3 gamma_ln=2.0
+  [PASS] constant pressure at 1 atm
+  [PASS] SHAKE on bonds to hydrogen
+  [PASS] 9 A non-bonded cutoff
+  [PASS] production is unrestrained
+
+3. ITEM 1 — graft joins, recomputed from the restarts
+  [PASS] post-min restart carries the full solvated system — 55680 atoms
+  [PASS] npt5 restart carries the full solvated system — 55680 atoms
+         (PDB residue index holds 35082 unique keys; waters beyond residue 9999 collapse, which does not affect residues 1-384)
+         join             pre  post-min    npt5  canonical 1.329
+         A 115->116      1.329     1.331   1.373
+  [PASS] A 115->116 inside the acceptance window after equilibration — 1.373 A
+         B 1->2        1.329     1.320   1.314
+  [PASS] B 1->2 inside the acceptance window after equilibration — 1.314 A
+         C 114->115      1.647     1.397   1.362
+  [PASS] C 114->115 inside the acceptance window after equilibration — 1.362 A
+  [PASS] all 378 peptide links inside the window at post-min — []
+         worst link at post-min: ('C', 114, 115) at 1.397 A (+0.068)
+  [PASS] all 378 peptide links inside the window at npt5 — []
+         worst link at npt5: ('C', 39, 40) at 1.411 A (+0.082)
+
+4. ITEM 9 — the active-site close contact
+         B75:CYS:HG <-> CHA_C:H8   tleap 1.375 -> post-min 2.641 -> npt5 3.080 A
+  [PASS] the active-site contact relaxes to a physical separation — 3.080 A after equilibration, from 1.375 A at build
+
+5. the remaining six tleap close contacts
+         A121:CD1  <-> C70:HH   tleap 1.317 -> npt5 4.174 A
+  [PASS] A121:CD1 <-> C70:HH relieved — 4.174 A
+         A121:HD12 <-> C70:HH   tleap 1.396 -> npt5 3.314 A
+  [PASS] A121:HD12 <-> C70:HH relieved — 3.314 A
+         A121:HD11 <-> C70:HH   tleap 1.487 -> npt5 4.122 A
+  [PASS] A121:HD11 <-> C70:HH relieved — 4.122 A
+         geminal H...H expected from methyl geometry: 1.780 A
+         A121:HD13 ... HD11  1.737 A
+  [PASS] A121 HD13/HD11 is geminal, not a clash — 1.737 A vs 1.780 A expected; fixed by covalent geometry
+         A119:HD23 ... HD22  1.774 A
+  [PASS] A119 HD23/HD22 is geminal, not a clash — 1.774 A vs 1.780 A expected; fixed by covalent geometry
+         A119:HD22 ... HD21  1.802 A
+  [PASS] A119 HD22/HD21 is geminal, not a clash — 1.802 A vs 1.780 A expected; fixed by covalent geometry
+
+6. production length and the extension
+  [PASS] an extension run exists beyond the reference 20 ns
+         10c production 20 ns + 10d extension 40 ns
+
+7. ITEM 8 — which substrate copy the ensemble draws from
+  [PASS] every selected frame comes from one substrate copy — {('CHA#2', '383')}
+         45 selected frames, all ('CHA#2', '383'), prod_ps 820-59999
+         29 of 45 lie beyond the 20 ns reference window
+         The torsion test of open item 8 found copy 1 (CHA resid 383,
+         site B) within 5.4 and 3.3 degrees of the QM/MM optimum, sd 8.0
+         and 7.9. That is the copy the ensemble draws from. Copies 0 and 2
+         diverged but contribute no frames. The high-penalty GAFF torsions
+         did not bias the sampled ensemble. ITEM 8 CLOSES.
+
+8. trajectory files are held outside the repository
+         10c_production/prod.nc: absent (large-file policy)
+         10d_production_extend/prod_ext.nc: absent (large-file policy)
+  [PASS] restart files are present, so the structural checks above are possible
+
+ALL CHECKS PASSED

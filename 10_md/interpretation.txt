@@ -1,0 +1,139 @@
+# 10_md — Molecular dynamics: minimisation, equilibration, production
+
+## What this step did
+Minimised the solvated complex under restraint, equilibrated it through five NPT stages
+that relax the restraint to zero, and ran unrestrained production. A further extension run
+triples the production length. This is the step that generates the conformational ensemble
+from which every QM/MM frame is later drawn.
+
+It is also the step at which three commitments from earlier steps become answerable, and
+all three are discharged here.
+
+## Key numbers
+- Minimisation: 10000 cycles, solute heavy atoms restrained at 200 kcal/mol/A^2,
+  mask !(:WAT,Na+) & !@H=.
+- Equilibration: five stages of 20 ps each (nstlim 10000 x dt 0.002), restraint relaxed
+  200 -> 100 -> 50 -> 10 -> 0 kcal/mol/A^2.
+- Production: 20 ns, unrestrained, Langevin 300 K (gamma_ln 2.0), NPT at 1 atm, SHAKE on
+  bonds to hydrogen, 9 A cutoff, frames every 1 ps = 20000 frames.
+- Extension: a further 40 ns, giving 60 ns total. Selection manifest runs to 59999 ps.
+- System: 55680 atoms throughout.
+
+## Acceptance threshold and verdict
+Verification: 29 checks, 29 PASS, 0 FAIL. See checks/step10_verify.out.
+
+## Literature comparison
+THE PROTOCOL REPRODUCES AGBAGLO ET AL. 2024 p. 7, element for element:
+
+    "An energy minimization of the system was first carried out with protein heavy atoms
+     constrained to their crystallographic coordinates using a harmonic positional
+     restraint kpos of 200 kcal mol-1/A2 ... The protein heavy atom constraints were then
+     iteratively relaxed over five 20 ps simulations using Langevin dynamics under
+     constant-temperature, constant-pressure (NPT) conditions at 300 K and 1 atm; the
+     SHAKE algorithm was used to constrain all bonds involving hydrogen atoms ... The
+     protein was then allowed to move freely for a 20 ns production-level run. The
+     timescale of each frame was 1 ps, for a total of 20,000 frames."
+
+Every element matches, read from the committed .in files: 200 kcal/mol/A^2, five 20 ps
+stages, the relaxation ladder, Langevin, 300 K, 1 atm, SHAKE, 20 ns, 1 ps per frame,
+20000 frames. With the 9 A cutoff and the ff14SB/GAFF/TIP3P build of step 09, the whole
+MD pipeline is a reproduction of their protocol.
+
+ONE REAL DEPARTURE: step10d extends production by a further 40 ns, to 60 ns total, and 29
+of the 44 ensemble frames come from beyond the 20 ns the reference covers. Recorded as
+protocol_deviations.txt deviation 6. It is an improvement, not an error, but it must be
+stated because it makes any sampling comparison against Agbaglo not like for like.
+
+## THREE COMMITMENTS DISCHARGED HERE
+
+ITEM 1, the graft joins, raised at step 02. Recomputed from the restarts:
+
+      join          pre-tleap   post-min      npt5
+      A 115->116        1.329      1.331     1.373
+      B 1->2            1.329      1.320     1.314
+      C 114->115        1.647      1.397     1.362
+
+C 114-115 entered minimisation strained at 1.647 A, 0.053 A from failing the acceptance
+window, and relaxed by 0.251 A. All 378 peptide links are inside the window at both
+stages. After equilibration the worst link in the protein is C 39-40 at 1.411 A, a native
+residue: the graft is no longer distinguishable from the rest of the chain. The commitment
+step 02 made in its own header is honoured, with evidence. Item 2 is answered by the same
+result.
+
+ITEM 9, the active-site close contact, raised at step 09. B75:CYS:HG to CHA_C:H8 went
+1.375 -> 2.641 -> 3.080 A. The H++ protein-only artefact relieved itself entirely, and
+Cys75's protonation does not need revisiting in the presence of the substrate.
+
+The other six tleap close contacts resolve too, and THREE OF THEM WERE NEVER CLASHES. The
+A121/C70 pairs relieve to 3.3-4.2 A. The three "same residue" pairs sit at 1.737, 1.774
+and 1.802 A and do not move, because they are geminal hydrogens on a single leucine methyl
+carbon: 2 x 1.09 x sin(109.5/2) = 1.780 A. tleap's close-contact check does not exclude
+1,3-bonded pairs, so it flags them. No minimisation would ever move them, and their
+presence in the warning list says nothing about the structure.
+
+ITEM 8, the high-penalty GAFF torsions, raised at step 08. The torsions C1-C2-O3-C4 and
+C3-C2-O3-C4 were measured over 20000 production frames and compared against the 22 QM/MM
+optimised reactants (-94.0 +/- 4.4 and +83.3 +/- 4.2 degrees):
+
+      copy  CHA resid  site     C1-C2-O3-C4 delta/sd   C3-C2-O3-C4 delta/sd
+        0       382      A          -20.4 / 36.7            -22.2 / 23.0
+        1       383      B           -5.4 /  8.0             -3.3 /  7.9
+        2       384      C          -18.7 / 63.9            -30.8 / 26.4
+
+The canonical selection manifest shows ALL 44 ensemble frames come from CHA#2, residue
+383, site B. Copies 0 and 2 contribute nothing. Copy 1 agrees with the QM/MM optimum to
+5.4 and 3.3 degrees, with spreads of 8.0 and 7.9 against a QM/MM spread of 4.4 and 4.2.
+The high-penalty parameters did not bias the sampled ensemble.
+
+## Caveats and known issues
+- CIRCULAR STATISTICS ARE MANDATORY FOR TORSIONS. The first pass of the item 8 test pooled
+  all three substrate copies and used linear mean and standard deviation on a periodic
+  quantity. Wrap-around inflated the spread and produced a spurious DIVERGENT verdict.
+  Recomputed circularly the pooled distributions are unimodal (R = 0.906, 0.913) and the
+  QM/MM mean falls in the second-most-populated bin of eighteen, 68 per cent of frames
+  within 30 degrees. Pooling was the error, not the sampling. Any future torsion or angle
+  comparison in this project must use circular statistics.
+- ONLY ONE OF THE THREE SUBSTRATE COPIES IS USED. Every ensemble frame comes from site B.
+  Sites A and C are simulated but never sampled for QM/MM.
+
+  REASON, stated by the author 2026-09-28: a single site was chosen on computational cost,
+  and Phase 2 examines a single-substrate reaction, so a three-site ensemble would buy
+  nothing the design work can use. This is not recorded in any committed file and should
+  be added to a method note.
+
+  That reason explains why ONE site, not why THIS site. Site B is, on every committed
+  measure, the best-behaved of the three:
+
+      site   TSA fit RMSD   centre offset   min contact   Arg63' N   torsion sd
+       A         0.1267          0.161          2.782       2.899    36.7 / 23.0
+       B         0.0797          0.160          2.586       3.060     8.0 /  7.9
+       C         0.1518          0.203          2.709       8.479    63.9 / 26.4
+
+  Best superposition onto the crystallographic pose, smallest centre offset, tightest
+  conformational sampling, Arg63' bound rather than swung. Site C is worst on all of them.
+
+  THIS CUTS BOTH WAYS AND THE WRITE-UP MUST SAY SO.
+  In favour: site B is the most ordered and most crystallographically faithful of the
+  three, so it is a defensible representative, and a site with a swung Arg63' (C) would
+  have been a poor choice for a reference ensemble.
+  Against: if the ensemble is drawn entirely from the best-behaved site, the barrier
+  distribution describes THAT site, not a typical active site of the trimer. The spread
+  in particular - which is compared against Claeyssens' path-to-path spread - is the
+  spread within one well-ordered site, not across the conformational variety the trimer
+  actually exhibits. Claeyssens sampled 16 paths across active sites; we sample 44 frames
+  within one.
+
+  State the reason, state that B is the best-behaved site, and state what the ensemble
+  spread therefore does and does not represent. Do not let a reader discover the
+  single-site restriction from the frame numbers.
+- THE TRAJECTORIES ARE NOT IN THE REPOSITORY. prod.nc and prod_ext.nc are held outside git
+  under the large-file policy. Every structural check here runs from the restart files,
+  which are committed. The torsion test of item 8 had to be run on the HPC.
+- THE SOLVATED PDB SATURATES AT 9999 RESIDUES, so a residue-keyed index of it collapses
+  waters beyond that point. step09's own header warns of this. Every atom used here sits
+  in residues 1-384, far below the wrap, so the index is sound for this purpose, but the
+  PDB must never be used for water or ion counts.
+- NO AS-RUN SCRIPT ARCHIVE EXISTS FOR STEP 10, as for steps 08 and 09.
+
+## Cited by
+Methods X.2.

@@ -173,3 +173,53 @@ A SEPARATE AND UNRESOLVED POINT, raised by the same passage:
   (internal 80, external 10). This is INDEPENDENT EVIDENCE, not proof, and does not close
   sourcing_gaps.txt item 4 - the notebook is still the authority. But it narrows it, and
   it should be recorded against that gap.
+
+===============================================================================
+DEVIATION 6 - Production runs to 60 ns, three times the reference protocol
+  origin step: 10_md
+  status: UNSTATED
+===============================================================================
+
+Agbaglo et al. 2024 p. 7: "The protein was then allowed to move freely for a 20 ns
+production-level run. The timescale of each frame was 1 ps, for a total of 20,000 frames."
+
+Our step10c reproduces that exactly: nstlim 10000000 x dt 0.002 = 20 ns, ntwx 500 x 0.002
+= 1 ps per frame, 20000 frames. Then step10d extends production by a further 40 ns, giving
+60 ns in total. The canonical selection manifest runs to prod_ps 59999.
+
+CONSEQUENCE, and it is substantial: 29 of the 44 ensemble frames lie beyond 20000 ps. TWO
+THIRDS OF THE ENSEMBLE IS DRAWN FROM OUTSIDE THE WINDOW THE REFERENCE PROTOCOL COVERS.
+
+This is a deliberate improvement, not an accident - a longer trajectory samples more
+independent configurations, and the ensemble is the point of Phase 1. But it must be
+stated in X.2 rather than left for a reader to infer from frame numbers, for two reasons:
+  - Any comparison of our conformational sampling against Agbaglo's is not like for like.
+  - The equilibration-cut decision recorded elsewhere in this project (frames before
+    20000 ps treated as a pilot) interacts with this directly: the cut and the extension
+    are the same boundary seen from two sides.
+
+===============================================================================
+DEVIATION 7 - The ensemble samples one active site, not the trimer
+  origin step: 10_md / 12_frame_selection
+  status: UNSTATED in the repos; reason supplied by the author 2026-09-28
+===============================================================================
+
+All 44 ensemble frames come from CHA#2, residue 383, site B. Sites A and C are built,
+parameterised, solvated and simulated, and then never sampled for QM/MM.
+
+REASON, as stated: computational cost, and Phase 2 examines a single-substrate reaction,
+so a three-site ensemble buys nothing the design work can use. Defensible, and it should
+be written into a method note since no committed file records it.
+
+WHY IT IS A DEVIATION WORTH STATING. Claeyssens et al. 2011 calculated 16 enzyme reaction
+paths and their barrier spread of +/- 1.8 kcal/mol is a spread ACROSS active-site
+configurations. Our 44 frames are drawn from within ONE site. The two spreads are
+therefore not the same quantity, even before the sampling-length difference of deviation 6
+is considered. Any comparison of our barrier distribution against theirs - the standard
+deviation, the regression scatter, the range - inherits this.
+
+Site B is also the best-behaved of the three on every committed measure: TSA fit RMSD
+0.0797 against 0.1267 and 0.1518, smallest centre offset, tightest torsion sampling
+(sd 8.0 against 36.7 and 63.9), and Arg63' bound rather than swung. That makes it a
+defensible representative, and it makes the ensemble spread a within-site spread from the
+most ordered site available. Both halves of that should be in the write-up.

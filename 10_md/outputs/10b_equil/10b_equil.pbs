@@ -1,0 +1,53 @@
+#!/bin/bash
+#PBS -N cm10b_equil
+#PBS -l select=1:ncpus=1:ngpus=1:mem=16gb
+#PBS -l walltime=01:00:00
+#PBS -m ae
+#PBS -M 18660916@sun.ac.za
+#PBS -j oe
+#PBS -o /home/18660916/system_development/04_amber_md/10b_equil/10b_equil.pbs.out
+
+set -uo pipefail
+scratch="/scratch-small-local/${PBS_JOBID}"
+mkdir -p "$scratch" || { echo "FAIL scratch mkdir"; exit 1; }
+echo "host=$(hostname)  jobid=${PBS_JOBID:-UNSET}  start=$(date)"
+nvidia-smi -L 2>/dev/null || { echo "FAIL no GPU visible"; exit 1; }
+
+cp "/home/18660916/system_development/04_amber_md/10b_equil"/npt1.in "/home/18660916/system_development/04_amber_md/10b_equil"/npt2.in "/home/18660916/system_development/04_amber_md/10b_equil"/npt3.in "/home/18660916/system_development/04_amber_md/10b_equil"/npt4.in "/home/18660916/system_development/04_amber_md/10b_equil"/npt5.in \
+   "/home/18660916/system_development/03_amber/tleap_build/complex_solvated.prmtop" "/home/18660916/system_development/04_amber_md/10a_min/10a_min.rst7" "/home/18660916/system_development/03_amber/tleap_build/complex_solvated.inpcrd" "$scratch"/
+cd "$scratch"
+
+set +u
+export PERL5LIB="${PERL5LIB:-}" PYTHONPATH="${PYTHONPATH:-}"
+module load app/amber22/22
+set -u
+command -v pmemd.cuda >/dev/null || { echo "FAIL pmemd.cuda not found"; exit 1; }
+[[ -e "/apps/mambaforge/pkgs/cudatoolkit-11.8.0-h37601d7_11/lib/libcufft.so.10" ]]   || { echo "FAIL CUDA libs missing at /apps/mambaforge/pkgs/cudatoolkit-11.8.0-h37601d7_11/lib"; exit 1; }
+[[ -e "/apps/mambaforge/envs/medaka/lib/libopenblas.so.0" ]] || { echo "FAIL openblas missing at /apps/mambaforge/envs/medaka/lib"; exit 1; }
+export LD_LIBRARY_PATH="/apps/mambaforge/pkgs/cudatoolkit-11.8.0-h37601d7_11/lib:/apps/mambaforge/envs/medaka/lib:${LD_LIBRARY_PATH:-}"
+
+run () {  # tag  input_coords  ref(optional)
+  local tag="$1" cin="$2" ref="${3:-}"
+  local refflag=""; [[ -n "$ref" ]] && refflag="-ref $ref"
+  echo "=== $tag ($(date +%T)) ==="
+  pmemd.cuda -O -i ${tag}.in -o ${tag}.out -p "complex_solvated.prmtop" -c "$cin" -r ${tag}.rst7 -inf ${tag}.mdinfo $refflag
+  local rc=$?
+  cp -f ${tag}.out ${tag}.mdinfo "/home/18660916/system_development/04_amber_md/10b_equil"/ 2>/dev/null || true
+  if [[ $rc -ne 0 || ! -s ${tag}.rst7 ]]; then
+    echo "FAIL stage $tag rc=$rc"; tail -30 ${tag}.out 2>/dev/null || true
+    cd "/home/18660916/system_development/04_amber_md/10b_equil"; rm -rf "$scratch"; exit 1
+  fi
+  cp -f ${tag}.rst7 "/home/18660916/system_development/04_amber_md/10b_equil"/ 2>/dev/null || true
+  grep -E "TIME\(PS\) =|Density|ns/day" ${tag}.out | tail -3 || true
+}
+
+run npt1 "10a_min.rst7" "complex_solvated.inpcrd"
+run npt2 npt1.rst7 "complex_solvated.inpcrd"
+run npt3 npt2.rst7 "complex_solvated.inpcrd"
+run npt4 npt3.rst7 "complex_solvated.inpcrd"
+run npt5 npt4.rst7
+
+cd "/home/18660916/system_development/04_amber_md/10b_equil"; rm -rf "$scratch"
+[[ -s "/home/18660916/system_development/04_amber_md/10b_equil/npt5.rst7" ]] || { echo "FAIL no npt5.rst7 (final equilibrated restart)"; exit 1; }
+echo "end=$(date)"
+echo "FINAL PASS: 10b equilibration complete (final restart: npt5.rst7)"

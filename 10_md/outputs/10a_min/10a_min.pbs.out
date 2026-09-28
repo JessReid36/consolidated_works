@@ -1,0 +1,29 @@
+host=comp050.hpc  jobid=393347.hpc1.hpc  scratch=/scratch-small-local/393347.hpc1.hpc  start=Wed Jul  8 14:52:58 SAST 2026
+Loading app/ambermpi/22mpi
+  Loading requirement: openmpi/4.1.1 compilers/gcc-9.4.0
+AMBERHOME=/home/apps2/amber/amber22mpi
+MPI ranks (np)=16  nodefile=/var/spool/PBS/aux/393347.hpc1.hpc
+=== running restrained minimisation (pmemd.MPI) ===
+=== minimisation key lines ===
+ 1-4 VDW =     1767.8831  1-4 EEL =    15941.2562  RESTRAINT  =      451.2966
+   NSTEP       ENERGY          RMS            GMAX         NAME    NUMBER
+ 1-4 VDW =     1767.9503  1-4 EEL =    15941.1159  RESTRAINT  =      451.0791
+   NSTEP       ENERGY          RMS            GMAX         NAME    NUMBER
+ 1-4 VDW =     1768.0036  1-4 EEL =    15940.9718  RESTRAINT  =      450.6377
+   NSTEP       ENERGY          RMS            GMAX         NAME    NUMBER
+ 1-4 VDW =     1768.0072  1-4 EEL =    15940.8190  RESTRAINT  =      450.6325
+   NSTEP       ENERGY          RMS            GMAX         NAME    NUMBER
+ 1-4 VDW =     1768.0195  1-4 EEL =    15940.7802  RESTRAINT  =      450.6752
+   NSTEP       ENERGY          RMS            GMAX         NAME    NUMBER
+ 1-4 VDW =     1767.9873  1-4 EEL =    15940.7614  RESTRAINT  =      450.9839
+   NSTEP       ENERGY          RMS            GMAX         NAME    NUMBER
+ 1-4 VDW =     1768.0245  1-4 EEL =    15940.8448  RESTRAINT  =      451.3722
+   NSTEP       ENERGY          RMS            GMAX         NAME    NUMBER
+ 1-4 VDW =     1768.0674  1-4 EEL =    15940.8288  RESTRAINT  =      451.2423
+   NSTEP       ENERGY          RMS            GMAX         NAME    NUMBER
+ 1-4 VDW =     1767.9896  1-4 EEL =    15941.0075  RESTRAINT  =      451.7135
+                    FINAL RESULTS
+   NSTEP       ENERGY          RMS            GMAX         NAME    NUMBER
+ 1-4 VDW =     1767.9896  1-4 EEL =    15941.0075  RESTRAINT  =      451.7135
+end=Wed Jul  8 14:56:45 SAST 2026
+FINAL PASS: 10a restrained minimisation complete

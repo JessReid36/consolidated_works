@@ -1,0 +1,45 @@
+#!/bin/bash
+#PBS -N cm10_gpubench
+#PBS -l select=1:ncpus=1:ngpus=1:mem=16gb
+#PBS -l walltime=00:30:00
+#PBS -m ae
+#PBS -M 18660916@sun.ac.za
+#PBS -j oe
+#PBS -o /home/18660916/system_development/04_amber_md/10b_gpu_benchmark/bench.pbs.out
+
+set -uo pipefail
+scratch="/scratch-small-local/${PBS_JOBID}"
+mkdir -p "$scratch" || { echo "FAIL scratch mkdir"; exit 1; }
+echo "host=$(hostname)  jobid=${PBS_JOBID:-UNSET}  start=$(date)"
+
+echo "=== GPU visible? ==="
+nvidia-smi -L 2>/dev/null || { echo "FAIL no GPU visible (did not land on a GPU)"; exit 1; }
+
+cp "/home/18660916/system_development/04_amber_md/10b_gpu_benchmark/bench.in" "/home/18660916/system_development/03_amber/tleap_build/complex_solvated.prmtop" "/home/18660916/system_development/04_amber_md/10a_min/10a_min.rst7" "/home/18660916/system_development/03_amber/tleap_build/complex_solvated.inpcrd" "$scratch"/
+cd "$scratch"
+
+set +u
+export PERL5LIB="${PERL5LIB:-}" PYTHONPATH="${PYTHONPATH:-}"
+module load app/amber22/22
+set -u
+echo "AMBERHOME=${AMBERHOME:-UNSET}"
+command -v pmemd.cuda >/dev/null || { echo "FAIL pmemd.cuda not found"; exit 1; }
+
+# CUDA-11 runtime for pmemd.cuda (amber22 module does not provide it; no cuda module exists)
+[[ -e "/apps/mambaforge/pkgs/cudatoolkit-11.8.0-h37601d7_11/lib/libcufft.so.10" ]]     || { echo "FAIL CUDA libs missing at /apps/mambaforge/pkgs/cudatoolkit-11.8.0-h37601d7_11/lib"; exit 1; }
+[[ -e "/apps/mambaforge/envs/medaka/lib/libopenblas.so.0" ]]   || { echo "FAIL openblas missing at /apps/mambaforge/envs/medaka/lib"; exit 1; }
+export LD_LIBRARY_PATH="/apps/mambaforge/pkgs/cudatoolkit-11.8.0-h37601d7_11/lib:/apps/mambaforge/envs/medaka/lib:${LD_LIBRARY_PATH:-}"
+
+echo "=== running benchmark (pmemd.cuda) ==="
+pmemd.cuda -O -i bench.in -o bench.out \
+  -p "complex_solvated.prmtop" -c "10a_min.rst7" -ref "complex_solvated.inpcrd" \
+  -r bench.rst7 -inf bench.mdinfo
+rc=$?
+cp -f bench.out bench.mdinfo "/home/18660916/system_development/04_amber_md/10b_gpu_benchmark"/ 2>/dev/null || true
+cd "/home/18660916/system_development/04_amber_md/10b_gpu_benchmark"; rm -rf "$scratch"
+[[ $rc -eq 0 ]] || { echo "FAIL pmemd.cuda rc=$rc"; tail -30 "/home/18660916/system_development/04_amber_md/10b_gpu_benchmark/bench.out" 2>/dev/null; exit 1; }
+
+echo "=== throughput ==="
+grep -iE "ns/day|seconds/ns|CUDA Device|Device Name|GPU" "/home/18660916/system_development/04_amber_md/10b_gpu_benchmark/bench.out" | head -20 || true
+echo "end=$(date)"
+echo "FINAL PASS: GPU benchmark complete"

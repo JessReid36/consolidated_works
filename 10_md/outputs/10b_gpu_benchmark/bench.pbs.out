@@ -1,0 +1,26 @@
+host=comp050.hpc  jobid=393349.hpc1.hpc  start=Wed Jul  8 15:27:55 SAST 2026
+=== GPU visible? ===
+GPU 0: Quadro RTX 4000 (UUID: GPU-f2047a41-38d8-256e-3075-6f8e5488ad96)
+GPU 1: Quadro RTX 4000 (UUID: GPU-413210cb-ca07-7e29-941c-ad04e1c2f07b)
+GPU 2: Quadro RTX 4000 (UUID: GPU-278624f2-37f0-ee50-f4e1-4fb2c4e81de2)
+Loading app/amber22/22
+  Loading requirement: compilers/gcc-9.4.0
+AMBERHOME=/home/apps2/amber/amber22
+=== running benchmark (pmemd.cuda) ===
+Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+=== throughput ===
+GPU benchmark: 20 ps NPT, solute heavy restrained 200 kcal/mol/A^2, heat 0->300
+| GPU (CUDA) Version of PMEMD in use: NVIDIA GPU IN USE.
+|    model for GPU accelerated molecular dynamics
+|------------------- GPU DEVICE INFO --------------------
+|           CUDA Device ID in use:      0
+|                CUDA Device Name: Quadro RTX 4000
+|     CUDA Device Global Mem Size:   7786 MB
+| CUDA Device Num Multiprocessors:     36
+|           CUDA Device Core Freq:   1.54 GHz
+| GPU memory information (estimate):
+| KB of GPU memory in use:    355061
+|         ns/day =     151.60   seconds/ns =     569.92
+|         ns/day =     151.60   seconds/ns =     569.92
+end=Wed Jul  8 15:28:14 SAST 2026
+FINAL PASS: GPU benchmark complete

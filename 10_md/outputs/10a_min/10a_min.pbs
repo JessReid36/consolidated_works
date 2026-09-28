@@ -1,0 +1,47 @@
+#!/bin/bash
+#PBS -N cm10a_min
+#PBS -l select=1:ncpus=16:mpiprocs=16:mem=16gb
+#PBS -l walltime=02:00:00
+#PBS -m ae
+#PBS -M 18660916@sun.ac.za
+#PBS -j oe
+#PBS -o /home/18660916/system_development/04_amber_md/10a_min/10a_min.pbs.out
+
+set -uo pipefail
+scratch="/scratch-small-local/${PBS_JOBID}"
+mkdir -p "$scratch" || { echo "FAIL scratch mkdir"; exit 1; }
+echo "host=$(hostname)  jobid=${PBS_JOBID:-UNSET}  scratch=$scratch  start=$(date)"
+
+cp "/home/18660916/system_development/04_amber_md/10a_min/min10a.in" "/home/18660916/system_development/03_amber/tleap_build/complex_solvated.prmtop" "/home/18660916/system_development/03_amber/tleap_build/complex_solvated.inpcrd" "$scratch"/
+cd "$scratch"
+
+set +u
+export PERL5LIB="${PERL5LIB:-}" PYTHONPATH="${PYTHONPATH:-}"
+module load app/ambermpi/22mpi
+set -u
+echo "AMBERHOME=${AMBERHOME:-UNSET}"
+command -v pmemd.MPI >/dev/null || { echo "FAIL pmemd.MPI not found"; exit 1; }
+command -v mpirun    >/dev/null || { echo "FAIL mpirun not found"; exit 1; }
+
+np=$(wc -l < "${PBS_NODEFILE}")
+echo "MPI ranks (np)=$np  nodefile=${PBS_NODEFILE}"
+
+echo "=== running restrained minimisation (pmemd.MPI) ==="
+mpirun -np ${np} --hostfile "${PBS_NODEFILE}" pmemd.MPI -O \
+  -i min10a.in -o 10a_min.out \
+  -p "complex_solvated.prmtop" -c "complex_solvated.inpcrd" \
+  -r 10a_min.rst7 -ref "complex_solvated.inpcrd" -inf 10a_min.mdinfo
+rc=$?
+
+cp -f 10a_min.out 10a_min.mdinfo "/home/18660916/system_development/04_amber_md/10a_min"/ 2>/dev/null || true
+[[ $rc -eq 0 ]] && cp -f 10a_min.rst7 "/home/18660916/system_development/04_amber_md/10a_min"/ 2>/dev/null || true
+cd "/home/18660916/system_development/04_amber_md/10a_min"; rm -rf "$scratch"
+
+if [[ $rc -ne 0 ]]; then
+  echo "FAIL pmemd.MPI rc=$rc"; tail -30 "/home/18660916/system_development/04_amber_md/10a_min/10a_min.out" 2>/dev/null || true; exit 1
+fi
+echo "=== minimisation key lines ==="
+grep -E "NSTEP|FINAL RESULTS|ENERGY|RMS|RESTRAINT" "/home/18660916/system_development/04_amber_md/10a_min/10a_min.out" | tail -20 || true
+[[ -s "/home/18660916/system_development/04_amber_md/10a_min/10a_min.rst7" ]] || { echo "FAIL no rst7 produced"; exit 1; }
+echo "end=$(date)"
+echo "FINAL PASS: 10a restrained minimisation complete"

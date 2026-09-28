@@ -1,0 +1,10 @@
+GPU benchmark: 20 ps NPT, solute heavy restrained 200 kcal/mol/A^2, heat 0->300 K
+ &cntrl
+  imin=0, irest=0, ntx=1,
+  ntb=2, ntp=1, barostat=2, pres0=1.0, cut=9.0,
+  nstlim=10000, dt=0.002,
+  ntc=2, ntf=2,
+  tempi=0.0, temp0=300.0, ntt=3, gamma_ln=2.0, ig=531984,
+  ntr=1, restraint_wt=200.0, restraintmask='!(:WAT,Na+) & !@H=',
+  ntpr=500, ntwx=0, ntwr=10000, ntxo=1, ioutfm=1, iwrap=1,
+ /

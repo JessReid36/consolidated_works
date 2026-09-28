@@ -1,0 +1,23 @@
+host=comp051.hpc  jobid=407331.hpc1.hpc  start=Tue Sep 15 16:17:36 SAST 2026
+GPU 0: Quadro RTX 4000 (UUID: GPU-83468dac-878b-8883-dbb5-5dab777d673c)
+GPU 1: Quadro RTX 4000 (UUID: GPU-a69486b2-0e27-b993-34e6-8926c7a47384)
+GPU 2: Quadro RTX 4000 (UUID: GPU-dcbbda7f-3e3e-ca58-8e1c-d6eea141e36c)
+scratch=/scratch-large-network/407331.hpc1.hpc (avail 2990808576 KB)
+Loading app/amber22/22
+  Loading requirement: compilers/gcc-9.4.0
+=== running 40 ns production extension (pmemd.cuda) ===
+Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+=== copying results to /home/18660916 (1 TB tier) ===
+=== summary ===
+                                                    Density    =         1.0222
+ NSTEP = 20000000   TIME(PS) =   60100.000  TEMP(K) =     1.27  PRESS =     0.0
+                                                    Density    =         0.0020
+|         ns/day =     114.21   seconds/ns =     756.50
+|         ns/day =     109.27   seconds/ns =     790.73
+-rw-r--r--. 1 18660916 ldapuser  25G Sep 16 01:08 /home/18660916/system_development/04_amber_md/10d_production_extend/prod_ext.nc
+-rw-r--r--. 1 18660916 ldapuser 3.9M Sep 16 01:04 /home/18660916/system_development/04_amber_md/10d_production_extend/prod_ext.rst7
+end=Wed Sep 16 01:08:43 SAST 2026
+FINAL PASS: 10d production extension complete (trajectory prod_ext.nc, restart prod_ext.rst7)
+
+The extension continues 10c, so the two are one trajectory: prod.nc then
+prod_ext.nc, 60 ns total, of which the first 10 ns are pre-equilibration.

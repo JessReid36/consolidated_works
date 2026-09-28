@@ -1,0 +1,33 @@
+host=comp050.hpc  jobid=393351.hpc1.hpc  start=Wed Jul  8 15:33:28 SAST 2026
+GPU 0: Quadro RTX 4000 (UUID: GPU-f2047a41-38d8-256e-3075-6f8e5488ad96)
+GPU 1: Quadro RTX 4000 (UUID: GPU-413210cb-ca07-7e29-941c-ad04e1c2f07b)
+GPU 2: Quadro RTX 4000 (UUID: GPU-278624f2-37f0-ee50-f4e1-4fb2c4e81de2)
+Loading app/amber22/22
+  Loading requirement: compilers/gcc-9.4.0
+=== npt1 (15:33:29) ===
+Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+                                                    Density    =         0.0069
+|         ns/day =     152.13   seconds/ns =     567.95
+|         ns/day =     152.13   seconds/ns =     567.95
+=== npt2 (15:33:43) ===
+Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+                                                    Density    =         0.0123
+|         ns/day =     148.17   seconds/ns =     583.12
+|         ns/day =     146.97   seconds/ns =     587.86
+=== npt3 (15:33:57) ===
+Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+                                                    Density    =         0.0124
+|         ns/day =     144.62   seconds/ns =     597.43
+|         ns/day =     143.37   seconds/ns =     602.63
+=== npt4 (15:34:11) ===
+Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+                                                    Density    =         0.0099
+|         ns/day =     141.05   seconds/ns =     612.55
+|         ns/day =     141.10   seconds/ns =     612.35
+=== npt5 (15:34:26) ===
+Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+                                                    Density    =         0.0088
+|         ns/day =     137.02   seconds/ns =     630.54
+|         ns/day =     137.25   seconds/ns =     629.50
+end=Wed Jul  8 15:34:41 SAST 2026
+FINAL PASS: 10b equilibration complete (final restart: npt5.rst7)

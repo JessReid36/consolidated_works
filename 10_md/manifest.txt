@@ -1,0 +1,96 @@
+step: 10_md
+title: Molecular dynamics - minimisation, equilibration, production
+scripts: step10_gpu_benchmark.sh, step10a/b/c_submit + audit, step10d_production_extend_submit.sh
+cited_by: Methods X.2
+discharges: open_items 1, 8 and 9
+
+## scripts   (canonical home: JessReid36/chorismate-thesis-code)
+   branch=tier1-realism commit=f0e059cf11eda91dea939c42f8e12d1a8bf829a1
+  phase1_system_dev/step10_gpu_benchmark.sh  3595  1f6116c1640311f133f4e96e7d76b0a1db401b24e42c7dd20b80fbed9368c61d
+  phase1_system_dev/step10a_audit.sh  4813  f233a2de7acd86a9bae0ab3aace41c6fa79de84a270ff59cf810e0976fd458dc
+  phase1_system_dev/step10a_min_submit.sh  3954  0aa7774ad19459a76b7f4ee25d672568b18dafae1fbd110c145ad8b46ae30876
+  phase1_system_dev/step10b_audit.sh  4298  f63dbf0dc09d04b6bc21bd0ef27022bc45153175f30c9b917f51e59c58ed8400
+  phase1_system_dev/step10b_equil_submit.sh  4340  58ec86d42d1aa3ce5659ae47c91a7109eec8cd2982978c7c3ebb4a8f754b8093
+  phase1_system_dev/step10c_audit.sh  6627  dad88df65ffb66cb7e100cf50e6fffc3ed4fe2b34f48c0945385b6b3b6f28b6f
+  phase1_system_dev/step10c_production_submit.sh  4307  ce199094637af703be41c75d663f61587c65c63b2a3854a00b1a36910543966f
+  phase1_system_dev/step10d_production_extend_submit.sh  5312  c20ef9d5155bb24695e6ae8807d4c68379ddda18fb0fc4d748f2e0a02189af01
+
+## scripts_as_run
+  NONE EXISTS, as for steps 08 and 09. Not fabricated; the absence is the record.
+
+## outputs   (canonical home: JessReid36/chorismate-thesis-results, 04_amber_md/)
+   branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  04_amber_md/10a_min/10a_min.mdinfo  409  04ecce341aa6a12fee1e1ab6ebdfde7ca0b1edfd74fabcaaa9a30807eaf473b5
+  04_amber_md/10a_min/10a_min.out  51541  06833367f638979869ec4a3169097758354f0698ea9b2ea19852eecb6d4171d0
+  04_amber_md/10a_min/10a_min.pbs  2216  a0d3864fe658b15d5d776b885c5cedd03c7b43515f4026d680513360e4d802ec
+  04_amber_md/10a_min/10a_min.pbs.out  1955  1e3e394dc98901ebd1bf627418263bd710d62d246cd05223426eabb6e32b2f81
+  04_amber_md/10a_min/10a_min.rst7  2032480  250d27ce8c032043c011373669dfc60680b1aeff8b3c0cd15b29d74b6331515e
+  04_amber_md/10a_min/10a_min_jobid.txt  16  0b9d5e6f00a589a465183bfdd722b5124e26e34dce4ccf55d3441d51e5e5cb64
+  04_amber_md/10a_min/min10a.in  259  4f06aacff00b2c430faf766880b68462762b77dac8e2a501cf19e151b84fd9b0
+  04_amber_md/10b_equil/10b_equil.pbs  3085  769b41ca071115fe04256d6cbb718fec49afe13153e5d0742cd764b04b69ff7d
+  04_amber_md/10b_equil/10b_equil.pbs.out  2019  8b5eb35dcda9fdd1fcc1e88634d8a378f6661e187e8db5dc6d8901312d025502
+  04_amber_md/10b_equil/10b_equil_jobid.txt  16  0b6ad1138fc084b1d4480fbd2bc424a5344bfc8e356cff9ca74df39e5e4b2bb0
+  04_amber_md/10b_equil/npt1.in  385  4e401df4c6848ea3f5da7f0daba7fbe99f839453a96024f736704911214c7422
+  04_amber_md/10b_equil/npt1.mdinfo  603  0d1fe25ddf4d8871a1cf38214f1901a2c87f89a9bf362d98a9a0f5c165f1ec2e
+  04_amber_md/10b_equil/npt1.out  20880  cdfa31d79ee5e6cca70e7883befab04ab7ce27ede0b975dd9bf37e7ea11854dd
+  04_amber_md/10b_equil/npt1.rst7  4064815  d44ddfa1a6bd491978444e49908c52e08b5ad9905c64fc7f217c42b41916cd7a
+  04_amber_md/10b_equil/npt2.in  374  f5ab023881ca1fa47d6d144b941c266117523ddb4d5c50972896f12d52632b2b
+  04_amber_md/10b_equil/npt2.mdinfo  1241  9f388b1898f8ef6f97302715cb72c213c41d45d12a18b3a4d3c9f745cf4999fd
+  04_amber_md/10b_equil/npt2.out  20008  8e376808d9c87dbfacedb2a6479b512ea9df0ec76b29efa0ff093c3d67f884a7
+  04_amber_md/10b_equil/npt2.rst7  4064815  6a05c8ce86f5d66b6ef8e469939ffead86427372e7ebad015e8d3bd466d396d0
+  04_amber_md/10b_equil/npt3.in  372  9d99eba21c4caad5d755ea8aff9b1c2f959659bd87b3b28acb5c77931ffc5833
+  04_amber_md/10b_equil/npt3.mdinfo  1241  c945c8e752d663bb27f65617e1ae8fb113e3fa72bec78d80416964d9dafcd260
+  04_amber_md/10b_equil/npt3.out  20008  7768b2dece87994b6cf90e90a98b85701213886cced8e6ec31e991f8baf8a070
+  04_amber_md/10b_equil/npt3.rst7  4064815  9ec69e65fe02f24cc91f4f140a8d50a72ec73d773f12b8cbb19aca2c451df7af
+  04_amber_md/10b_equil/npt4.in  372  2c237e667b7ceff7ada8f739c598d1d689a98dbde77a026a5659b659137a09dc
+  04_amber_md/10b_equil/npt4.mdinfo  1241  c7408b61115f80ea6fcbf6435181def32651cda5193b4da1d90e95e198aeafb3
+  04_amber_md/10b_equil/npt4.out  20055  b28350061ce42915373b7c6f8e634f00eda8e3fc5f6b61fe2463ec57a1def7b7
+  04_amber_md/10b_equil/npt4.rst7  4064815  cfdb9cebc52ebe4f158f9cf998a2604308f8c2d4c4885854e227b0c90ab08c96
+  04_amber_md/10b_equil/npt5.in  316  55fff961f4006b60449e658de68c8f17a602a141ab308bfc4a117296ceb49065
+  04_amber_md/10b_equil/npt5.mdinfo  1199  512505f61f3caaf2c936844e11ad25df4dce1e91c62f1a82bfc6f27b50f640a8
+  04_amber_md/10b_equil/npt5.out  19400  84cf267714cd764ff2cbcd287fa731d5416da34898eb30ebeaca3ec0265251e0
+  04_amber_md/10b_equil/npt5.rst7  4064815  9f0bb6c0e584650cdbb24b280888ed266eed314e9c3a024649d3a5199f5c1869
+  04_amber_md/10b_gpu_benchmark/bench.in  391  4bd4ad6f14ae7d74a646470764d1dd7335b27dc887c45ad3f4f1bd255ce0e3c7
+  04_amber_md/10b_gpu_benchmark/bench.mdinfo  603  0d1fe25ddf4d8871a1cf38214f1901a2c87f89a9bf362d98a9a0f5c165f1ec2e
+  04_amber_md/10b_gpu_benchmark/bench.out  27720  54a76cb3571628489eaeccd3a39d45d56df2c96526a2b5cb15dc740ed35f68d5
+  04_amber_md/10b_gpu_benchmark/bench.pbs  2488  bc99e582186263a188c027a592c317cf91218b8aa0a89e898b5ae40cec3af0b6
+  04_amber_md/10b_gpu_benchmark/bench.pbs.out  1296  ec67b95b64e5c83165e37bec4e92a37c008e2ad0c061a40129a0eb6df55f141e
+  04_amber_md/10b_gpu_benchmark/bench_jobid.txt  16  5c4f163cc5a29b9c42d564662aac96b76336fd17252160d1b24d29fc91e90d52
+  04_amber_md/10c_production/10c_prod.pbs  3304  de31a3bce0e4e2a0af685795219f748bff9da2ae5adee7657aa1dff5cd982dd1
+  04_amber_md/10c_production/10c_prod.pbs.out  1340  5d9df73b4ce9d8051fd298e954edc002eced3e7c372ed4345fbe20180cf56304
+  04_amber_md/10c_production/10c_prod_jobid.txt  16  4e8f175ea3e11c3931b39338ad9b02ccc3c5d34fc080ae10138fe9129474deb9
+  04_amber_md/10c_production/prod.in  316  7ae6e998d27912992f4dd2e8b8e72f63df6a94758cdc2445c39e31ad06371782
+  04_amber_md/10c_production/prod.mdinfo  1199  9169d54a2ca8e20a6d9259a5df9a33a84cfc3b56c4803f606b72172c0d4284ee
+  04_amber_md/10c_production/prod.out  1297370  cf61210dc3dc138632968d0f491aab37937ef4fb201c2799b5acbf2c3ea23a91
+  04_amber_md/10c_production/prod.rst7  4064815  76e23c12b75bd6c6a3003ea80c36972e5bc17d94d34ee8d5ac5c4ccccdb94210
+  04_amber_md/10d_production_extend/10d_prod_ext.pbs  3700  0b865b6d39a1bccb4e5fb95d0af589dbd0122051cad19452ce6f948d9b1434f2
+  04_amber_md/10d_production_extend/10d_prod_ext.pbs.out  1540  0727cad431ceda1d7d3a8fab3e32bd961939e8af3dce625e6cda5680337db3fb
+  04_amber_md/10d_production_extend/prod_ext.in  326  888a13fff77c6f7f44b1e6d632646304ffbd0d6790fe1fe80ccd29f2804108c0
+  04_amber_md/10d_production_extend/prod_ext.out  2581419  e3fa362d2a4d1bbcf4adb83475630ec59b3a843f2ed6fd8536d10bea838a6114
+  04_amber_md/10d_production_extend/prod_ext.rst7  4064815  e5e76a2674d595b449d6fbc8389ccd444df38bc466ae4cf5785b074719319b96
+  04_amber_md/step10a_submit_summary.txt  461  1080b2b2198e54add226989af82d8dc6f64491e2bf6e14ac43164ecd272d19f3
+
+## held outside the repository (large-file policy)
+  04_amber_md/10c_production/prod.nc          20000 frames, 20 ns
+  04_amber_md/10d_production_extend/prod_ext.nc   extension to 60 ns
+  Recorded in chorismate-thesis-results/CHECKSUMS_large_files.txt. Every structural
+  check here runs from the committed .rst7 restarts instead. The item 8 torsion test
+  requires the trajectories and was run on the HPC.
+
+## checks
+  step10_verify.out  4062  cd978b05ce25247cd595897d080930a87cc58c7a160e54ccc0da66bde3893663
+  step10_verify.py  12907  0d3f68890b61c8c869b8eeed244fb1f852d5fd663b51a7302214769f1c79a310
+  step11g_torsion_check.py  12125  0fc74e121dcc22bf1180796d51c55e55f85c90af64da6f8fe2b2222a69580e30
+  result: 29 checks, 29 PASS, 0 FAIL  (see checks/step10_verify.out)
+  step11g_torsion_check.py is the HPC-side test for open item 8. It needs prod.nc and
+  cannot run from this repository; its output is 00_admin/step11g_torsion_check.tsv.
+
+## depends on
+  ../09_tleap_build/outputs/complex_solvated.{prmtop,inpcrd,pdb}
+  ../../chorismate-thesis-results/05_qmmm/selection_manifest.tsv  (canonical, 45 rows)
+
+## environment of the recorded check run
+  date_utc: 2026-09-28T19:19:52+00:00
+  python:   3.12.3
+  platform: Linux-6.18.44-fc-v42-x86_64-with-glibc2.39
+  host:     drafting container, NOT the HPC working tree.

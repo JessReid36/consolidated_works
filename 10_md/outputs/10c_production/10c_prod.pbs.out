@@ -1,0 +1,20 @@
+host=comp050.hpc  jobid=393429.hpc1.hpc  start=Thu Jul  9 08:25:37 SAST 2026
+GPU 0: Quadro RTX 4000 (UUID: GPU-f2047a41-38d8-256e-3075-6f8e5488ad96)
+GPU 1: Quadro RTX 4000 (UUID: GPU-413210cb-ca07-7e29-941c-ad04e1c2f07b)
+GPU 2: Quadro RTX 4000 (UUID: GPU-278624f2-37f0-ee50-f4e1-4fb2c4e81de2)
+scratch=/scratch-small-local/393429.hpc1.hpc (avail 1524719400 KB)
+Loading app/amber22/22
+  Loading requirement: compilers/gcc-9.4.0
+=== running 20 ns production (pmemd.cuda) ===
+Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+=== copying results to /home/18660916 (1 TB tier) ===
+=== summary ===
+                                                    Density    =         1.0220
+ NSTEP = 10000000   TIME(PS) =   20100.000  TEMP(K) =     1.24  PRESS =     0.0
+                                                    Density    =         0.0020
+|         ns/day =     132.24   seconds/ns =     653.34
+|         ns/day =      67.99   seconds/ns =    1270.82
+-rw-r--r--. 1 18660916 ldapuser  13G Jul  9 15:31 /home/18660916/system_development/04_amber_md/10c_production/prod.nc
+-rw-r--r--. 1 18660916 ldapuser 3.9M Jul  9 15:29 /home/18660916/system_development/04_amber_md/10c_production/prod.rst7
+end=Thu Jul  9 15:31:44 SAST 2026
+FINAL PASS: 10c production complete (trajectory prod.nc, restart prod.rst7)

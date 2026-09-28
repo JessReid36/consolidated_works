@@ -1,0 +1,7 @@
+Restrained minimisation: solute heavy atoms at 200 kcal/mol/A^2; solvent + H relax
+ &cntrl
+  imin=1, ntmin=1, maxcyc=10000, ncyc=5000,
+  ntb=1, cut=9.0,
+  ntr=1, restraint_wt=200.0, restraintmask='!(:WAT,Na+) & !@H=',
+  ntpr=100, ntwx=0, ntxo=1, ioutfm=1,
+ /
