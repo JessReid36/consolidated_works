@@ -3,3 +3,4 @@ step	subsection	scripts	n_outputs	checks	status
 02_terminal_repair	Methods X.1.2	step02_terminal_repair_abc.sh	9	28 PASS	verified, drafted
 03_cleanup_validate	Methods X.1.3	step03_cleanup_validate.sh	3	28 PASS	verified, drafted
 04_substrate_placement	Methods X.1.4	step04_place_chorismate_abc.sh	8	32 PASS	verified, drafted
+05_arg63_provenance	Methods X.1.4 (Arg63 para)	step05_arg63_provenance.sh, step05b_arg63_conformation_check.sh	2	15 PASS	verified, drafted

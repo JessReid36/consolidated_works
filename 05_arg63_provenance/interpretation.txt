@@ -1,0 +1,85 @@
+# 05_arg63_provenance — Arg63' rotamer provenance and repair invariance
+
+## What this step did
+Asked whether the swung-away Arg63' at placed site C is inherited from the crystal or
+introduced by the repair and placement workflow. step05 surveys all twelve analogue sites
+in raw 2CHT, measuring the nearest Arg63 guanidinium nitrogen across all chains, and
+repeats the measurement on the three placed substrates. step05b compares the repaired
+A/B/C Arg63 side chains directly against raw 2CHT.
+
+## Key numbers
+- Raw 2CHT, nearest Arg63 guanidinium N per analogue site, flagged SWUNG above 4.5 A:
+    A203 2.900   B201 2.876   C202 8.385 SWUNG   D206 4.323   E204 3.144
+    F205 5.698 SWUNG   G209 4.034   H207 7.057 SWUNG   I208 5.480 SWUNG
+    J212 5.705 SWUNG   K210 6.751 SWUNG   L211 7.282 SWUNG
+  7 of 12 swung, 5 of 12 bound (42%).
+- Placed complex: A 2.899, B 3.060, C 8.479 SWUNG.
+- step05b: Arg63 side-chain RMSD against raw 2CHT is 0.000 A over 7 side-chain atoms in
+  each of the three chains; verdict unchanged for all three.
+- All twelve raw distances and all three placed distances reproduced independently to
+  within 0.0005 A.
+
+## Acceptance threshold and verdict
+No gate beyond the SWUNG flag at 4.5 A, which is applied consistently everywhere.
+step05b's verdict field is the substantive result: unchanged, in all three chains.
+Verification: 15 checks, 15 PASS, 0 FAIL. See checks/step05_verify.out.
+
+## THE CONCLUSION IS RIGHT BUT THE STATED ARGUMENT IS WRONG
+step05_arg63_provenance.sh reasons from the SOURCE analogue site that each substrate
+geometry was aligned to in step 01b - K210, J212, L211 for sites A, B, C. Its closing
+lines compare raw L211 against placed C201 and conclude the asymmetry is crystallographic.
+
+Placement transforms the SUBSTRATE into the TARGET site and does not move the protein. The
+Arg63' conformation a placed substrate sees therefore belongs to its TARGET site - A203,
+B201, C202 - not to its source site.
+
+The two readings make different predictions, and the data separates them:
+
+    lig    placed    source   src N     target   tgt N
+    A       2.899      K210   6.751       A203   2.900
+    B       3.060      J212   5.705       B201   2.876
+    C       8.479      L211   7.282       C202   8.385
+
+All three SOURCE sites are swung, so source-site reasoning predicts all three placed sites
+swung. Observed: normal, normal, swung. Source-site reasoning is therefore FALSIFIED by
+this step's own data.
+
+Target-site reasoning predicts normal, normal, swung, and the placed distances agree with
+the target-site distances to within 0.184 A.
+
+The conclusion - the asymmetry is inherited crystallographic heterogeneity, not a workflow
+artefact - stands, and is independently supported by step05b's RMSD of 0.000 A. But the
+write-up must argue it from the target sites. Quoting the source-site comparison would be
+quoting an argument that this step's own report disproves.
+
+## Literature comparison
+Claeyssens et al. (2011, p. 11) report that in crystal structures of BsCM (2CHT and 1COM)
+Arg63 "is only bound to the substrate in ~1/3 of active sites, remaining solvent exposed
+in the others". Our survey of 2CHT finds 5 of 12 bound, 42%. Same phenomenon, same
+structure, consistent order.
+
+They also cite Woodcock et al., who calculated reaction paths with and without Arg63 bound
+and found little difference in barrier height at the SCCDFTB/CHARMM22 level (6.0 vs 5.7
+kcal/mol), and conclude Arg63 is not important for catalysis. Claeyssens' own Table 3 gives
+Arg63 a DESTABILISING average contribution of -0.6 +/- 0.5 kcal/mol.
+
+So the site-C asymmetry is expected, documented, and by the primary comparator's own
+analysis not consequential for the barrier. That is the framing to use: not a defect to
+apologise for, an inherited feature with a published precedent and a published null effect.
+
+## Caveats and known issues
+- THE TWO nearest_any COLUMNS ARE NOT COMPARABLE. Raw 2CHT carries 3554 hydrogens, so its
+  nearest-any-atom can be satisfied by a hydrogen on Arg63 itself (the report shows HH11,
+  HE, H as closest atoms). In the placed complex the protein is heavy-atom only after step
+  03 while the substrates retain their own hydrogens (24, 8 per chorismate), so the same
+  column is protein-heavy against substrate-including-H. Quote the nearest_N column, which
+  restricts the protein side to NE/NH1/NH2 in both cases.
+- The SWUNG threshold of 4.5 A is a bare literal in the script with no stated basis. It
+  separates the observed distribution cleanly here - the nearest non-swung site is 4.323 A
+  and the nearest swung is 5.480 A, a gap of 1.16 A - so the classification is not
+  sensitive to the exact value. Say so rather than presenting 4.5 as principled.
+- scripts_as_run/ differs for step05b only, by a variable rename (placed -> protein).
+  Immaterial. step05 itself is identical.
+
+## Cited by
+Methods X.1.4 (the Arg63' paragraph). Possibly X.1.5.

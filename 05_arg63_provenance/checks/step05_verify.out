@@ -1,0 +1,41 @@
+step 05 verification against /home/claude/repos/cw_build/05_arg63_provenance/outputs
+
+1. continuity
+  [PASS] step01 2cht_raw.pdb reachable — b938020bbbcbe301
+  [PASS] step04 placed complex reachable
+
+2. raw survey reproduced over all twelve analogue sites
+  [PASS] twelve analogue sites found — n=12
+  [PASS] all twelve nearest-nitrogen distances reproduced — max difference 0.0005 A
+
+3. placed survey reproduced
+  [PASS] all three placed distances reproduced — max difference 0.0003 A
+
+4. SWUNG flag applied consistently at the script's 4.5 A threshold
+  [PASS] flag equals nearest-N > 4.5 A everywhere — []
+
+5. source-site versus target-site reasoning
+         lig     placed   source   src N   target   tgt N
+         A        2.899     K210   6.751     A203   2.900
+         B        3.060     J212   5.705     B201   2.876
+         C        8.479     L211   7.282     C202   8.385
+  [PASS] target-site conformation predicts the observed pattern — predicted [False, False, True], observed [False, False, True]
+  [PASS] source-site conformation does NOT predict it (the header's argument fails) — predicted [True, True, True], observed [False, False, True]
+         placed vs target-site nearest-N agree to within 0.184 A
+
+6. repair invariance of the Arg63 side chains
+  [PASS] chain A: Arg63 side chain unchanged by repair — 7 atoms, RMSD 0.000 A, unchanged
+  [PASS] chain B: Arg63 side chain unchanged by repair — 7 atoms, RMSD 0.000 A, unchanged
+  [PASS] chain C: Arg63 side chain unchanged by repair — 7 atoms, RMSD 0.000 A, unchanged
+
+7. measurement basis
+  [PASS] the raw deposition carries hydrogens, so nearest-any is not comparable — 3554 hydrogens in 2cht_raw.pdb; quote the nearest-nitrogen column
+  [PASS] the PROTEIN in the placed complex is heavy-atom only, per step 03 — 0 protein hydrogens
+  [PASS] the placed substrates retain their own hydrogens — 24 ligand hydrogens, 8 per chorismate
+
+8. literature comparison
+         7 of 12 sites swung, 5 of 12 bound (42%)
+         Claeyssens et al. (2011): Arg63 bound in roughly one third of sites
+  [PASS] bound fraction is of the order Claeyssens report — 5/12
+
+ALL CHECKS PASSED

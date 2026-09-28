@@ -73,6 +73,60 @@ selection scheme S3. The comment also repeats the pre-correction wording of that
 To close: correct both comments in the code repo, then refresh scripts/ in the affected
 consolidated_works step folders and re-run their checks.
 
+ITEM 4 - step05's stated argument is wrong and must be corrected in the code repo
+  raised at: 05_arg63_provenance
+  closes at: a commit to chorismate-thesis-code
+  status: OPEN
+
+step05_arg63_provenance.sh reasons from the SOURCE analogue site each substrate geometry
+was aligned to (K210, J212, L211 for sites A, B, C). Its header comment says "If the TSA
+site our cha_c derives from (source L211, per step 01b) already shows the guanidinium
+swung away ... the asymmetry is crystallographic", and its closing lines print a
+comparison of raw L211 against placed C201.
+
+Placement transforms the SUBSTRATE into the TARGET site and does not move the protein, so
+the Arg63' conformation a placed substrate encounters belongs to its TARGET site (A203,
+B201, C202). The step's own report separates the two readings:
+
+    lig    placed    source   src N     target   tgt N
+    A       2.899      K210   6.751       A203   2.900
+    B       3.060      J212   5.705       B201   2.876
+    C       8.479      L211   7.282       C202   8.385
+
+All three source sites are swung, so source-site reasoning predicts all three placed sites
+swung. Observed: normal, normal, swung. The header's argument is falsified by the data in
+the file it writes. Target-site reasoning predicts the observed pattern and agrees to
+within 0.184 A.
+
+BLAST RADIUS IS SMALL. No committed output is wrong. step05_arg63_provenance_report.tsv is
+pure data and every row reproduces to within 0.0005 A. The faulty reasoning exists only in
+the header comment and in stdout, and no stdout log is committed. The conclusion the step
+reaches is correct and is independently supported by step05b (side-chain RMSD 0.000 A).
+
+This is therefore a COMMENT CORRECTION, NOT A RERUN, and does not trip the no-rerun rule.
+
+To close: correct the header comment and the closing print in
+chorismate-thesis-code/phase1_system_dev/step05_arg63_provenance.sh to compare the TARGET
+site, refresh 05_arg63_provenance/scripts/ from the new commit, update the manifest pin,
+and re-run checks/step05_verify.py. Check 5 already asserts the correct relation, so it
+will keep passing.
+
+Already handled and needing nothing further:
+  - 05_arg63_provenance/interpretation.txt records the falsified argument.
+  - checks/step05_verify.py check 5 tests both predictions mechanically.
+  - The Methods X.1.4 Arg63' paragraph is written from the target sites, so the thesis
+    text never repeats the bad argument.
+
+ITEM 5 - step06_acceptance_decision.txt carries a superseded residue list
+  raised at: 04_substrate_placement
+  closes at: 06_acceptance_freeze, or a decision to leave it
+  status: OPEN
+
+Its active-site architecture paragraph names Arg63', Lys60', Thr74', Cys75', Phe57' and
+Ala59', omitting Val73'. That is the pre-Agbaglo list. The frozen structure is unaffected;
+only the decision text is out of date. Confirm at step 06 and decide whether to correct
+the text or annotate it.
+
 ===============================================================================
 CLOSED
 ===============================================================================

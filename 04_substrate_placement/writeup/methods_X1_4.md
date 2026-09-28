@@ -73,6 +73,25 @@ Source: `checks/step04_verify.out`.
 | Arg116 | 5.501 |
 | Pro117 | 5.515 |
 
+Arg63′ lay at 6.380 Å at site C against 2.899 and 3.060 Å at sites A and B. I established
+that this asymmetry is inherited from the crystal rather than introduced by the repair or
+the placement, using `step05_arg63_provenance.sh` and `step05b_arg63_conformation_check.sh`.
+Placement transforms the substrate into the target site and leaves the protein untouched,
+so the Arg63′ conformation a placed substrate encounters is the one belonging to its target
+analogue site. Surveying all twelve analogue sites in the raw deposition gave nearest
+guanidinium-nitrogen distances of 2.900 Å at A203, 2.876 Å at B201 and 8.385 Å at C202, a
+pattern the placed complex reproduces to within 0.184 Å. Across the full deposition, seven
+of the twelve sites carried the guanidinium swung away beyond 4.5 Å and five were bound.
+Comparing the repaired Arg63 side chains directly against the raw deposition gave a
+side-chain RMSD of 0.000 Å over seven atoms in each of the three chains, so the repair
+altered no Arg63 side chain.
+
+Claeyssens *et al.* (2011) report the same heterogeneity in the crystallographic record,
+finding Arg63 bound to the substrate in roughly one third of active sites and solvent
+exposed in the remainder, and cite calculations showing little difference in barrier height
+between the bound and unbound arrangements. Their own decomposition assigns Arg63 a
+destabilising average contribution of −0.6 ± 0.5 kcal mol⁻¹.
+
 Every expected chain-origin assignment was recovered by measurement, across 39 tested
 assignments in all three sites, with no mismatch. The closest protein-substrate contact
 was 2.782 Å at site A, 2.586 Å at site B and 2.709 Å at site C, against a severe-overlap

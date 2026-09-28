@@ -32,8 +32,8 @@ cited_by: Methods X.1.4, Tables X.1.4a-c
   result: 32 checks, 32 PASS, 0 FAIL  (see checks/step04_verify.out)
 
 ## writeup   (drafted here; assembled into the chapter later)
-  writeup/methods_X1_4.docx  16029  f13242775cc26ab0eecd73e7ae454ed08bde2bdea2bd585362ea53bc2d450801
-  writeup/methods_X1_4.md  11436  f4d784078cb621cda3ad57d340861b6dc3fbe6d5c79b0df7db2b6e6595694b8c
+  writeup/methods_X1_4.docx  16604  08b3dfe964d6b5f3a36b207efc4d07aac820015f47401873c2d04a2a61e82fd1
+  writeup/methods_X1_4.md  12879  100275e5eb53d3757d8668b0c1e22267d25e2405ea46b0f9ae6db829fef81558
   note: the .docx is generated from the .md by pandoc; the .md is the source.
 
 ## depends on

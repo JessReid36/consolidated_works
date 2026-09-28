@@ -1,0 +1,41 @@
+step: 05_arg63_provenance
+title: Arg63' rotamer provenance and repair invariance
+scripts: step05_arg63_provenance.sh, step05b_arg63_conformation_check.sh
+cited_by: Methods X.1.4, Arg63' paragraph (drafted in 04_substrate_placement/writeup)
+
+## scripts   (canonical home: JessReid36/chorismate-thesis-code)
+   branch=tier1-realism commit=f0e059cf11eda91dea939c42f8e12d1a8bf829a1
+  phase1_system_dev/step05_arg63_provenance.sh  6084  c1e55e61882a97d07594db67af7343e474317af934a4ac633e42ecc15c695149
+  phase1_system_dev/step05b_arg63_conformation_check.sh  4209  9d508f121557aa24ee709b089009f0e5a5c9c3a03db7bfc465d16a49e3afe8fc
+
+## scripts_as_run   (archived in results 00_admin at run time)
+   canonical home: JessReid36/chorismate-thesis-results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  00_admin/step05_arg63_provenance.sh  6084  c1e55e61882a97d07594db67af7343e474317af934a4ac633e42ecc15c695149
+  00_admin/step05b_arg63_conformation_check.sh  4205  cfcedf22f877158c89c78a06352a15b620e9938fbf9f9db4a5801711e6dc3b32
+  divergence: step05 identical. step05b differs by a variable rename
+    (placed -> protein). No effect on any output.
+
+## outputs   (canonical home: JessReid36/chorismate-thesis-results)
+   branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  00_admin/step05_arg63_provenance_report.tsv  635  6aff67f6d922cb5a01c09aa852326da63e40902c242a3b5a4ed83b8327672987
+  00_admin/step05b_arg63_conformation_report.tsv  128  77f0724d8fcd1480b86a4409489886e1c2e0d8cdb503d2a119d48c0568587427
+
+## checks
+  step05_verify.py  9265  250c4898cb27d56cd67e45267fda37488cea32b5059c5e72bc12c95a214ad60f
+  step05_verify.out  2172  ecc21d84511a52dcaa51e14363b8b315f37f996175c21e919cf33e5a00da30fa
+  result: 15 checks, 15 PASS, 0 FAIL  (see checks/step05_verify.out)
+
+## writeup
+  writeup/README.txt  441  923cd8f0cc4d218ee6c7e09ac14c61e3b11b51f2fa459d1f723465357c583ca5
+  note: no standalone subsection. The result is a paragraph in Methods X.1.4.
+
+## depends on
+  ../01_inputs_acquisition/outputs/2cht_raw.pdb
+  ../04_substrate_placement/outputs/abc_with_chorismate_unprotonated.pdb
+  ../03_cleanup_validate/outputs/abc_repaired_clean.pdb   (step05b input)
+
+## environment of the recorded check run
+  date_utc: 2026-09-28T17:25:41+00:00
+  python:   3.12.3
+  platform: Linux-6.18.44-fc-v42-x86_64-with-glibc2.39
+  host:     drafting container, NOT the HPC working tree.
