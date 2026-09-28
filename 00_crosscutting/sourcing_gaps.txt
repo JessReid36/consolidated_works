@@ -39,7 +39,8 @@ OPEN
      parameter record, only a URL remark.
    Two records against one, and internal 10 / external 80 is the conventional assignment
      for a solute in water, but NO COMMITTED OUTPUT ESTABLISHES IT.
-   Blocks: Methods X.1.5 currently carries a PLACEHOLDER.
+   Blocks: Methods X.1.5 carries BLANKS in the running text, to be completed from
+     the lab workbook.
    Closes: confirm what was actually entered on the server. Note this is not recoverable
      by rerunning anything - it is a record of a past interactive submission.
 

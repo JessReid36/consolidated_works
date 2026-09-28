@@ -1,0 +1,77 @@
+step 07 verification against /home/claude/repos/cw_build/07_protonation_hpp/outputs
+
+1. continuity
+  [PASS] step03 abc_repaired_clean.pdb reachable — 0bb491624bbed701
+
+2. the structure submitted to the server
+  [PASS] no heteroatoms in the submission
+  [PASS] no hydrogens in the submission
+  [PASS] TER count is 3 — 3
+  [PASS] chain A: 1010 atoms, residues 1-127, 127 residues — 1010 atoms, 1-127, 127 residues
+  [PASS] chain B: 1010 atoms, residues 1-127, 127 residues — 1010 atoms, 1-127, 127 residues
+  [PASS] chain C: 1010 atoms, residues 1-127, 127 residues — 1010 atoms, 1-127, 127 residues
+
+3. conservation of the template heavy atoms
+  [PASS] template heavy-atom count reproduced — 3030 vs 3030
+  [PASS] restored heavy-atom count reproduced — 3030 vs 3030
+  [PASS] no template heavy atom is missing — 0 missing
+  [PASS] no heavy atom was added — 0 extra
+  [PASS] hydrogens added reproduced — 3153 vs 3153
+
+4. drift, recomputed per category
+  [PASS] drift[active_site_backbone] reproduced — n=144 max=0.0000 rms=0.0000 >1.0=0  vs  count=144;max=0.0000;rms=0.0000;>1.0A=0
+  [PASS] drift[active_site_set] reproduced — n=321 max=0.0000 rms=0.0000 >1.0=0  vs  count=321;max=0.0000;rms=0.0000;>1.0A=0
+  [PASS] drift[active_site_sidechain] reproduced — n=177 max=0.0000 rms=0.0000 >1.0=0  vs  count=177;max=0.0000;rms=0.0000;>1.0A=0
+  [PASS] drift[all_heavy] reproduced — n=3030 max=2.2452 rms=0.1695 >1.0=22  vs  count=3030;max=2.2452;rms=0.1695;>1.0A=22
+  [PASS] drift[backbone] reproduced — n=1527 max=0.0000 rms=0.0000 >1.0=0  vs  count=1527;max=0.0000;rms=0.0000;>1.0A=0
+  [PASS] drift[flippable_residue] reproduced — n=354 max=2.2452 rms=0.4959 >1.0=22  vs  count=354;max=2.2452;rms=0.4959;>1.0A=22
+  [PASS] drift[nonflippable_residue] reproduced — n=2676 max=0.0000 rms=0.0000 >1.0=0  vs  count=2676;max=0.0000;rms=0.0000;>1.0A=0
+  [PASS] drift[not_active_site_set] reproduced — n=2709 max=2.2452 rms=0.1793 >1.0=22  vs  count=2709;max=2.2452;rms=0.1793;>1.0A=22
+  [PASS] drift[sidechain] reproduced — n=1503 max=2.2452 rms=0.2407 >1.0=22  vs  count=1503;max=2.2452;rms=0.2407;>1.0A=22
+
+5. the acceptance rule
+  [PASS] backbone drift <= 0.05 A — 0.000
+  [PASS] non-flippable drift <= 0.2 A — 0.000
+  [PASS] active-site backbone drift <= 0.05 A — 0.000
+  [PASS] no active-site heavy atom beyond 1.0 A — 0 atoms
+  [PASS] the recorded decision is ACCEPT — ACCEPT for tleap after HIS renaming
+  [PASS] every displacement beyond 1.0 A is in a flippable residue — {'GLN': 10, 'HIE': 12}
+
+6. histidine assignment reproduced from the accepted structure
+  [PASS] histidine count reproduced — 9 vs 9
+  [PASS] His36 chain A: HIP from ring hydrogens — HD1=yes HE2=yes -> HIP, recorded HIP
+  [PASS] His54 chain A: HIP from ring hydrogens — HD1=yes HE2=yes -> HIP, recorded HIP
+  [PASS] His106 chain A: HIE from ring hydrogens — HD1=no HE2=yes -> HIE, recorded HIE
+  [PASS] His36 chain B: HIP from ring hydrogens — HD1=yes HE2=yes -> HIP, recorded HIP
+  [PASS] His54 chain B: HIP from ring hydrogens — HD1=yes HE2=yes -> HIP, recorded HIP
+  [PASS] His106 chain B: HIE from ring hydrogens — HD1=no HE2=yes -> HIE, recorded HIE
+  [PASS] His36 chain C: HIP from ring hydrogens — HD1=yes HE2=yes -> HIP, recorded HIP
+  [PASS] His54 chain C: HIP from ring hydrogens — HD1=yes HE2=yes -> HIP, recorded HIP
+  [PASS] His106 chain C: HIE from ring hydrogens — HD1=no HE2=yes -> HIE, recorded HIE
+
+7. trimer symmetry of the assignment
+  [PASS] His36 assigned identically in all three chains — ['HIP']
+  [PASS] His54 assigned identically in all three chains — ['HIP']
+  [PASS] His106 assigned identically in all three chains — ['HIE']
+
+8. orphan file, quarantined in orphans/ and NOT counted as an output
+  [PASS] orphan summary: max side-chain drift reproduces — 2.245 vs 2.2452
+  [PASS] orphan summary: max backbone drift reproduces — 0.000 vs 0.0000
+  [PASS] every orphan row is derivable from the declared drift_by_atom output — 12/12 rows reproduce
+         The orphan is written by NO script in chorismate-thesis-code at
+         f0e059c. It is fully derivable from a declared output, so it is
+         held in orphans/ for the record and excluded from outputs/.
+         See orphans/ORPHANS.txt for the search commands to locate its
+         producing script on the HPC or the PC.
+
+9. as-run archive completeness
+  [PASS] step07a has an as-run archive copy — ['step07a_prepare_hpp_input.sh']
+  [PASS] step07b has NO as-run archive copy, and none is fabricated — absent from results 00_admin; not substituted from the code repo
+
+NOT CHECKABLE HERE:
+         H++ run parameters. pH 7.0 is agreed; salinity and the two dielectric
+         constants are recorded only in script comments, and the copies
+         disagree. hpp_output_from_server.pdb carries no parameter record.
+         See 00_crosscutting/sourcing_gaps.txt item 4.
+
+ALL CHECKS PASSED

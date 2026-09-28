@@ -1,0 +1,17 @@
+STEP 07b - H++ protonated protein acceptance decision
+
+ACCEPT for tleap after HIS renaming
+
+Reasons:
+  - all template heavy atoms preserved, none added
+  - backbone drift 0.000 A <= 0.05
+  - nonflippable drift 0.000 A <= 0.2
+  - active-site backbone drift 0.000 A <= 0.05
+  - no active-site heavy atom moved > 1.0 A
+  - large shifts confined to non-active-site flippable ASN/GLN/HIS residues
+
+Accepted structure:
+  /home/18660916/system_development/03_amber/protonation_hpp/abc_protonated_hpp_accepted.pdb
+
+Next: combine with the accepted CHA ligands and build with tleap (ff14SB + GAFF + TIP3P).
+Note: H++'s own topology/coordinates are NOT used - only its protonation/orientation decisions.

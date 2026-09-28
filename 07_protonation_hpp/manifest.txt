@@ -1,0 +1,63 @@
+step: 07_protonation_hpp
+title: Protonation-state assignment and acceptance
+scripts: step07a_prepare_hpp_input.sh, step07b_audit_repair_hpp.sh
+cited_by: Methods X.1.5 (assembled here, with the step 06 freeze half)
+
+## scripts   (canonical home: JessReid36/chorismate-thesis-code)
+   branch=tier1-realism commit=f0e059cf11eda91dea939c42f8e12d1a8bf829a1
+  phase1_system_dev/step07a_prepare_hpp_input.sh  2767  7c2506f0533503c3b214ff5d6a27cf78c2ce10471b64738a881cb56d15b870c5
+  phase1_system_dev/step07b_audit_repair_hpp.sh  18534  fc6350f14ea503b009af12e3849fa7304f485a5d1d80a7ece9a9470cadbd9841
+
+## scripts_as_run   (archived in results 00_admin at run time)
+   canonical home: JessReid36/chorismate-thesis-results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  00_admin/step07a_prepare_hpp_input.sh  2701  88c2cf077b395343ba9bfa02a0b4656199272eb01f9fe0d15ccde920f680a190
+  step07b_audit_repair_hpp.sh: NO AS-RUN ARCHIVE EXISTS. It is absent from results
+    00_admin, unlike every other step01-07 script. No substitute has been filed here;
+    the absence is the record. Verified by checks/step07_verify.py section 9.
+  divergence: step07a differs SUBSTANTIVELY from scripts/. The archived copy records
+    internal dielectric 80 / external 10; the working copy records internal 10 /
+    external 80. It also lacks the thread-limit export. See open_items / sourcing_gaps.
+
+## outputs   (declared by the scripts above)
+   canonical home: JessReid36/chorismate-thesis-results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  03_amber/protonation_hpp/abc_protonated_hpp_accepted.pdb  500839  1fd21f18ce8cc0a7d349c296f7a8361f0b25392840dad8526be91676632436b8
+  03_amber/protonation_hpp/hpp_input_protein_only_with_TER.pdb  239386  0bb491624bbed701cc134be849897655cb0413371c57065eed3022331b7cbc7b
+  00_admin/step07a_hpp_input_report.tsv  94  6cb9ac094c8878200c6154581b9b36d9293d44761278780d8e0c1722bc206056
+  00_admin/step07b_acceptance_decision.txt  693  b6e537e836f45bb2babcba39dd507d8d54a0060adaabe097a8e1447b13646105
+  00_admin/step07b_audit_summary.tsv  1093  b3c912b8aec384e2b41d05bc7945319ddc8b72ae4158b50245643c28acb5524b
+  00_admin/step07b_drift_by_atom.tsv  226451  13c4e9b8396ce659877fc4ba0617d7aa8f9ba68700acaf4a68b01b556c2b6567
+  00_admin/step07b_drift_by_residue.tsv  18032  b7e4a29a6386b40806324e100d130b03833dc0eb80768bb21174029f3227cc83
+  00_admin/step07b_his_assignment.tsv  233  3142dbaa76d13ce43ed56b73fcb67dca44c44a9959cbfdc6bca3c3fea1e16df1
+
+## external   (no producing script; input to step07b)
+  03_amber/protonation_hpp/hpp_output_from_server.pdb  500966  c195f74ade7a064f93ef548c04c76080086958417f776ed4ceb07330acca4fa3
+  Raw return from the H++ web server. Not an output of any script and never will be.
+  Held outside outputs/ so the distinction is visible in the layout.
+
+## orphans   (present in the results repo, declared by NO script; excluded from outputs)
+  00_admin/step07b_heavy_atom_drift.tsv  490  7521f8d850d23edfc138c0318735baa0f8a09af5937f4c5867cd176644fc10e2
+  orphans/ORPHANS.txt  2956  78b3ca359f57927a42b7ca18396e8459aaee8ef125ce0cf80033437fc3c2481d
+  Fully derivable from the declared step07b_drift_by_atom.tsv: summary line and all
+  12 ranked rows reproduce. Producing script not found at f0e059c; search commands
+  for the HPC and the PC are in ORPHANS.txt.
+
+## checks
+  step07_verify.py  13749  2efe7df88d242b66728103908e59aab6df482404b0a428c1d287aae5081fa69c
+  step07_verify.out  4925  80f10d929f784c6d393fc664049370bc96d42e6d94c26cd292d3c89650fc53b9
+  result: 45 checks, 45 PASS, 0 FAIL  (see checks/step07_verify.out)
+
+## writeup
+  writeup/methods_X1_5.docx  15148  eeeb3e2e5884158a6afd60315ec60822a8c53e67c5e5d596faa0b31016680783
+  writeup/methods_X1_5.md  10002  45daa85b9c78610c480e8716c07b715ccba8ea8e6fa9fff5729f4ad84588ac13
+  note: X.1.5 covers steps 06 and 07 together. Blanks are left for the H++
+        salinity and dielectric settings, to be filled from the lab notebook.
+
+## depends on
+  ../03_cleanup_validate/outputs/abc_repaired_clean.pdb   (step07a input)
+  ./external/hpp_output_from_server.pdb                   (step07b input)
+
+## environment of the recorded check run
+  date_utc: 2026-09-28T17:45:06+00:00
+  python:   3.12.3
+  platform: Linux-6.18.44-fc-v42-x86_64-with-glibc2.39
+  host:     drafting container, NOT the HPC working tree.

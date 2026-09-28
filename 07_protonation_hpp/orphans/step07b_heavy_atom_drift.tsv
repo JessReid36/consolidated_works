@@ -1,0 +1,15 @@
+# backbone drift should be ~0; large SIDE-CHAIN drift localised to a residue = H++ flip (benign)
+summary	max_backbone_A=0.000	rms_backbone_A=0.000	max_sidechain_A=2.245	rms_sidechain_A=0.241
+rank	drift_A	chain	resid	resname	atom
+1	2.245	B	44	GLN	NE2
+2	2.244	C	101	GLN	NE2
+3	2.242	B	44	GLN	OE1
+4	2.215	A	44	GLN	OE1
+5	2.214	C	44	GLN	OE1
+6	2.210	A	44	GLN	NE2
+7	2.197	C	106	HIE	ND1
+8	2.195	C	44	GLN	NE2
+9	2.188	B	106	HIE	CD2
+10	2.177	A	106	HIE	ND1
+11	2.174	C	106	HIE	CD2
+12	2.164	A	101	GLN	OE1

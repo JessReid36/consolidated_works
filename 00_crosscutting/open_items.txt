@@ -127,6 +127,37 @@ Ala59', omitting Val73'. That is the pre-Agbaglo list. The frozen structure is u
 only the decision text is out of date. Confirm at step 06 and decide whether to correct
 the text or annotate it.
 
+ITEM 6 - An undeclared output exists in the results repository
+  raised at: 07_protonation_hpp
+  closes at: a decision, then a commit
+  status: OPEN
+
+step07b_heavy_atom_drift.tsv is present in results 00_admin/ but is written by NO script
+in phase1_system_dev. Its summary figures agree with the recomputed values (max side-chain
+2.245 A, max backbone 0.000 A), so it is consistent, but its provenance is unknown and it
+duplicates step07b_drift_by_residue.tsv in a different format (top-15 ranked atoms plus a
+summary line). Probably a leftover from an earlier version of step07b.
+
+To close: decide whether it is wanted. If it is, have step07b write it so it stops being
+an orphan. If not, remove it. Either way the current state is a file in the record that
+nothing produces.
+
+ITEM 7 - The as-run archive convention changes partway through the pipeline
+  raised at: 07_protonation_hpp
+  closes at: a decision
+  status: OPEN
+
+Steps 01, 02, 03, 05, 06 and 07a archive their as-run script copies in results 00_admin/.
+Steps 04, 07b and 08 through 12b archive theirs in results phase1_system_dev/ instead.
+step04 appears in BOTH.
+
+This corrects an earlier finding in this audit that step07b was "not archived at all" - it
+is archived, just in the other location. The consolidated_works manifests record the
+correct source path per step, so nothing downstream is wrong, but anyone looking for an
+as-run copy needs to know to check two places.
+
+To close: either consolidate the archives into one location, or document the convention.
+
 ===============================================================================
 CLOSED
 ===============================================================================

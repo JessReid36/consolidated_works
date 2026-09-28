@@ -1,0 +1,82 @@
+# 07_protonation_hpp — Protonation-state assignment and acceptance
+
+## What this step did
+step07a wrote the protein-only, TER-delimited structure for submission to the H++ server.
+The server run is EXTERNAL: hpp_output_from_server.pdb is an input to step07b, not an
+output of any script here, and it is kept in external/ rather than outputs/ for that
+reason. step07b audited the return against the frozen template, classified every
+heavy-atom displacement, and wrote an explicit accept decision.
+
+Only the protonation and orientation DECISIONS are taken from H++. Its topology and
+coordinates are discarded and the assignments applied to the frozen template.
+
+## Key numbers
+- Submission: 3 chains, 1010 atoms each, residues 1-127, 3 TER records, no heteroatoms,
+  no hydrogens.
+- Return: 381 residues, 3030 template heavy atoms all present, none added, 3153 hydrogens.
+- Drift by category, all reproduced independently:
+    backbone                 n=1527  max 0.0000  rms 0.0000  >1.0 A: 0
+    non-flippable residues   n=2676  max 0.0000  rms 0.0000  >1.0 A: 0
+    active-site set          n=321   max 0.0000  rms 0.0000  >1.0 A: 0
+    active-site backbone     n=144   max 0.0000  rms 0.0000  >1.0 A: 0
+    all heavy                n=3030  max 2.2452  rms 0.1695  >1.0 A: 22
+- All 22 displacements beyond 1.0 A fall in flippable residues: GLN 10 atoms, HIE 12.
+  None is in the active-site set.
+- Histidines: 9, assigned His36 HIP, His54 HIP, His106 HIE, identically in all three
+  chains. Reproduced from ring-hydrogen presence in the accepted structure.
+
+## Acceptance threshold and verdict
+Four thresholds, all from the script: backbone <= 0.05 A, non-flippable <= 0.20 A,
+active-site backbone <= 0.05 A, and no active-site heavy atom beyond 1.0 A. All four met
+with margin, every relevant category at exactly 0.000 A. Recorded decision: ACCEPT for
+tleap after HIS renaming.
+Verification: 42 checks, 42 PASS, 0 FAIL. See checks/step07_verify.out.
+
+## Literature comparison
+Claeyssens et al. (2011) state only that the initial enzyme structure was "hydrogenated
+and solvated"; no protonation method, no pH, no titration calculation is reported. Agbaglo
+et al. (2024) likewise report no protonation protocol in the passages read. So there is NO
+literature comparator for how protonation states were assigned, and the write-up should
+say so rather than imply one.
+
+This matters more here than at step 03, where the same was true of altloc handling. Six of
+the nine histidines are assigned HIP and therefore carry +1 each, so the protonation
+assignment sets six unit charges in the model. For a thesis arguing that catalysis can be
+engineered through the electrostatic environment, the charge state of the protein is not a
+neutral preparation detail. It was decided by a continuum-electrostatics web service whose
+run parameters we cannot currently reconstruct.
+
+## Caveats and known issues
+- THE H++ RUN PARAMETERS ARE NOT RECOVERABLE. pH 7.0 is agreed across all copies of the
+  script comments. Salinity and the two dielectric constants appear only in those comments
+  and the copies CONTRADICT each other: the archived step07a says internal 80 / external
+  10, the working step07a and step07b both say internal 10 / external 80. The server
+  output carries no parameter record, only a URL remark. This is a record of a past
+  interactive web submission; no rerun can recover it. The write-up carries blanks pending
+  the lab workbook. See 00_crosscutting/sourcing_gaps.txt item 4.
+
+- AN UNDECLARED OUTPUT EXISTS. step07b_heavy_atom_drift.tsv is present in the results
+  repository but is written by NO script in phase1_system_dev. Its summary figures agree
+  with the recomputed values (max side-chain 2.245 A, max backbone 0.000 A), so it is
+  consistent, but its provenance is unknown and it is probably a leftover from an earlier
+  version of step07b. It duplicates information in step07b_drift_by_residue.tsv in a
+  different format. Decide whether to keep it, and if kept, have a script write it.
+
+- STEP07B'S AS-RUN COPY IS ARCHIVED IN A DIFFERENT PLACE. It lives at
+  results/phase1_system_dev/step07b_audit_repair_hpp.sh, not in 00_admin/ with its
+  siblings. It is IDENTICAL to the code repo copy. This corrects an earlier finding in
+  this audit that step07b was "not archived at all" - it is, just elsewhere. Note that
+  results/phase1_system_dev/ holds as-run copies for steps 04 and 07b through 12b, so the
+  archive convention changes partway through the pipeline.
+
+- step07a's archived and working copies differ by the contradictory dielectric comment AND
+  by the thread-limit export line. The dielectric divergence is the substantive one and is
+  the subject of the sourcing gap above.
+
+- The acceptance decision reports "backbone drift 0.000 A <= 0.05" and similar. Those are
+  not approximations: the recomputed maxima are exactly 0.0000 A across 1527 backbone
+  atoms, 2676 non-flippable atoms and all 321 active-site atoms. H++ moved nothing except
+  flippable side chains, which is the ideal outcome.
+
+## Cited by
+Methods X.1.5 (assembled here, with the freeze fragment from 06_acceptance_freeze).

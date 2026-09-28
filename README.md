@@ -26,6 +26,10 @@ rather than a judgement call.
       manifest.txt          provenance and checksums for every file, plus check environment
       interpretation.txt    fixed skeleton, see below
       writeup/              this step's Methods subsection, .md source + .docx
+      external/             files with no producing script, e.g. a web-server return
+      orphans/              files present in the results repo that NO script declares;
+                            quarantined with ORPHANS.txt giving the evidence and the
+                            commands to search for the producing script
 
 Files over 10 MB are not copied; they are recorded as `<name>.pointer` carrying canonical
 path, commit, size and SHA-256, preserving the existing large-file policy in
@@ -35,7 +39,10 @@ path, commit, size and SHA-256, preserving the existing large-file policy in
 
 1. Grep the script for what it actually writes. Never infer outputs from filenames.
 2. Locate each declared output. Report ABSENT for declared-but-missing, UNDECLARED for
-   present-but-unclaimed.
+   present-but-unclaimed. NO ORPHAN IS ADMITTED TO outputs/. An undeclared file is either
+   traced to its producing script, or moved to orphans/ with the evidence recorded in
+   ORPHANS.txt. Never fabricate an as-run archive copy from the code repo: if a script was
+   not archived, the absence is the record.
 3. Read every output's contents.
 4. Re-derive what is derivable; that becomes `checks/`.
 5. Literature check: what did Claeyssens or Agbaglo do here, do we deviate, is it recorded.
@@ -56,5 +63,6 @@ should reconcile against the write-up's reference list.
 
 ## Status
 
-01 to 06 built, verified and drafted 2026-09-28 (code tier1-realism f0e059c, results main aa131d5).
-Step 07 onward not yet added.
+01 to 07 built, verified and drafted 2026-09-28 (code tier1-realism f0e059c, results main aa131d5).
+Methods X.1.1 to X.1.5 drafted. H++ settings in X.1.5 left blank pending the lab workbook.
+Step 08 onward not yet added.

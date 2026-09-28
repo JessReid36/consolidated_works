@@ -1,0 +1,10 @@
+chain	resid	input_resname	HD1	HE2	suggested
+A	36	HIS	yes	yes	HIP
+A	54	HIS	yes	yes	HIP
+A	106	HIS	no	yes	HIE
+B	36	HIS	yes	yes	HIP
+B	54	HIS	yes	yes	HIP
+B	106	HIS	no	yes	HIE
+C	36	HIS	yes	yes	HIP
+C	54	HIS	yes	yes	HIP
+C	106	HIS	no	yes	HIE

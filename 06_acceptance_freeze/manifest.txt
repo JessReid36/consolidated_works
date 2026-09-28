@@ -32,8 +32,8 @@ cited_by: Methods X.1.5 (freeze half; assembled in 07_protonation_hpp/writeup)
   result: 43 checks, 43 PASS, 0 FAIL  (see checks/step06_verify.out)
 
 ## writeup
-  writeup/methods_X1_5_freeze_fragment.md  2726  d86f244f9e2edb82cc78af12836138d68a95e649fd8a9c4d5c129ae25ac958bd
-  note: fragment only. X.1.5 is assembled in 07_protonation_hpp/writeup.
+  writeup/README.txt  442  e5de2ed22cb187077102d3b257547926cc0ad719a2666ee6839bef9117f38e6a
+  note: no standalone subsection. X.1.5 is drafted in 07_protonation_hpp/writeup.
 
 ## depends on
   ../03_cleanup_validate/outputs/abc_repaired_clean.pdb

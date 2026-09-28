@@ -1,0 +1,54 @@
+# Orphan files at step 07
+
+An orphan is a file present in the results repository that NO script in
+chorismate-thesis-code declares as an output. Orphans are not admitted to outputs/.
+Each one is either traced to a producing script, or excluded here with the evidence.
+
+===============================================================================
+step07b_heavy_atom_drift.tsv   -   EXCLUDED, superseded and fully derivable
+===============================================================================
+
+Status: no producing script found.
+  grep -rn "heavy_atom_drift" --include=*.sh --include=*.py  over the whole of
+  chorismate-thesis-code at f0e059c returns nothing. step07b_audit_repair_hpp.sh
+  declares five outputs and this is not one of them:
+      step07b_his_assignment.tsv
+      step07b_drift_by_atom.tsv
+      step07b_drift_by_residue.tsv
+      step07b_audit_summary.tsv
+      step07b_acceptance_decision.txt
+
+What it is: a 12-row top-drift table with a one-line summary header. Almost certainly
+written by an earlier version of step07b that has since been replaced by the
+drift_by_atom / drift_by_residue pair.
+
+Why excluding it is safe - it is FULLY DERIVABLE from a declared output:
+  - Summary line reproduces exactly from step07b_drift_by_atom.tsv:
+      max_backbone_A=0.000  rms_backbone_A=0.000
+      max_sidechain_A=2.245 rms_sidechain_A=0.241
+  - All 12 ranked rows reproduce exactly, ranking by drift_A over the same file.
+    The only difference is that the orphan prints the H++ residue name where
+    drift_by_atom.tsv carries both the original and the H++ name; using the
+    hpp_resname column gives 12/12 identical rows.
+  Verified by checks/step07_verify.py.
+
+Decision: kept in orphans/ for the record, NOT counted as a step 07 output, NOT cited
+in the write-up. If the producing script is later found on the HPC or the PC, move it
+to outputs/ and add the script to scripts/.
+
+TO SEARCH FOR THE PRODUCING SCRIPT, on the HPC or the PC:
+    grep -rn "heavy_atom_drift" ~/system_development ~/chorismate-thesis-code 2>/dev/null
+    find ~ -name 'step07b*' -newer /dev/null -print 2>/dev/null
+    cd ~/chorismate-thesis-code && git log --all --oneline -S'heavy_atom_drift'
+
+===============================================================================
+NOT AN ORPHAN, but recorded here because it has no producing script either
+===============================================================================
+
+external/hpp_output_from_server.pdb
+  This is the raw return from the H++ web server and is an INPUT to step07b, not an
+  output of anything. No script in either repository produces it and none ever will;
+  it is an external artefact of an interactive web submission. It is held in
+  external/ rather than outputs/ so that the distinction is visible in the layout.
+  Its only provenance is the REMARK line it carries: "Created by
+  http://biophysics.cs.vt.edu/H++". See also open_items.txt on the H++ run parameters.
