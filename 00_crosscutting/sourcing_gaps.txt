@@ -41,6 +41,16 @@ OPEN
      for a solute in water, but NO COMMITTED OUTPUT ESTABLISHES IT.
    Blocks: Methods X.1.5 carries BLANKS in the running text, to be completed from
      the lab workbook.
+   NARROWED 2026-09-28, NOT closed. Agbaglo et al. 2024, main text p. 7: hydrogens "were
+     added to this structure via the H++ server using default parameters". The MD system
+     build follows Agbaglo in every other respect - ff14SB, GAFF, TIP3P, a 10 A box, 9 Na+,
+     20 ns production, and the 1DBF terminal repair - so the settings were most likely the
+     server defaults. Server defaults are consistent with the CODE-REPO copy of step07a
+     (internal dielectric 10, external 80) and inconsistent with the ARCHIVED copy
+     (internal 80, external 10).
+     This is circumstantial evidence about which of two contradictory comments is right.
+     It is not a record of what was entered, and the workbook remains the authority.
+     Do NOT write the defaults into the methods on the strength of this.
    Closes: confirm what was actually entered on the server. Note this is not recoverable
      by rerunning anything - it is a record of a past interactive submission.
 

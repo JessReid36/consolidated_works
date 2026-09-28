@@ -1,0 +1,128 @@
+# 09_tleap_build — Topology build with ff14SB, GAFF and TIP3P
+
+## What this step did
+step09a combined the H++-protonated protein with the three frozen substrates into one
+pre-tleap PDB, deriving every count from the inputs rather than hard-coding it. step09b
+built the topology with tleap, solvated in a 10 A box, neutralised with Na+, and audited
+both the topology and the tleap log.
+
+## Key numbers
+- Pre-tleap: 6183 protein atoms + 72 substrate atoms = 6255 combined, 384 residues.
+- Charge: protein -3, three substrates -6, complex -9, neutralised with 9 Na+ and 0 Cl-.
+- Dry topology: 6255 atoms, 384 residues, charge -9, no box.
+- Solvated: 55680 atoms, 16865 residues, 16472 waters, 9 Na+, charge 0.000, box
+  92.915 x 76.664 x 95.443 A.
+- Build recipe: leaprc.protein.ff14SB + leaprc.gaff + leaprc.water.tip3p, solvatebox
+  TIP3PBOX 10.0, addions Na+ 0.
+- tleap: 28 warnings, 0 errors, 0 fatals. Buckets: 12 terminal renames, 2 non-zero dry
+  charge, 1 unit-check note, 14 close-contact reports over 7 distinct pairs, 0 unclassified.
+
+## Acceptance threshold and verdict
+Hard gates are structural only: substrate template not -2, non-integer charge, HIS left
+un-renamed, duplicate atom names, chain gaps, a real clash, or atom counts changing
+through assembly. The expected -3 / -9 / 9 charge values are computed and REVIEW-flagged
+if they differ rather than being fatal, which keeps the step portable. Review field: none.
+Verification: 36 checks, 36 PASS, 0 FAIL. See checks/step09_verify.out.
+
+## THE FINDING: where the seven close contacts actually sit
+The audit records 7 distinct close contacts, the tightest at 1.317 A, and classes them as
+"all solute-internal ... relaxed during restrained minimisation". That classification is
+accurate but it is not the whole story. Resolving each pair against the graft provenance
+of step 02 and the contact set of step 04:
+
+    1.317 A  A121:LEU:CD1  <-> C70:TYR:HH     A121 GRAFTED from 1DBF
+    1.375 A  B75:CYS:HG    <-> C201:CHA:H8    LIGAND + ACTIVE SITE
+    1.396 A  A121:LEU:HD12 <-> C70:TYR:HH     A121 GRAFTED
+    1.473 A  A121:LEU:HD13 <-> A121:LEU:HD11  A121 GRAFTED, same residue
+    1.480 A  A119:LEU:HD23 <-> A119:LEU:HD22  A119 GRAFTED, same residue
+    1.481 A  A119:LEU:HD22 <-> A119:LEU:HD21  A119 GRAFTED, same residue
+    1.487 A  A121:LEU:HD11 <-> C70:TYR:HH     A121 GRAFTED
+
+SIX OF SEVEN INVOLVE RESIDUES GRAFTED FROM 1DBF AT STEP 02. A119 and A121 both sit inside
+chain A's 116-127 patch; C70 is native 2CHT. So the worst steric problems in the built
+system are at the graft, between donor-derived and scaffold-derived residues. This is the
+same graft that step 02 already flagged for a post-minimisation re-check, and it
+strengthens that item considerably: the commitment is not only about C-N join distances
+but about steric relief.
+
+THE SEVENTH IS AT THE ACTIVE SITE, AND IT HAS A CAUSE. B75:CYS:HG to C201:CHA:H8 at
+1.375 A. Cys75' is a contact-set residue, measured at 3.188 A heavy-atom to cha_c in step
+04. HG is the cysteine thiol hydrogen, placed by H++.
+
+step07a submitted a PROTEIN-ONLY structure: hpp_input_protein_only_with_TER.pdb contains
+0 HETATM records. H++ therefore placed the Cys75 thiol hydrogen with no substrate present
+in the structure, and it landed 1.375 A from a substrate hydrogen. The clash is a direct
+and predictable consequence of the protein-only submission, not a defect in either tool.
+
+Whether it matters depends entirely on whether restrained minimisation relieves it. That
+is exactly what step 10 must show, and no committed output shows it yet.
+
+## Literature comparison
+THE BUILD REPRODUCES AGBAGLO'S PUBLISHED PROTOCOL. It is not a deviation from anything.
+
+Agbaglo et al. 2024, main text p. 7:
+  "The AMBER18 MD package was used to run the MD simulations, and the AMBER force field
+   ff14SB was used with periodic boundary conditions and a cutoff value of 9 A for
+   non-bonded interactions. The Antechamber package was employed to parameterize the
+   chorismate substrate with the Generalized Amber Force Field (GAFF). The protonated
+   structure with chorismate was solvated in a cubic 10 A box of water with the explicit
+   solvent model TIP3P. The MD model charge was neutralized by adding 9 Na+ ions."
+
+Element by element against the committed tleap_complex.in and step09b_topology_audit.txt:
+
+    protein force field   ff14SB              leaprc.protein.ff14SB
+    substrate             Antechamber + GAFF  leaprc.gaff, GAFF selected explicitly
+    water                 TIP3P               leaprc.water.tip3p
+    box                   cubic, 10 A         solvatebox TIP3PBOX 10.0
+    neutralisation        9 Na+               addions Na+ 0 -> 9 Na+, 0 Cl-, charge 0.000
+    production            20 ns               step10c, 20 ns
+
+Matching to the ion count is not coincidence. The step09 method note calling this
+"paper-aligned" is accurate, and the paper it aligns to is Agbaglo, not Claeyssens.
+
+THE PATTERN ACROSS PHASE 1, which should be stated once in the methods rather than
+re-argued at each step:
+  The MD SYSTEM BUILD follows Agbaglo et al. 2024 throughout - the 1DBF terminal repair
+  with their exact residue ranges (step 02), H++ protonation (step 07), ff14SB + GAFF +
+  TIP3P with a 10 A box and 9 Na+ (step 09), and a 20 ns production run (step 10c).
+  The QM/MM REACTION WORK is benchmarked against Claeyssens et al. 2011.
+  Claeyssens never built an AMBER system; their starting structures came from
+  SCCDFTB/CHARMM22 QM/MM MD. There is therefore no CHARMM22 protocol here to depart from,
+  and describing this build as a deviation from Claeyssens would be a category error.
+
+WHAT DOES NEED STATING, and it is a consequence rather than a choice: the classical
+Hamiltonian that generates our sampled ensemble is not the one Claeyssens used. The two
+ensembles are therefore not drawn from the same potential, even though the QM/MM barriers
+on top of them are computed at the same level of theory. That is a caveat on any
+ensemble-level comparison against Claeyssens - the barrier distribution, the spread, the
+regression - and not on a single-geometry barrier. Carry it into the ensemble sections.
+
+ONE MORE POINT FROM THE SAME PASSAGE, bearing on step 07. Agbaglo add hydrogens "via the
+H++ server using default parameters". Since this build follows them everywhere else, our
+H++ settings were most likely the server defaults, which are consistent with the code-repo
+copy of step07a and inconsistent with the archived copy. Circumstantial, not a record.
+See sourcing_gaps.txt item 4, where it is filed as NARROWED and explicitly NOT closed.
+
+A DIFFERENCE THAT IS REAL: Agbaglo ran 20 ns of production. Our step10c is 20 ns, but the
+ensemble draws frames out to 43738 ps, so step10d extended beyond the reference. Confirm
+and record the extension at step 10.
+
+## Caveats and known issues
+- NET CHARGE DIFFERS BETWEEN THE TWO ENVIRONMENTS BY CONSTRUCTION. The enzyme system is
+  neutralised to exactly zero with 9 Na+, whereas the bare-substrate work treats a dianion
+  in continuum. Expected and correct, but barriers from the two are not on the same
+  electrostatic footing and must not be differenced naively.
+- NO AS-RUN SCRIPT ARCHIVE EXISTS FOR STEP 09, as for step 08.
+- complex_solvated.prmtop is 10.1 MB and is held as a pointer under the repository's own
+  10 MB rule. Its hash is recorded in the pointer file and the verification checks that.
+- prmtop files embed a wall-clock DATE line, so their raw hashes churn between otherwise
+  identical builds. The step provides step09_fingerprints.txt for DATE-insensitive
+  comparison; the checksum check skips raw prmtop hashes deliberately.
+- The bucket counts sum to 29 against a reported total of 28 warnings. The extra is the
+  unit-check note, which the classifier buckets separately from the warning stream. Not an
+  error, but the two numbers are counting slightly different things.
+- The solvated PDB saturates at 9999 residues, so water and ion counts must be read from
+  the prmtop, never the PDB. The step's own header says this and the audit follows it.
+
+## Cited by
+Methods X.1.7.

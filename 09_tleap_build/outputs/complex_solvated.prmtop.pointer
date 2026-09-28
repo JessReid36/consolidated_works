@@ -1,0 +1,11 @@
+# pointer: file exceeds the 10 MB consolidated_works threshold
+name:    complex_solvated.prmtop
+size:    10587297 bytes (10.1 MB)
+sha256:  3c4d219cf13bc32c2a2dafe5009bb2e7fb2f3624425d7cec0aaa9a11b5fe725a
+canonical: JessReid36/chorismate-thesis-results
+path:      03_amber/tleap_build/complex_solvated.prmtop
+commit:    aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+hpc:       ~/system_development/03_amber/tleap_build/complex_solvated.prmtop
+note: prmtop embeds a wall-clock DATE line, so this hash is of the file as
+      committed. See step09_fingerprints.txt for the DATE-insensitive
+      fingerprint used to compare builds.

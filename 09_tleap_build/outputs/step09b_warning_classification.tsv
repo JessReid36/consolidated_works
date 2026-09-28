@@ -1,0 +1,17 @@
+kind	detail	count_or_value
+stream_events	tleap_complex.stdout	29
+stream_events	tleap_complex.log	0
+stream_events	tleap_complex.stderr	0
+bucket	terminal_name_conversion	12
+bucket	nonzero_charge	2
+bucket	unit_check_note	1
+bucket	close_contact	14
+bucket	other	0
+close_contacts_distinct	resolved	7
+close_contact	A:121:LEU:CD1 <-> C:70:TYR:HH (1.317 A)	sidechain_H
+close_contact	B:75:CYS:HG <-> C:201:CHA:H8 (1.375 A)	ligand,active_site
+close_contact	A:121:LEU:HD12 <-> C:70:TYR:HH (1.396 A)	sidechain_H
+close_contact	A:121:LEU:HD13 <-> A:121:LEU:HD11 (1.473 A)	same_residue
+close_contact	A:119:LEU:HD23 <-> A:119:LEU:HD22 (1.480 A)	same_residue
+close_contact	A:119:LEU:HD22 <-> A:119:LEU:HD21 (1.481 A)	same_residue
+close_contact	A:121:LEU:HD11 <-> C:70:TYR:HH (1.487 A)	sidechain_H

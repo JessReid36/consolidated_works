@@ -1,0 +1,62 @@
+step: 09_tleap_build
+title: Topology build with ff14SB, GAFF and TIP3P
+scripts: step09a_combine_pretleap.sh, step09b_tleap_build.sh
+cited_by: Methods X.1.7
+
+## scripts   (canonical home: JessReid36/chorismate-thesis-code)
+   branch=tier1-realism commit=f0e059cf11eda91dea939c42f8e12d1a8bf829a1
+  phase1_system_dev/step09a_combine_pretleap.sh  12359  5b30eb7243a889d91f5cd120134d4896c0f788447a8d1c970b8852ce2e45889c
+  phase1_system_dev/step09b_tleap_build.sh  20076  69979e5c9d1aa7901f5ac97d87da950cf58a9d09e96011e5e515a0a5aaf732bd
+
+## scripts_as_run
+  NONE EXISTS. Neither step09a nor step09b is archived in results 00_admin,
+  as for step 08. No substitute filed; the absence is the record.
+
+## outputs   (canonical home: JessReid36/chorismate-thesis-results)
+   branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  03_amber/tleap_build/complex_dry.inpcrd  228328  d2ce1f54b613678138fdf4499babf860eccc493cddcf2669d70d3dc71f8f3156
+  03_amber/tleap_build/complex_dry.pdb  419134  acdfbdd123dc254c2c210b7d0e0be3638a95d0bd70d76d28197379c8c3995d9c
+  03_amber/tleap_build/complex_dry.prmtop  2711692  1cf066c63353efa2ded9024a0e02c89f5e6b21f2efe94741f11a9d37913a5d20
+  03_amber/tleap_build/complex_for_tleap.pdb  506587  f0b614a345ff41865e058d4c96ad765bf31695b682884613a954da3ff6bf0b35
+  03_amber/tleap_build/complex_solvated.inpcrd  2032413  54d3accd03c3243afc1bb596492eab9c399cd577551075461d0d65b966f1eb53
+  03_amber/tleap_build/complex_solvated.pdb  3846047  d33bef5d897e622deddb1666b40a519785ee9a64a462c91b358ed092e7aa29ab
+  03_amber/tleap_build/leap.log  109010  2b5b51ff242725c39c96882ad8ab1a24dc98ad6ceb22c4c7a313ea55ae19c566
+  00_admin/sha256_step09_tleap_build.txt  713  e5438ec0399cabc861ac6833d54949fa8b5826d9805f3e7d0736b17923699f13
+  00_admin/step09_fingerprints.txt  454  ee84ec3c77306016ad98fd798b70b7b869c6a9f96861ce5277ad8de50f9eaa7c
+  00_admin/step09_method_note.txt  969  c7659d2e4bf4a8d1d44ce46861dcba80afdeb45b47fd6b6caa44c2673c366814
+  00_admin/step09a_cha_template_check.tsv  157  489b5d71635bb969b02f7df2073e795255fd0278f086d09f78c6204df294a86b
+  00_admin/step09a_charge_estimate.tsv  132  a44fc9b0aad0e0b8351f7fd207377ce0c0d8cb7124d29642b2ce5fc5edefd8e9
+  00_admin/step09a_pretleap_audit.txt  484  788c9ea85b8fec66ff50f0591c9ec9fa3931e57bac3c30d0d655ab4d4e2f81e9
+  00_admin/step09a_residue_inventory.tsv  8315  038d48e03d56425ee35d3c0038e8728727d52b00e15243b1da330a6d97b5c65b
+  00_admin/step09b_prmtop_residue_counts.tsv  629  d2cc55d8919dc30a8f3e02f5e813143fae105e4c229e9b9c46eeda6fe65be208
+  00_admin/step09b_topology_audit.txt  842  ede136304600e34b1c3017350067cd73ae5a91a90e34a2e702537881f9600b3d
+  00_admin/step09b_warning_classification.tsv  779  e83216f6cc3fdc5cc5cff0fc9b6c38f0863abc1901c98da4bf4fa3f1aedf0e7e
+  03_amber/tleap_build/tleap_complex.in  767  a08c59ab9e0495b506cc75c69db14afcaa5d4fe5a5750822855a97a9df7b6e89
+  03_amber/tleap_build/tleap_complex.log  1815  07bc959fa2d8ed780984f23ac0ef45cc1263b2c0eeee39dc875852332bf017ca
+  03_amber/tleap_build/tleap_complex.stdout  10170  61b576369c568166831d7a73f272aa42cec291a141b6a236b02a3fd365b17c6d
+
+## oversized, held as pointers (>10 MB)
+  complex_solvated.prmtop.pointer  624  b8be7e48c1e66097e4aaab495d322f583782513fb1ac95c35635c74dc6a6355b
+  complex_solvated.prmtop is 10.1 MB; its sha256 is recorded inside the pointer
+  and verified by checks/step09_verify.py section 9.
+
+## checks
+  step09_verify.py  11143  c6003a881f90ac88b120cf3ee7117144f112523ded2f413e17774a2d585a9b62
+  step09_verify.out  3724  6d2d99b7d04309458a96623b76e1cfbf2033d37fbecc67e7c6a230c63550219b
+  result: 36 checks, 36 PASS, 0 FAIL  (see checks/step09_verify.out)
+
+## depends on
+  ../07_protonation_hpp/outputs/abc_protonated_hpp_accepted.pdb
+  ../06_acceptance_freeze/outputs/abc_cha_preprotonation.pdb
+  ../08_ligand_gaff/outputs/cha_gaff.mol2, cha.frcmod
+
+## note on prmtop hashing
+  A prmtop embeds a wall-clock DATE line, so its raw hash differs between otherwise
+  identical builds. step09_fingerprints.txt carries the DATE-insensitive fingerprint.
+  The checksum check skips raw prmtop hashes deliberately.
+
+## environment of the recorded check run
+  date_utc: 2026-09-28T18:11:51+00:00
+  python:   3.12.3
+  platform: Linux-6.18.44-fc-v42-x86_64-with-glibc2.39
+  host:     drafting container, NOT the HPC working tree.

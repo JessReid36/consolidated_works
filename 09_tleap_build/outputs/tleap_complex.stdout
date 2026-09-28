@@ -1,0 +1,260 @@
+-I: Adding /home/apps2/amber/amber22/dat/leap/prep to search path.
+-I: Adding /home/apps2/amber/amber22/dat/leap/lib to search path.
+-I: Adding /home/apps2/amber/amber22/dat/leap/parm to search path.
+-I: Adding /home/apps2/amber/amber22/dat/leap/cmd to search path.
+-f: Source tleap_complex.in.
+
+Welcome to LEaP!
+(no leaprc in search path)
+Sourcing: ./tleap_complex.in
+Log file: ./tleap_complex.log
+----- Source: /home/apps2/amber/amber22/dat/leap/cmd/leaprc.protein.ff14SB
+----- Source of /home/apps2/amber/amber22/dat/leap/cmd/leaprc.protein.ff14SB done
+Log file: ./leap.log
+Loading parameters: /home/apps2/amber/amber22/dat/leap/parm/parm10.dat
+Reading title:
+PARM99 + frcmod.ff99SB + frcmod.parmbsc0 + OL3 for RNA
+Loading parameters: /home/apps2/amber/amber22/dat/leap/parm/frcmod.ff14SB
+Reading force field modification type file (frcmod)
+Reading title:
+ff14SB protein backbone and sidechain parameters
+Loading library: /home/apps2/amber/amber22/dat/leap/lib/amino12.lib
+Loading library: /home/apps2/amber/amber22/dat/leap/lib/aminoct12.lib
+Loading library: /home/apps2/amber/amber22/dat/leap/lib/aminont12.lib
+----- Source: /home/apps2/amber/amber22/dat/leap/cmd/leaprc.gaff
+----- Source of /home/apps2/amber/amber22/dat/leap/cmd/leaprc.gaff done
+Log file: ./leap.log
+Loading parameters: /home/apps2/amber/amber22/dat/leap/parm/gaff.dat
+Reading title:
+AMBER General Force Field for organic molecules (Version 1.81, May 2017)
+----- Source: /home/apps2/amber/amber22/dat/leap/cmd/leaprc.water.tip3p
+----- Source of /home/apps2/amber/amber22/dat/leap/cmd/leaprc.water.tip3p done
+Loading library: /home/apps2/amber/amber22/dat/leap/lib/atomic_ions.lib
+Loading library: /home/apps2/amber/amber22/dat/leap/lib/solvents.lib
+Loading parameters: /home/apps2/amber/amber22/dat/leap/parm/frcmod.tip3p
+Reading force field modification type file (frcmod)
+Reading title:
+This is the additional/replacement parameter set for TIP3P water
+Loading parameters: /home/apps2/amber/amber22/dat/leap/parm/frcmod.ions1lm_126_tip3p
+Reading force field modification type file (frcmod)
+Reading title:
+Li/Merz ion parameters of monovalent ions for TIP3P water model (12-6 normal usage set)
+Loading parameters: /home/apps2/amber/amber22/dat/leap/parm/frcmod.ionsjc_tip3p
+Reading force field modification type file (frcmod)
+Reading title:
+Monovalent ion parameters for Ewald and TIP3P water from Joung & Cheatham JPCB (2008)
+Loading parameters: /home/apps2/amber/amber22/dat/leap/parm/frcmod.ions234lm_126_tip3p
+Reading force field modification type file (frcmod)
+Reading title:
+Li/Merz ion parameters of divalent to tetravalent ions for TIP3P water model (12-6 normal usage set)
+Loading Mol2 file: /home/18660916/system_development/03_amber/ligand_gaff/cha_gaff.mol2
+Reading MOLECULE named CHA
+Loading parameters: /home/18660916/system_development/03_amber/ligand_gaff/cha.frcmod
+Reading force field modification type file (frcmod)
+Reading title:
+Remark line goes here
+Loading PDB file: /home/18660916/system_development/03_amber/tleap_build/complex_for_tleap.pdb
+  total atoms in file: 6255
+Checking 'complex'....
+
+/home/apps2/amber/amber22/bin/teLeap: Warning!
+The unperturbed charge of the unit (-9.000000) is not zero.
+
+/home/apps2/amber/amber22/bin/teLeap: Warning!
+Close contact of 1.480 angstroms between nonbonded atoms HD23 and HD22
+-------  .R<LEU 119>.A<HD23 17> and .R<LEU 119>.A<HD22 16>
+
+/home/apps2/amber/amber22/bin/teLeap: Warning!
+Close contact of 1.481 angstroms between nonbonded atoms HD22 and HD21
+-------  .R<LEU 119>.A<HD22 16> and .R<LEU 119>.A<HD21 15>
+
+/home/apps2/amber/amber22/bin/teLeap: Warning!
+Close contact of 1.473 angstroms between nonbonded atoms HD13 and HD11
+-------  .R<LEU 121>.A<HD13 13> and .R<LEU 121>.A<HD11 11>
+
+/home/apps2/amber/amber22/bin/teLeap: Warning!
+Close contact of 1.396 angstroms between nonbonded atoms HD12 and HH
+-------  .R<LEU 121>.A<HD12 12> and .R<TYR 324>.A<HH 15>
+
+/home/apps2/amber/amber22/bin/teLeap: Warning!
+Close contact of 1.487 angstroms between nonbonded atoms HD11 and HH
+-------  .R<LEU 121>.A<HD11 11> and .R<TYR 324>.A<HH 15>
+
+/home/apps2/amber/amber22/bin/teLeap: Warning!
+Close contact of 1.317 angstroms between nonbonded atoms CD1 and HH
+-------  .R<LEU 121>.A<CD1 10> and .R<TYR 324>.A<HH 15>
+
+/home/apps2/amber/amber22/bin/teLeap: Warning!
+Close contact of 1.375 angstroms between nonbonded atoms HG and H8
+-------  .R<CYS 202>.A<HG 9> and .R<CHA 384>.A<H8 21>
+Checking parameters for unit 'complex'.
+Checking for bond parameters.
+Checking for angle parameters.
+check:  Warnings: 8
+Unit is OK.
+Total unperturbed charge:  -9.000000
+Total perturbed charge:    -9.000000
+Checking Unit.
+
+/home/apps2/amber/amber22/bin/teLeap: Warning!
+The unperturbed charge of the unit (-9.000000) is not zero.
+
+/home/apps2/amber/amber22/bin/teLeap: Note.
+Ignoring the warning from Unit Checking.
+
+Building topology.
+Building atom parameters.
+Building bond parameters.
+Building angle parameters.
+Building proper torsion parameters.
+Building improper torsion parameters.
+ total 1107 improper torsions applied
+Building H-Bond parameters.
+Incorporating Non-Bonded adjustments.
+Not Marking per-residue atom chain types.
+Marking per-residue atom chain types.
+  (Residues lacking connect0/connect1 - 
+   these don't have chain types marked:
+
+	res	total affected
+
+	CHA	3
+	CLEU	3
+	NMET	3
+  )
+ (no restraints)
+Writing pdb file: complex_dry.pdb
+
+/home/apps2/amber/amber22/bin/teLeap: Warning!
+ Converting N-terminal residue name to PDB format: NMET -> MET
+
+/home/apps2/amber/amber22/bin/teLeap: Warning!
+ Converting C-terminal residue name to PDB format: CLEU -> LEU
+
+/home/apps2/amber/amber22/bin/teLeap: Warning!
+ Converting N-terminal residue name to PDB format: NMET -> MET
+
+/home/apps2/amber/amber22/bin/teLeap: Warning!
+ Converting C-terminal residue name to PDB format: CLEU -> LEU
+
+/home/apps2/amber/amber22/bin/teLeap: Warning!
+ Converting N-terminal residue name to PDB format: NMET -> MET
+
+/home/apps2/amber/amber22/bin/teLeap: Warning!
+ Converting C-terminal residue name to PDB format: CLEU -> LEU
+  Solute vdw bounding box:              69.848 53.470 72.186
+  Total bounding box for atom centers:  89.848 73.470 92.186
+  Solvent unit box:                     18.774 18.774 18.774
+  Total vdw box size:                   92.915 76.664 95.443 angstroms.
+  Volume: 679862.127 A^3 
+  Total mass 341058.272 amu,  Density 0.833 g/cc
+  Added 16481 residues.
+9 Na+ ions required to neutralize.
+Adding 9 counter ions to "complex" using 1A grid
+Grid extends from solute vdw + 2.95  to  8.95
+Resolution:      1.00 Angstrom.
+Solvent present: replacing closest with ion
+	 when steric overlaps occur
+Calculating grid charges
+(Replacing solvent molecule)
+Placed Na+ in complex at (-9.48, 2.88, -27.70).
+(Replacing solvent molecule)
+Placed Na+ in complex at (-27.07, 9.83, 26.55).
+(Replacing solvent molecule)
+Placed Na+ in complex at (20.36, -7.54, -12.29).
+(Replacing solvent molecule)
+Placed Na+ in complex at (1.25, 20.05, 20.88).
+(Replacing solvent molecule)
+Placed Na+ in complex at (26.44, 1.61, 35.71).
+(Replacing solvent molecule)
+Placed Na+ in complex at (-1.07, 2.08, -33.80).
+(Replacing solvent molecule)
+Placed Na+ in complex at (-34.29, 12.42, 17.85).
+(Replacing solvent molecule)
+Placed Na+ in complex at (23.72, 14.74, -0.96).
+(Replacing solvent molecule)
+Placed Na+ in complex at (-18.77, -11.34, -14.77).
+
+Done adding ions.
+Checking 'complex'....
+
+/home/apps2/amber/amber22/bin/teLeap: Warning!
+Close contact of 1.480 angstroms between nonbonded atoms HD23 and HD22
+-------  .R<LEU 119>.A<HD23 17> and .R<LEU 119>.A<HD22 16>
+
+/home/apps2/amber/amber22/bin/teLeap: Warning!
+Close contact of 1.481 angstroms between nonbonded atoms HD22 and HD21
+-------  .R<LEU 119>.A<HD22 16> and .R<LEU 119>.A<HD21 15>
+
+/home/apps2/amber/amber22/bin/teLeap: Warning!
+Close contact of 1.473 angstroms between nonbonded atoms HD13 and HD11
+-------  .R<LEU 121>.A<HD13 13> and .R<LEU 121>.A<HD11 11>
+
+/home/apps2/amber/amber22/bin/teLeap: Warning!
+Close contact of 1.396 angstroms between nonbonded atoms HD12 and HH
+-------  .R<LEU 121>.A<HD12 12> and .R<TYR 324>.A<HH 15>
+
+/home/apps2/amber/amber22/bin/teLeap: Warning!
+Close contact of 1.487 angstroms between nonbonded atoms HD11 and HH
+-------  .R<LEU 121>.A<HD11 11> and .R<TYR 324>.A<HH 15>
+
+/home/apps2/amber/amber22/bin/teLeap: Warning!
+Close contact of 1.317 angstroms between nonbonded atoms CD1 and HH
+-------  .R<LEU 121>.A<CD1 10> and .R<TYR 324>.A<HH 15>
+
+/home/apps2/amber/amber22/bin/teLeap: Warning!
+Close contact of 1.375 angstroms between nonbonded atoms HG and H8
+-------  .R<CYS 202>.A<HG 9> and .R<CHA 384>.A<H8 21>
+Checking parameters for unit 'complex'.
+Checking for bond parameters.
+Checking for angle parameters.
+check:  Warnings: 7
+Unit is OK.
+Total unperturbed charge:   0.000000
+Total perturbed charge:     0.000000
+Checking Unit.
+Building topology.
+Building atom parameters.
+Building bond parameters.
+Building angle parameters.
+Building proper torsion parameters.
+Building improper torsion parameters.
+ total 1107 improper torsions applied
+Building H-Bond parameters.
+Incorporating Non-Bonded adjustments.
+Not Marking per-residue atom chain types.
+Marking per-residue atom chain types.
+  (Residues lacking connect0/connect1 - 
+   these don't have chain types marked:
+
+	res	total affected
+
+	CHA	3
+	CLEU	3
+	NMET	3
+	WAT	16472
+  )
+ (no restraints)
+Writing pdb file: complex_solvated.pdb
+   printing CRYST1 record to PDB file with box info
+
+/home/apps2/amber/amber22/bin/teLeap: Warning!
+ Converting N-terminal residue name to PDB format: NMET -> MET
+
+/home/apps2/amber/amber22/bin/teLeap: Warning!
+ Converting C-terminal residue name to PDB format: CLEU -> LEU
+
+/home/apps2/amber/amber22/bin/teLeap: Warning!
+ Converting N-terminal residue name to PDB format: NMET -> MET
+
+/home/apps2/amber/amber22/bin/teLeap: Warning!
+ Converting C-terminal residue name to PDB format: CLEU -> LEU
+
+/home/apps2/amber/amber22/bin/teLeap: Warning!
+ Converting N-terminal residue name to PDB format: NMET -> MET
+
+/home/apps2/amber/amber22/bin/teLeap: Warning!
+ Converting C-terminal residue name to PDB format: CLEU -> LEU
+	Quit
+
+Exiting LEaP: Errors = 0; Warnings = 28; Notes = 1.

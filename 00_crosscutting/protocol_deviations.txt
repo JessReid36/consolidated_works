@@ -101,3 +101,75 @@ The running work log records four protocol deviations from Claeyssens with reaso
 They are NOT copied here, because this file records only what the step-by-step audit has
 itself re-established from the papers and the committed files. As the audit reaches each
 of those steps, re-verify and record here, then reconcile the two lists.
+
+===============================================================================
+DEVIATION 4 - WITHDRAWN. The MD system build is not a deviation; it reproduces
+              Agbaglo's published protocol.
+  origin step: 09_tleap_build
+  status: WITHDRAWN 2026-09-28. Entered in error, measured against the wrong paper.
+===============================================================================
+
+This was entered as "force field: ff14SB + GAFF + TIP3P, not CHARMM22", framed as a
+departure from Claeyssens. That framing was wrong.
+
+Agbaglo et al. 2024, main text p. 7:
+  "The AMBER18 MD package was used to run the MD simulations, and the AMBER force field
+   ff14SB was used with periodic boundary conditions and a cutoff value of 9 A for
+   non-bonded interactions. The Antechamber package was employed to parameterize the
+   chorismate substrate with the Generalized Amber Force Field (GAFF). The protonated
+   structure with chorismate was solvated in a cubic 10 A box of water with the explicit
+   solvent model TIP3P. The MD model charge was neutralized by adding 9 Na+ ions."
+
+Our build, read from the committed tleap_complex.in and step09b_topology_audit.txt:
+  leaprc.protein.ff14SB, leaprc.gaff, leaprc.water.tip3p
+  solvatebox TIP3PBOX 10.0
+  addions complex Na+ 0  ->  9 Na+, 0 Cl-, total charge 0.000
+  20 ns production at step 10c
+
+Every element matches, down to the ion count. This is reproduction, not deviation.
+
+THE REAL PATTERN, and it should be stated once rather than as repeated deviations:
+  The MD SYSTEM BUILD follows Agbaglo et al. 2024 throughout - terminal repair from 1DBF
+  with their exact residue ranges (deviation 1), H++ protonation, ff14SB + GAFF + TIP3P,
+  a 10 A box, 9 Na+, 20 ns production.
+  The QM/MM REACTION WORK is benchmarked against Claeyssens et al. 2011.
+  These are two different reference points for two different parts of the pipeline, and
+  that is a coherent choice. Claeyssens did not build an AMBER MD system at all; they
+  generated their starting structures by SCCDFTB/CHARMM22 QM/MM MD. There is no CHARMM22
+  protocol here to deviate from.
+
+What DOES still need stating in the methods is the consequence, not the choice: the
+classical Hamiltonian generating our sampled ensemble is not the one Claeyssens used, so
+the two ensembles are not drawn from the same potential even though the QM/MM barriers are
+computed at the same level of theory. That belongs in the write-up as a caveat on the
+ensemble comparison, not as a protocol deviation.
+
+===============================================================================
+DEVIATION 5 - WITHDRAWN. The boundary treatment likewise follows Agbaglo.
+  origin step: 09_tleap_build
+  status: WITHDRAWN 2026-09-28, same error as deviation 4.
+===============================================================================
+
+Entered as "periodic rectangular box, not a fixed-shell sphere", framed against
+Claeyssens 2005's 25 A sphere with a fixed 5 A outer shell.
+
+Agbaglo use "periodic boundary conditions and a cutoff value of 9 A" and "a cubic 10 A box
+of water". Our solvatebox TIP3PBOX 10.0 gives 92.915 x 76.664 x 95.443 A with 16472
+waters. Same treatment, same buffer.
+
+One point from the withdrawn entry SURVIVES and is worth keeping, because it is about our
+own work rather than about a comparison:
+  The enzyme system is neutralised to exactly zero total charge with 9 Na+, whereas the
+  bare-substrate work treats a dianion in continuum. The two environments differ in net
+  charge by construction. That is expected and correct, but it means barriers from the two
+  are not on the same electrostatic footing and should not be differenced naively.
+  -> carried to open_items.txt if it is not already covered there.
+
+A SEPARATE AND UNRESOLVED POINT, raised by the same passage:
+  Agbaglo state that hydrogens "were added to this structure via the H++ server using
+  DEFAULT PARAMETERS". If our step 07 followed Agbaglo as the rest of the build does, the
+  H++ settings would be the server defaults. That is consistent with the code-repo copy of
+  step07a (internal dielectric 10, external 80) and inconsistent with the archived copy
+  (internal 80, external 10). This is INDEPENDENT EVIDENCE, not proof, and does not close
+  sourcing_gaps.txt item 4 - the notebook is still the authority. But it narrows it, and
+  it should be recorded against that gap.

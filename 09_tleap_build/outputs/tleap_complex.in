@@ -1,0 +1,24 @@
+logFile tleap_complex.log
+# Paper-aligned build: protein ff14SB, chorismate GAFF, TIP3P water, 10 A box, Na+.
+source leaprc.protein.ff14SB
+source leaprc.gaff
+source leaprc.water.tip3p
+
+CHA = loadmol2 /home/18660916/system_development/03_amber/ligand_gaff/cha_gaff.mol2
+loadamberparams /home/18660916/system_development/03_amber/ligand_gaff/cha.frcmod
+
+complex = loadpdb /home/18660916/system_development/03_amber/tleap_build/complex_for_tleap.pdb
+check complex
+charge complex
+
+saveamberparm complex complex_dry.prmtop complex_dry.inpcrd
+savepdb complex complex_dry.pdb
+
+solvatebox complex TIP3PBOX 10.0
+addions complex Na+ 0
+check complex
+charge complex
+
+saveamberparm complex complex_solvated.prmtop complex_solvated.inpcrd
+savepdb complex complex_solvated.pdb
+quit

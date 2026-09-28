@@ -58,7 +58,7 @@ Why it matters, stated carefully:
 
 What would settle it: compare the C4-O3 dihedral distribution in the MD against the same
 dihedral in the QM/MM optimised reactants. If they agree, the parameterisation is adequate
-for sampling. Tracked as 00_crosscutting/open_items.txt item 6. This is an ANALYSIS of
+for sampling. Tracked as 00_crosscutting/open_items.txt item 8. This is an ANALYSIS of
 existing trajectories, not a re-run.
 
 ## Literature comparison

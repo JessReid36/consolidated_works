@@ -1,0 +1,70 @@
+step 09 verification against /home/claude/repos/cw_build/09_tleap_build/outputs
+
+1. continuity
+  [PASS] step07 accepted protein reachable — 1fd21f18ce8cc0a7
+  [PASS] step06 frozen complex reachable — e1c50d535e95789e
+  [PASS] step08 GAFF template reachable — 43e12e46d89c5a35
+  [PASS] step08 frcmod reachable — 3de63bdd6a13e37c
+
+2. charge arithmetic reproduced
+  [PASS] three substrates carry 3 x -2 — -6.0000
+  [PASS] complex total = protein + substrates — -3 + -6.0 = -9
+  [PASS] Na+ count equals the magnitude of the complex charge — 9 Na+ for -9
+  [PASS] dry prmtop charge matches the estimate — -9 vs -9
+
+3. atom-count conservation through assembly
+  [PASS] protein + substrates = combined — 6183 + 72 = 6255
+  [PASS] combined = dry prmtop natom — 6255 vs 6255
+  [PASS] pre-tleap PDB reproduces the combined atom count — 6255
+
+4. substrate templates in the combined structure
+  [PASS] A201: 24 atoms, order matches the GAFF template — dup=none missing=none extra=none
+  [PASS] B201: 24 atoms, order matches the GAFF template — dup=none missing=none extra=none
+  [PASS] C201: 24 atoms, order matches the GAFF template — dup=none missing=none extra=none
+
+5. solvated system
+  [PASS] dry prmtop and inpcrd agree on atom count
+  [PASS] solvated prmtop and inpcrd agree on atom count
+  [PASS] dry unit carries no box
+  [PASS] solvated unit carries a box — 92.915 x 76.664 x 95.443 A
+  [PASS] solvated total charge is integral and zero — -0.0000
+  [PASS] Na+ count matches the dry charge magnitude — 9 Na+, 0 Cl-
+  [PASS] all three substrates survive solvation
+
+6. build recipe, read from tleap_complex.in
+  [PASS] sources leaprc.protein.ff14SB
+  [PASS] sources leaprc.gaff
+  [PASS] sources leaprc.water.tip3p
+  [PASS] solvates with an explicit box and buffer — TIP3PBOX buffer 10.0 A
+  [PASS] neutralises with Na+ only
+
+7. tleap warnings
+  [PASS] no warning falls outside a named bucket — buckets {'terminal_name_conversion': 12, 'nonzero_charge': 2, 'unit_check_note': 1, 'close_contact': 14, 'other': 0}
+  [PASS] no tleap errors
+  [PASS] no tleap fatals
+  [PASS] bucket counts account for the reported total — 29 bucketed, 28 reported
+
+8. close contacts, resolved against graft provenance and the contact set
+  [PASS] seven distinct close contacts, as the audit records — 7
+         1.317 A  sidechain_H          graft=A121         site=-       
+         1.375 A  ligand,active_site   graft=-            site=CYS75     LIGAND
+         1.396 A  sidechain_H          graft=A121         site=-       
+         1.473 A  same_residue         graft=A121         site=-       
+         1.480 A  same_residue         graft=A119         site=-       
+         1.481 A  same_residue         graft=A119         site=-       
+         1.487 A  sidechain_H          graft=A121         site=-       
+  [PASS] every close contact is attributed to graft, active site, or neither — 6 graft-involved, 1 site-involved
+         6 of 7 involve residues grafted from 1DBF at step 02.
+         1 involve the substrate or a contact-set residue.
+         The audit defers all of these to the restrained minimisation of
+         step 10. That deferral is NOT verified here and is tracked as
+         00_crosscutting/open_items.txt item 1.
+
+9. checksums
+         complex_dry.prmtop: prmtop embeds a wall-clock DATE line; raw hash churns per run. See step09_fingerprints.txt.
+  [PASS] complex_dry.inpcrd matches its checksum — d2ce1f54b6136781
+  [PASS] complex_solvated.prmtop held as a pointer, hash recorded in it — 3c4d219cf13bc32c
+  [PASS] complex_solvated.inpcrd matches its checksum — 54d3accd03c3243a
+  [PASS] complex_for_tleap.pdb matches its checksum — f0b614a345ff4186
+
+ALL CHECKS PASSED

@@ -1,0 +1,15 @@
+Step 09 method note (system build):
+
+09a - combine: H++ protonated protein (07b) + 3 placed chorismates (step 06) into
+      one pre-tleap PDB (complex_for_tleap.pdb). Counts derived, charge computed.
+
+09b - tleap build (paper-aligned): protein ff14SB, chorismate GAFF (cha_gaff.mol2 +
+      cha.frcmod, AM1-BCC charges from step 08), TIP3P water, 10 A box, neutralised
+      with Na+ (addions Na+ 0). A dry topology is written first, then solvated.
+      AMBER18 unavailable -> AMBER22 tools. Audit reads the prmtop/inpcrd directly
+      (the solvated PDB saturates at 9999 residues); Na+ count is derived from the
+      dry-system charge, not assumed. tleap warnings are classified: terminal-name
+      conversions (cosmetic), the pre-neutralisation dry-charge notice (expected),
+      and solute-internal close contacts from H++ hydrogen placement (relaxed by
+      the first restrained minimisation). No missing-parameter or unknown-type
+      warnings; no errors.

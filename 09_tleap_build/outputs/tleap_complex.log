@@ -1,0 +1,40 @@
+log started: Tue Jul  7 21:45:21 2026
+
+Log file: ./tleap_complex.log
+> # Paper-aligned build: protein ff14SB, chorismate GAFF, TIP3P water, 10 A box, Na+.
+> source leaprc.protein.ff14SB
+----- Source: /home/apps2/amber/amber22/dat/leap/cmd/leaprc.protein.ff14SB
+----- Source of /home/apps2/amber/amber22/dat/leap/cmd/leaprc.protein.ff14SB done
+>> logFile leap.log
+log started: Wed Jul  8 07:39:40 2026
+
+Log file: ./tleap_complex.log
+> # Paper-aligned build: protein ff14SB, chorismate GAFF, TIP3P water, 10 A box, Na+.
+> source leaprc.protein.ff14SB
+----- Source: /home/apps2/amber/amber22/dat/leap/cmd/leaprc.protein.ff14SB
+----- Source of /home/apps2/amber/amber22/dat/leap/cmd/leaprc.protein.ff14SB done
+>> logFile leap.log
+log started: Wed Jul  8 08:12:25 2026
+
+Log file: ./tleap_complex.log
+> # Paper-aligned build: protein ff14SB, chorismate GAFF, TIP3P water, 10 A box, Na+.
+> source leaprc.protein.ff14SB
+----- Source: /home/apps2/amber/amber22/dat/leap/cmd/leaprc.protein.ff14SB
+----- Source of /home/apps2/amber/amber22/dat/leap/cmd/leaprc.protein.ff14SB done
+>> logFile leap.log
+log started: Wed Jul  8 11:05:24 2026
+
+Log file: ./tleap_complex.log
+> # Paper-aligned build: protein ff14SB, chorismate GAFF, TIP3P water, 10 A box, Na+.
+> source leaprc.protein.ff14SB
+----- Source: /home/apps2/amber/amber22/dat/leap/cmd/leaprc.protein.ff14SB
+----- Source of /home/apps2/amber/amber22/dat/leap/cmd/leaprc.protein.ff14SB done
+>> logFile leap.log
+log started: Wed Jul  8 13:30:49 2026
+
+Log file: ./tleap_complex.log
+> # Paper-aligned build: protein ff14SB, chorismate GAFF, TIP3P water, 10 A box, Na+.
+> source leaprc.protein.ff14SB
+----- Source: /home/apps2/amber/amber22/dat/leap/cmd/leaprc.protein.ff14SB
+----- Source of /home/apps2/amber/amber22/dat/leap/cmd/leaprc.protein.ff14SB done
+>> logFile leap.log

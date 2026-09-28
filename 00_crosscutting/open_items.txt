@@ -30,8 +30,16 @@ Three joins are at issue, all in the script's allowed_joins set:
   B 1-2      initial C-N 2.649 A, closed by translating B:1-1    by 1.320 A
   C 114-115  1.647 A, NEVER FLAGGED AND NEVER ADJUSTED - see item 2
 
+EXTENDED AT STEP 09. The tleap build surfaces seven close contacts, and SIX OF SEVEN
+involve residues grafted from 1DBF: A119 and A121, clashing against native C70:TYR and
+against themselves, the tightest at 1.317 A (A121:LEU:CD1 <-> C70:TYR:HH). So the graft
+introduced steric problems as well as strained joins, and the step 09 audit defers these
+to the same minimisation. The commitment is therefore about steric relief as well as C-N
+geometry.
+
 To close: after minimisation, recompute C-N for these three joins plus the full 378-link
-set, and record the result. If the grafted blocks have relaxed toward canonical geometry,
+set, AND recheck the seven close-contact pairs listed in
+09_tleap_build/checks/step09_verify.out section 8, and record both. If the grafted blocks have relaxed toward canonical geometry,
 the commitment is discharged and the write-up can say so. If they have not, the repair
 needs revisiting and that is a flag under the no-rerun rule.
 
@@ -164,7 +172,7 @@ CLOSED
 
 (none yet)
 
-ITEM 6 - The two worst GAFF parameters sit on the breaking bond
+ITEM 8 - The two worst GAFF parameters sit on the breaking bond
   raised at: 08_ligand_gaff
   closes at: an analysis of the existing step 10 trajectories; no re-run required
   status: OPEN
@@ -194,3 +202,26 @@ analysis of trajectories that already exist and does not trip the no-rerun rule.
 If it does NOT agree, the finding is not that the barriers are wrong but that the frames
 were drawn from a distorted distribution, which is a sampling caveat for X.2 and the
 ensemble sections.
+
+ITEM 9 - The active-site close contact, and why it exists
+  raised at: 09_tleap_build
+  closes at: 10_md, restrained minimisation
+  status: OPEN
+
+tleap reports B75:CYS:HG <-> C201:CHA:H8 at 1.375 A. Cys75' is a contact-set residue,
+measured at 3.188 A heavy-atom to cha_c at step 04. HG is the cysteine thiol hydrogen.
+
+CAUSE, established: step07a submitted a protein-only structure to H++.
+hpp_input_protein_only_with_TER.pdb contains 0 HETATM records. H++ placed that thiol
+hydrogen with no substrate in the structure, and it landed 1.375 A from a substrate
+hydrogen. This is a predictable consequence of the protein-only submission, not a defect
+in H++ or in the placement.
+
+It is the only one of the seven close contacts that touches the substrate or the active
+site, and the active site is where the whole thesis lives, so it does not get the same
+benefit of the doubt as a clash between two leucine methyls in a grafted tail.
+
+To close: confirm after restrained minimisation that the Cys75 HG to substrate distance
+has relaxed to a physical value. If it has not, the protonation of Cys75 specifically
+needs revisiting in the presence of the substrate, which WOULD be a flag under the
+no-rerun rule.

@@ -1,0 +1,28 @@
+dry_prmtop_natom	6255
+dry_prmtop_nres	384
+dry_inpcrd_natom	6255
+dry_has_box	False
+dry_total_charge	-9.0000
+dry_charge_int	-9
+dry_CHA_residues	3
+solvated_prmtop_natom	55680
+solvated_prmtop_nres	16865
+solvated_inpcrd_natom	55680
+solvated_has_box	True
+solvated_total_charge	-0.0000
+solvated_charge_int	0
+water_residues	16472
+Na_ions	9
+Cl_ions	0
+solvated_CHA_residues	3
+expected_Na_from_dry_charge	9
+prmtop_inpcrd_natom_match_dry	True
+prmtop_inpcrd_natom_match_solvated	True
+tleap_warnings_total	28
+warn_terminal_rename	12
+warn_nonzero_charge_dry	2 (expected: dry unit is -9 before addions)
+warn_close_contact	7 distinct atom pairs (14 reports), all solute-internal (present in the solvent-free dry check); min 1.317 A; relaxed during restrained minimisation
+warn_other	0
+solvated_box_size	92.915 x 76.664 x 95.443 A
+tleap_errors	0
+tleap_fatal	0
