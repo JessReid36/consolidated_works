@@ -1,0 +1,14 @@
+#!/bin/bash
+#PBS -N cm13b_smoke
+#PBS -l select=1:ncpus=1:mem=8gb
+#PBS -l walltime=02:00:00
+#PBS -j oe
+#PBS -o /home/18660916/system_development/05_qmmm/13_smoketest/smoke.pbs.out
+cd /home/18660916/system_development/05_qmmm/13_smoketest
+export LD_LIBRARY_PATH="/home/apps2/ORCA/6.0.1/lib:/apps/mambaforge/envs/medaka/lib:$LD_LIBRARY_PATH"
+export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1
+echo "host=$(hostname) start=$(date)"
+/home/apps2/ORCA/6.0.1/orca smoke.inp > smoke.out 2>&1
+echo "orca_exit=$? end=$(date)"
+grep -iE "ORCA TERMINATED NORMALLY|FINAL SINGLE POINT ENERGY" smoke.out | tail -5
+grep -q "ORCA TERMINATED NORMALLY" smoke.out && echo SMOKE_TEST_PASS || echo SMOKE_TEST_FAIL

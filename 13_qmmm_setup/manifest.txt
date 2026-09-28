@@ -1,0 +1,56 @@
+step: 13_qmmm_setup
+title: QM/MM bridge, smoke test and DFT single point
+covers: pipeline steps 13a, 13b and 14, combined as one unit because together they
+        establish and validate the QM/MM partition every later barrier depends on
+scripts: step13a_bridge.sh, step13b_smoketest.sh, step14_dft_sp.sh
+cited_by: Methods X.3
+
+## scripts   (canonical home: JessReid36/chorismate-thesis-code)
+   branch=tier1-realism commit=f0e059cf11eda91dea939c42f8e12d1a8bf829a1
+  phase1_system_dev/step13a_bridge.sh  1760  2a0b4e3294358c7ae11d8de22041392a91e5670017a9af033b990c4c315d60f1
+  phase1_system_dev/step13b_smoketest.sh  2598  9178cb22da2b6bd3f9181f6fc17cdf6654053bbc3ccc3a5e3e54ebbf93d24e97
+  phase1_system_dev/step14_dft_sp.sh  2469  578d5edf11a2f79bb75a2d31c88dfff96926fb1dfae329c5c2d2e722fa614316
+
+## scripts_as_run
+  NONE EXISTS, as for steps 08-12.
+
+## outputs   (canonical home: JessReid36/chorismate-thesis-results)
+   branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  05_qmmm/13_bridge/complex_solvated.ORCAFF.prms  9024363  3181d624af818b668375a8dc4dd137708eeb8f80cc2ae616767334ae1ace4980
+  05_qmmm/13_bridge/convff_A_single.log  0  e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855   <- ZERO BYTES, see interpretation
+  05_qmmm/14_dft_sp/dft_sp.inp  200  9a6b9d7a26182754c0bcb931e7500f99345d2045fee91bcadd377e8bd1b81f1d
+  05_qmmm/14_dft_sp/dft_sp.out  3413471  599d11c23785d0eddd5631131bdcc8ef6cfc6bff1f9511fb84b0c068500d549e
+  05_qmmm/14_dft_sp/dft_sp.pbs  716  0b58d1edc382dbbdee09fa245395ce5e382ab74246f6cf0ba0aed38b7af65bdb
+  05_qmmm/14_dft_sp/dft_sp.pbs.out  331  6653823787b5bd39cd7b1962fbf1952f8ed0a8c6ad02f9a6cd91b1feb420799f
+  05_qmmm/13_smoketest/smoke.inp  171  d6a9378014581d95f80b5cf0571bd4326eabc7118fd13d6a154ceb0fa1c81b5e
+  05_qmmm/13_smoketest/smoke.out  3399539  2b3c1d7f245b2ab72bdc32fcdcae5e77a13c83ed74f467fe00d08740141560d1
+  05_qmmm/13_smoketest/smoke.pbs  687  d98db333c509b612b4c894b17854b7ca0ca332eb9f98240e29f192d001a267d6
+  05_qmmm/13_smoketest/smoke.pbs.out  335  0ca467646ec4e1a0cf3fd5e56287c126342db78043c458b3395199c10d15893e
+
+## checks
+  step13_verify.out  2355  3df925e080c6f46f8521313cae389b7124806b6df9c34332388fd388eb6e3df1
+  step13_verify.py  6894  70645a5c2553fc231b77b6a3c012cd547251544933a2a2066932a61757a869cd
+  result: 26 checks, 26 PASS, 0 FAIL  (see checks/step13_verify.out)
+
+## the QM/MM partition, for the record
+  QM region      atoms 6207:6230 (ORCA 0-based) = CHA#2, 24 atoms, whole substrate
+  charge / mult  -2 / 1
+  link atoms     0 (ORCA reports it explicitly)
+  embedding      electrostatic, via complex_solvated.ORCAFF.prms
+  level          B3LYP D3BJ def2-SVP def2/J RIJCOSX
+  energy scales  QM -836.79 Eh, MM -236.67 Eh, QM/MM -1073.45 Eh; QM/MM = QM + MM
+                 exactly (residual 1.1e-12). NEVER difference across scales.
+
+## depends on
+  ../09_tleap_build/outputs/complex_solvated.prmtop  (held as a pointer)
+  ../12_frame_selection/  (frame 00820, the pilot, used for the single point)
+
+## literature used
+  Claeyssens et al. 2011, abstract (B3LYP/6-31G(d)/CHARMM27) and p.10 (dispersion
+  limitation; B3LYP underestimates this barrier by ~3 kcal/mol vs LCCSD(T))
+
+## environment of the recorded check run
+  date_utc: 2026-09-28T19:50:02+00:00
+  python:   3.12.3
+  platform: Linux-6.18.44-fc-v42-x86_64-with-glibc2.39
+  host:     drafting container, NOT the HPC working tree.

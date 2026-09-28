@@ -1,0 +1,52 @@
+step 13 verification against /home/claude/repos/cw_build/13_qmmm_setup/outputs
+
+1. continuity
+  [PASS] step09 solvated topology is pinned (held as a pointer) — 3c4d219cf13bc32c
+  [PASS] the force-field bridge is committed — 8.6 MB
+
+2. the QM region
+  [PASS] the QM region is specified as a contiguous range — QMAtoms {6207:6230}
+  [PASS] the QM region is 24 atoms, the whole substrate — 6207:6230 inclusive = 24 atoms
+  [PASS] the range corresponds to CHA#2 under ORCA's 0-based convention — 0-based 6207:6230 == 1-based 6208:6231, which is CHA#2 per step 09
+
+3. charge and multiplicity
+  [PASS] declared in the input — *pdbfile -2 1
+  [PASS] charge is -2 — -2
+  [PASS] multiplicity is 1 — 1
+  [PASS] ORCA read the same charge and multiplicity — charge -2, mult 1
+
+4. level of theory
+         ours:        QMMM B3LYP D3BJ def2-SVP def2/J RIJCOSX EnGrad
+         Claeyssens:  B3LYP/6-31G(d)/CHARMM27  (2011, abstract)
+  [PASS] keyword B3LYP present
+  [PASS] keyword D3BJ present
+  [PASS] keyword def2-SVP present
+  [PASS] keyword RIJCOSX present
+  [PASS] keyword QMMM present
+  [PASS] electrostatic embedding via the ORCAFF bridge
+
+5. THE ENERGY-SCALE IDENTITY
+  [PASS] all three energies are reported
+         QM (embedded substrate) -836.786437201 Eh
+         MM (environment)        -236.665890454 Eh
+         QM/MM total             -1073.452327655 Eh
+  [PASS] QM/MM total is exactly QM + MM — residual 1.14e-12 Eh
+  [PASS] the QM-only scale is near -836 Eh — -836.79
+  [PASS] the QM/MM scale is near -1073 Eh — -1073.45
+         These are DIFFERENT SCALES and must never be differenced against one
+         another. The embedded QM energy already contains the polarisation of
+         the substrate by the environment; the MM term is the environment's own
+         energy. This is what E_int_R and E_int_P in the harvest measure.
+
+6. no link atoms
+  [PASS] the input declares no link-atom treatment — the QM region is a whole molecule, so no bond is cut
+  [PASS] ORCA reports zero link atoms — Number of link atoms = 0
+  [PASS] the QM subsystem including link atoms is still the 24-atom substrate — 24 atoms
+
+7. both jobs completed
+  [PASS] smoke.out terminated normally
+  [PASS] smoke.out reports no error or abort
+  [PASS] dft_sp.out terminated normally
+  [PASS] dft_sp.out reports no error or abort
+
+ALL CHECKS PASSED

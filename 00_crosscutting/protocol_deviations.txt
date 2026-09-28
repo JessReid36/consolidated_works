@@ -262,3 +262,73 @@ structures; ours is a set of free reactant-state structures. Consequences worth 
 
 Agbaglo 2024 differ again: 30 frames per scheme by RMSD window and random draw. Ours is
 criterion-driven. Three papers, three sampling designs.
+
+===============================================================================
+DEVIATION 9 - Level of theory: B3LYP-D3BJ/def2-SVP, not B3LYP/6-31G(d)
+  origin step: 13_qmmm_setup (and every barrier thereafter)
+  status: UNSTATED in the repos. The work log records that no written justification
+          exists anywhere. This entry supplies the literature basis for one half of it.
+===============================================================================
+
+Claeyssens 2011, abstract: B3LYP/6-31G(d)/CHARMM27.
+Ours, read from the committed dft_sp.inp: B3LYP D3BJ def2-SVP def2/J RIJCOSX, with
+electrostatic embedding onto the ff14SB system through an ORCAFF bridge.
+
+TWO SEPARATE CHANGES, and they are not equally easy to defend.
+
+1. DISPERSION: D3BJ added.
+   Claeyssens name this as a limitation of their own calculation (p. 10): "dispersion is
+   not represented, which can be important for some enzyme-catalysed reactions". Adding
+   D3BJ addresses a deficiency the primary comparator itself identifies. That is a
+   defensible improvement and should be presented as one, with their sentence cited.
+
+2. BASIS SET: def2-SVP in place of 6-31G(d).
+   No justification is recorded anywhere. Both are split-valence double-zeta sets of
+   broadly similar size, and def2-SVP is the natural partner for def2/J and RIJCOSX in
+   ORCA, so the change is most likely a tooling consequence of moving from their
+   Jaguar/Tinker/QoMMMa stack to ORCA. THAT IS A REASON, NOT A JUSTIFICATION, and it
+   should be written down as such rather than left unmentioned.
+
+THE THIRD THING, WHICH IS NOT A DEVIATION BUT MATTERS MORE THAN EITHER.
+Claeyssens state that B3LYP underestimates this barrier by about 3 kcal/mol against
+LCCSD(T), and that the underestimation is similar in enzyme and in water. So:
+  - Their 11.3 kcal/mol is, by their own account, about 3 kcal/mol low.
+  - Any comparison of OUR absolute barrier against 11.3 inherits that, and must say so.
+  - The error largely cancels in the enzyme-minus-water difference, so the catalytic
+    effect and the stabilisation regression are more robust than the absolute barrier.
+This is not currently stated anywhere in the project and it changes how the headline
+barrier comparison should be worded.
+
+===============================================================================
+DEVIATION 9 - Level of theory: B3LYP-D3BJ/def2-SVP, not B3LYP/6-31G(d)
+  origin step: 13_14_qmmm_bridge, and every barrier thereafter
+  status: UNSTATED, and this is the most consequential unstated deviation so far
+===============================================================================
+
+Claeyssens et al. 2011 compute their QM/MM reaction paths with B3LYP and the 6-31G(d)
+basis set.
+
+This work uses, read from the committed dft_sp.inp:
+    ! QMMM B3LYP D3BJ def2-SVP def2/J RIJCOSX EnGrad
+
+Same functional. Three differences:
+  - def2-SVP rather than 6-31G(d). Both are split-valence double-zeta with polarisation,
+    but they are not the same basis and barrier heights are basis-sensitive.
+  - D3BJ dispersion, which Claeyssens do not apply.
+  - RIJCOSX with def2/J, a resolution-of-the-identity and chain-of-spheres approximation
+    to the Coulomb and exchange integrals, which Claeyssens do not use.
+
+WHY IT MATTERS MORE THAN THE OTHER DEVIATIONS. Deviations 1 to 8 concern how the ensemble
+was built and sampled. This one enters the energy of every barrier directly. Our mean
+barrier is compared against Claeyssens' 11.3 +/- 1.8 kcal/mol, and the two are computed
+with different basis sets and different dispersion treatment.
+
+NO JUSTIFICATION IS WRITTEN ANYWHERE in either repository. The QM region itself matches
+Claeyssens exactly - chorismate only, electrostatic embedding, no link atoms - which makes
+the unexplained basis-set change stand out more, not less.
+
+TO CLOSE, in order of increasing effort:
+  1. State the deviation and the reason in the methods. Minimum.
+  2. Quantify it: a single-frame single point at B3LYP/6-31G(d) on the same geometry gives
+     the offset directly. One cheap job, no re-run of anything.
+  3. If the offset is large, say so when comparing against Claeyssens' barrier.

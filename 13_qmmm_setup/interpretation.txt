@@ -1,0 +1,93 @@
+# 13_qmmm_setup — QM/MM bridge, smoke test and DFT single point
+
+Covers pipeline steps 13a, 13b and 14 as one unit: they establish the QM/MM partition
+that every barrier in Phase 1 depends on, and validate it.
+
+## What this step did
+step13a converts the AMBER topology into an ORCAFF force-field bridge with ORCA 6.0.1
+orca_mm -convff -AMBER. step13b runs a cheap HF-3c QM/MM single point as a smoke test.
+step14 runs the production-level DFT single point that fixes the level of theory.
+
+## Key numbers
+- QM region: atoms 6207:6230 in ORCA's 0-based convention = 6208:6231 in the 1-based
+  prmtop = CHA#2, the 24-atom substrate, and nothing else.
+- Charge -2, multiplicity 1, confirmed both in the input and in ORCA's own echo.
+- Link atoms: ORCA reports "Number of link atoms ... 0" and "Size of QM Subsystem plus
+  link atoms ... 24". The QM region is a whole molecule, so no bond is cut.
+- Bridge: complex_solvated.ORCAFF.prms, 8.6 MB.
+- Level of theory: B3LYP D3BJ def2-SVP def2/J RIJCOSX, electrostatic embedding.
+
+## THE ENERGY-SCALE IDENTITY, AND WHY IT MATTERS
+The DFT single point reports three energies:
+
+    QM (embedded substrate)   -836.786437201 Eh
+    MM (environment)          -236.665890454 Eh
+    QM/MM total              -1073.452327655 Eh
+
+QM/MM = QM + MM exactly, residual 1.14e-12 Eh.
+
+These are DIFFERENT SCALES. The project's own write-up prompt lists confusing them as a
+known trap, and the harvest header repeats the warning. What the identity shows is why:
+the embedded QM energy already contains the polarisation of the substrate by the
+environment, and the MM term is the environment's own energy. Differencing a QM-only
+bare-substrate energy near -836 Eh against a QM/MM total near -1073 Eh is subtracting the
+entire protein and solvent, not an interaction.
+
+This is exactly what E_int_R and E_int_P in ensemble_barriers.tsv measure, and the harvest
+header already says so: "EMBEDDED QM energy minus gas-phase energy at the same geometry.
+Interaction plus polarisation, NOT a stabilisation. Never difference against E_ci_Eh or
+any other QM/MM total."
+
+## Acceptance threshold and verdict
+Verification: 26 checks, 26 PASS, 0 FAIL. See checks/step13_verify.out.
+
+## Literature comparison
+THE QM/MM PARTITION MATCHES CLAEYSSENS EXACTLY. Chorismate-only QM region, electrostatic
+embedding, no link atoms. That is the correct design decision and it reproduces the
+primary comparator's setup.
+
+THE LEVEL OF THEORY DOES NOT. Claeyssens use B3LYP/6-31G(d)/CHARMM27; ours is
+B3LYP-D3BJ/def2-SVP on ff14SB. Two separate changes, recorded as deviation 9:
+
+  - D3BJ ADDED. Claeyssens explicitly name dispersion as a limitation of their own
+    calculation (p. 10): "dispersion is not represented, which can be important for some
+    enzyme-catalysed reactions". Adding it addresses a deficiency the comparator itself
+    identifies. Present it that way, with their sentence cited.
+  - def2-SVP FOR 6-31G(d). No justification is recorded anywhere. Both are split-valence
+    double-zeta; def2-SVP is the natural partner for def2/J and RIJCOSX in ORCA, so this
+    is most likely a tooling consequence of moving from Jaguar/Tinker/QoMMMa to ORCA. That
+    is a reason, not a justification, and should be written down as such.
+
+THE POINT THAT MATTERS MORE THAN EITHER, and which is stated nowhere in the project:
+Claeyssens report (p. 10) that "comparison with LCCSD(T) results shows that B3LYP
+underestimates the barrier to reaction somewhat, by approximately 3 kcal mol-1", and that
+the underestimation is similar in enzyme and in water.
+
+  - Their headline 11.3 kcal/mol is, on their own account, about 3 kcal/mol too low.
+  - Any comparison of our absolute barrier against 11.3 inherits that and must say so.
+  - The error largely CANCELS in the enzyme-minus-water difference, so the catalytic
+    effect and the barrier-versus-stabilisation regression are more robust than the
+    absolute number.
+
+This materially changes how the headline barrier comparison should be worded. A barrier
+of ours sitting above 11.3 is not automatically a discrepancy; 11.3 is a known
+underestimate of a reference value nearer 14.
+
+## Caveats and known issues
+- convff_A_single.log is ZERO BYTES. The bridge generation script tries several argument
+  forms and logs each; the one that succeeded produced an empty log. The bridge itself is
+  present and is used by every later job, so the outcome is not in doubt, but there is no
+  committed record of the orca_mm invocation that produced it. The script's own header
+  says the AMBER file-argument mapping is ambiguous in ORCA's usage text, which is why it
+  tries several forms - so which form worked is exactly the thing worth having recorded.
+- The smoke test uses HF-3c and the production single point uses B3LYP-D3BJ/def2-SVP. The
+  smoke test validates the QM/MM plumbing, not the energetics, and its energies must never
+  be quoted.
+- Both jobs run on a single core (%pal nprocs 1). That is fine for a single point and is
+  not the production parallel setting used later.
+- The single point is on frame 00820, the PILOT frame, which is in the canonical selection
+  manifest but excluded from the ensemble. Appropriate for a setup validation; its energies
+  are not ensemble data.
+
+## Cited by
+Methods X.3, QM/MM partition and level of theory.

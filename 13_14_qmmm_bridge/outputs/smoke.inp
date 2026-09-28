@@ -1,0 +1,8 @@
+! QMMM HF-3c EnGrad
+%maxcore 2000
+%pal nprocs 1 end
+%qmmm
+  QMAtoms {6207:6230} end
+  ORCAFFFilename "complex_solvated.ORCAFF.prms"
+end
+*pdbfile -2 1 frame_00820_CHA2.pdb

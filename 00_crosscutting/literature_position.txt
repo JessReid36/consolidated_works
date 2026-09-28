@@ -25,8 +25,24 @@ System and sampling (p. 2-3)
   QM/MM: B3LYP, Jaguar + Tinker linked by QoMMMa.
   Reaction coordinate r = d(breaking C2-O13) - d(forming C4-C14).
 
-Barriers and stabilisation (p. 6, p. 8)
+Level of theory (abstract, p. 2)
+  B3LYP/6-31G(d)/CHARMM27. QM region is chorismate only; electrostatic embedding; no
+  link atoms, the QM region being a whole molecule.
+  THEY NAME TWO LIMITATIONS OF THEIR OWN LEVEL, both directly relevant to ours (p. 10):
+    "dispersion is not represented, which can be important for some enzyme-catalysed
+     reactions"
+    "comparison with LCCSD(T) results shows that B3LYP underestimates the barrier to
+     reaction somewhat, by approximately 3 kcal mol-1 ... This underestimation is
+     probably very similar for the reaction in either enzyme or solvent."
+  CONSEQUENCE FOR US. Their 11.3 kcal/mol is, on their own account, about 3 kcal/mol
+  too low against LCCSD(T). Any comparison of an absolute barrier against 11.3 must
+  say so. The error largely CANCELS in the enzyme-minus-water difference, which they
+  note, so the catalytic effect is more robust than the absolute value.
+
+Barriers and stabilisation (p. 6, p. 8, abstract)
   Enzyme QM/MM barrier          11.3 +/- 1.8 kcal/mol   (16 paths)
+  Water  QM/MM barrier          17.4 kcal/mol           (24 paths, abstract)
+  Catalytic effect (difference)  6.1 kcal/mol
   Enzyme in vacuo barrier       19.2 +/- 1.3 kcal/mol
   Water in vacuo barrier        18.4 +/- 2.5 kcal/mol
   Total TS stabilisation         7.3 +/- 2.0 kcal/mol
