@@ -79,6 +79,15 @@ CLOSED
   DOI 10.1073/pnas.90.18.8600, read from the JRNL DOI record of 2cht_raw.pdb. PDF held
   in chorismate-refs as pnas.90.18.8600.pdf. Closed 2026-09-28.
 
+- step04b_contact_criterion.py: WITHDRAWN, not a gap.
+  Earlier in the audit this was listed as a missing script implementing a criterion-first
+  contact set. That was an error. step04_place_chorismate_abc.sh ALREADY emits an unbiased
+  4.0 A scan over all protein heavy atoms, in step04_placement_contact_report.txt; the
+  hard-coded list in step04_catalytic_contact_report.tsv is a chain-origin test, not a
+  definition of the site. step04b is therefore redundant and should NOT be committed.
+  Its unique content, the cutoff ladder and the exclusion margin, now lives in
+  04_substrate_placement/checks/step04_verify.py. Withdrawn 2026-09-28.
+
 - Claeyssens 2005 regression sign and R value.
   Not in the paper's text. Read from Fig. 2(b) by rasterising page 3: Y = 16.02 - 0.95 X,
   R = 0.97. Closed 2026-09-28. See comparator_decision.txt.

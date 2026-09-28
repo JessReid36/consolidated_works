@@ -1,0 +1,95 @@
+# 04_substrate_placement — Chorismate placement and the active-site contact set
+
+## What this step did
+Placed one chorismate into each of the three sites by superposing the crystallographic
+transition-state analogue of the ligand's registered SOURCE site onto the analogue of the
+TARGET site, then applying that transform to the ligand. Renamed the CP2K duplicate atom
+names for tleap safety. Measured protein-ligand contacts two different ways and wrote
+both.
+
+The transform is analogue-to-analogue, not ligand-to-protein: liga was aligned to the
+analogue at K210, so the K210 -> A203 analogue fit is the transform that carries it into
+site A. Likewise J212 -> B201 and L211 -> C202.
+
+## CORRECTION TO AN EARLIER READING OF THIS STEP
+Earlier in the audit this step was described as measuring distances for a hard-coded
+residue list, with the criterion-first derivation supplied afterwards by a new script
+(step04b_contact_criterion.py). THAT WAS WRONG, and the error was mine.
+
+step04_place_chorismate_abc.sh emits TWO contact records, and they are different things:
+
+  step04_placement_contact_report.txt   UNBIASED. Every protein heavy atom is measured
+                                        against the ligand; every residue within 4.0 A is
+                                        listed. No residue list is consulted. This IS a
+                                        criterion-derived contact set, and it has been in
+                                        the committed record all along.
+  step04_catalytic_contact_report.tsv   LIST-DRIVEN. For each residue in a hard-coded set,
+                                        finds the closest copy ACROSS ALL CHAINS and tests
+                                        the expected same/cross chain origin. Its purpose
+                                        is to test the chain-origin assignment, not to
+                                        define the site.
+
+The criterion was therefore never missing. What was missing is the cutoff SENSITIVITY and
+the EXCLUSION MARGIN, neither of which step04 reports. Those are now produced by
+checks/step04_verify.py section 7.
+
+CONSEQUENCE: step04b_contact_criterion.py is REDUNDANT and should NOT be committed to the
+code repo. Its unique content is the ladder and the margin, and those belong in the
+verification script here, not in a new pipeline step. Withdraw it.
+
+## Key numbers
+- Analogue-to-analogue fits, 17 common atoms each:
+    K210 -> A203  RMSD 0.1267 A
+    J212 -> B201  RMSD 0.0797 A
+    L211 -> C202  RMSD 0.1518 A
+  All three reproduced independently by checks/step04_verify.py to 4 decimal places.
+- Centre offsets 0.161 / 0.160 / 0.203 A, matching step01b's registration.
+- Placed ligands: 24 atoms, 16 heavy, net charge -2.0000 preserved through the transform.
+- Closest protein-ligand heavy-atom contact per site: A 2.782 (Arg7 NH2), B 2.586
+  (Tyr108 OH), C 2.709 (Arg7 NH2). Script's severe-overlap gate is 0.80 A.
+- Unbiased 4.0 A scan: 12 residues at site A, 12 at B, 11 at C. Union = 12.
+- Cutoff ladder (union over sites): 6 residues at 3.0 A, 12 at 3.5 A, 12 at 4.0 A,
+  13 at 4.5 A, 13 at 5.0 A, 21 at 6.0 A. Stable plateau 3.5-4.0 A.
+- Nearest excluded: Ala9 4.449, Pro58' 5.164, Gly8 5.209, Arg116 5.501, Pro117 5.515 A.
+- Chain-origin assignments: 39 rows in the list-driven report, 0 mismatches.
+
+## Acceptance threshold and verdict
+Script gates: source and target analogue sites must exist; at least 6 common analogue
+atoms; minimum protein-ligand heavy-atom distance at or above 0.80 A. All passed.
+Verification: 32 checks, 32 PASS, 0 FAIL. See checks/step04_verify.out.
+
+## Literature comparison
+The twelve residues returned by the 4.0 A criterion are exactly the twelve listed by
+Agbaglo et al. (2024, doi:10.1039/d3cp06100k, main text p. 8, scheme S3) - no extras, no
+omissions. Because the set here is derived from this structure by a stated geometric
+criterion and not adopted from the paper, the agreement is independent corroboration
+rather than an inherited assumption. State it that way.
+
+Arg116 lies outside the set at 5.501-6.834 A. Claeyssens et al. (2011) Table 3 DO report
+Arg116, at 1.0 +/- 0.9 kcal/mol of electrostatic TS stabilisation, and their body text
+calls it an active-site residue. The two statements are compatible: a contact criterion
+selects van der Waals proximity, whereas an electrostatic contribution does not require
+proximity.
+
+## Caveats and known issues
+- THE CONTACT SET IS A GEOMETRIC PLACEMENT CRITERION. It is not a QM-region definition and
+  not the residue basis for the electrostatic decomposition. Do not reuse it for either.
+  Excluding Arg116 from an electrostatic analysis on a distance rule would be indefensible
+  in a thesis about catalysis by charges at a distance. The decomposition basis is left
+  open deliberately; see the DECISION REQUIRED in writeup/methods_X1_4.md.
+- Arg63' is at 6.380 A at site C against 2.899 and 3.060 A at A and B, so it meets the
+  criterion at two sites of three and enters the set on the union. This is inherited
+  crystallographic heterogeneity, established at step 05, not a placement artefact.
+- The analogue is not isosteric with the substrate: 17 heavy atoms against 16. The
+  superposition is therefore analogue-to-analogue, and the ligand rides along. It is not
+  an atom-for-atom mapping of substrate onto analogue.
+- The step04 script comment attributes the Agbaglo residue set to the supporting
+  information; it is in the main text, p. 8. The comment also repeats the pre-correction
+  wording of scheme S3. See 00_crosscutting/open_items.txt item 3.
+- scripts_as_run/ is MATERIALLY STALE for this step, unlike every other step so far. The
+  archived copy uses a residue list containing Arg116 and omitting Val73'. The committed
+  step04_catalytic_contact_report.tsv contains Val73' and labels Arg116 second_shell, so
+  the report came from the working version. Keep both copies and the divergence note.
+
+## Cited by
+Methods X.1.4, Tables X.1.4a-c.

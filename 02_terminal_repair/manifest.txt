@@ -27,9 +27,9 @@ consumes: 01_inputs_acquisition/outputs/2cht_raw.pdb, 1dbf_raw.pdb
   00_admin/step02_repair_decision.txt  422  7bdac99172bfcec7537c115d9a0339a666e6f192053f2dff3fbea067447ab776
 
 ## checks
-  step02_verify.py  11131  54ca622be7e11ab97a73bdd82680d8f0296d3660b23816d95f93f62e548c71da
-  step02_verify.out  2714  ecc6e85c8d4d1bc72e489a093be6524f08a06aaf5b11f8d5cb431c81194813c1
-  result: 27 checks, 27 PASS, 0 FAIL  (see checks/step02_verify.out)
+  step02_verify.py  12430  5160cd1d2638e0bead0b3f27c39aeeb8856aa561fa479f5b8b563520da76b2f7
+  step02_verify.out  2830  df79595417f93116ddccac175d55a90524bd7d532e26f2f0dc992fd6f1980334
+  result: 28 checks, 28 PASS, 0 FAIL  (see checks/step02_verify.out)
 
 ## writeup   (drafted here; assembled into the chapter later)
   writeup/methods_X1_2.docx  14226  003cabdab856ccb945750f51d0d4ba1dc2e799a1f896fd1a0607f699718b4ff1

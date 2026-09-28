@@ -1,0 +1,19 @@
+step04_placement_audit
+cha_a_atoms	24
+cha_a_heavy	16
+cha_a_tsa_fit_rmsd_A	0.1267
+cha_a_centre_offset_A	0.161
+cha_a_min_prot_lig_heavy_A	2.782
+cha_a_min_pair	prot:A:7:ARG:NH2:2.782
+cha_b_atoms	24
+cha_b_heavy	16
+cha_b_tsa_fit_rmsd_A	0.0797
+cha_b_centre_offset_A	0.160
+cha_b_min_prot_lig_heavy_A	2.586
+cha_b_min_pair	prot:B:108:TYR:OH:2.586
+cha_c_atoms	24
+cha_c_heavy	16
+cha_c_tsa_fit_rmsd_A	0.1518
+cha_c_centre_offset_A	0.203
+cha_c_min_prot_lig_heavy_A	2.709
+cha_c_min_pair	prot:C:7:ARG:NH2:2.709

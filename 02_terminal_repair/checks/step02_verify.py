@@ -32,6 +32,8 @@ import sys
 import math
 import hashlib
 import collections
+
+import numpy as np
 from pathlib import Path
 
 FAIL = []
@@ -84,15 +86,31 @@ def backbone_map(a):
             for x in a if x["name"] in ("N", "CA", "C", "O")}
 
 
-def kabsch_rmsd(P, Q):
+def deviation_rmsd(P, Q):
+    """Centred deviation, NO rotation fitted.
+
+    Correct for comparing 1dbf_abc_aligned_to_2cht.pdb against the target, because that
+    file has already had step02's transform applied. Fitting a further rotation would
+    measure the best achievable fit rather than the fit actually written.
+    """
     n = len(P)
     cp = [sum(p[i] for p in P) / n for i in range(3)]
     cq = [sum(q[i] for q in Q) / n for i in range(3)]
     P = [[p[i] - cp[i] for i in range(3)] for p in P]
     Q = [[q[i] - cq[i] for i in range(3)] for q in Q]
-    # already-aligned structures: no rotation fitted, report as-is deviation
     return math.sqrt(sum(sum((P[k][i] - Q[k][i]) ** 2 for i in range(3))
                          for k in range(n)) / n)
+
+
+def kabsch_rmsd(P, Q):
+    """RMSD after an optimal superposition fitted here, by SVD. Independent re-fit."""
+    P = np.asarray(P, dtype=float)
+    Q = np.asarray(Q, dtype=float)
+    Pc, Qc = P.mean(0), Q.mean(0)
+    H = (P - Pc).T @ (Q - Qc)
+    V, _, Wt = np.linalg.svd(H)
+    U = V @ np.diag([1.0, 1.0, float(np.sign(np.linalg.det(V @ Wt)))]) @ Wt
+    return math.sqrt(((((P - Pc) @ U) + Qc - Q) ** 2).sum() / len(P))
 
 
 def cn_links(a):
@@ -147,9 +165,18 @@ def main():
     check("common backbone atom count matches the report",
           len(common) == n_rep, f"{len(common)} vs {n_rep}")
     if common:
-        r = kabsch_rmsd([bm_r[k] for k in common], [bm_a[k] for k in common])
-        check("re-derived RMSD matches the report",
+        r = deviation_rmsd([bm_r[k] for k in common], [bm_a[k] for k in common])
+        check("deviation of the committed aligned file matches the report",
               abs(r - rmsd_rep) < 5e-3, f"{r:.4f} vs {rmsd_rep:.4f}")
+        # Independent re-fit from the untransformed inputs: confirms the transform step02
+        # wrote is the optimal one, not merely that the written file is self-consistent.
+        if s01:
+            m2 = backbone_map(atoms(s01 / "2cht_raw.pdb"))
+            m1 = backbone_map(atoms(s01 / "1dbf_raw.pdb"))
+            com2 = sorted(set(m1) & set(m2))
+            r2 = kabsch_rmsd([m1[k] for k in com2], [m2[k] for k in com2])
+            check("optimal re-fit from the raw inputs matches the report",
+                  abs(r2 - rmsd_rep) < 5e-3, f"{r2:.4f} vs {rmsd_rep:.4f}, n={len(com2)}")
 
     print("\n4. residue provenance")
     src = {}

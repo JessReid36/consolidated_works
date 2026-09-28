@@ -1,0 +1,60 @@
+step 04 verification against /home/claude/repos/cw_build/04_substrate_placement/outputs
+
+1. continuity: inputs are the committed step 03 and step 01 outputs
+  [PASS] step03 abc_repaired_clean.pdb reachable — 0bb491624bbed701
+  [PASS] step01 liga.mol2 matches its recorded hash — fd19c40914739e57
+  [PASS] step01 ligb.mol2 matches its recorded hash — 31800dab8780e66a
+  [PASS] step01 ligc.mol2 matches its recorded hash — a4b8584c16f4237c
+
+2. registration consistency between step01b and step04
+  [PASS] cha_a: step04 source site K210 matches step01b registration — step01b says K210
+  [PASS] cha_b: step04 source site J212 matches step01b registration — step01b says J212
+  [PASS] cha_c: step04 source site L211 matches step01b registration — step01b says L211
+
+3. analogue-to-analogue transform reproduced from raw 2CHT
+  [PASS] cha_a: common analogue atoms — 17 vs 17
+  [PASS] cha_a: fit RMSD reproduced — 0.1267 vs 0.1267
+  [PASS] cha_b: common analogue atoms — 17 vs 17
+  [PASS] cha_b: fit RMSD reproduced — 0.0797 vs 0.0797
+  [PASS] cha_c: common analogue atoms — 17 vs 17
+  [PASS] cha_c: fit RMSD reproduced — 0.1518 vs 0.1518
+
+4. ligand integrity after placement
+  [PASS] cha_a_placed.mol2: 24 atoms, 16 heavy — 24/16
+  [PASS] cha_a_placed.mol2: net charge -2 preserved — -2.0000
+  [PASS] cha_b_placed.mol2: 24 atoms, 16 heavy — 24/16
+  [PASS] cha_b_placed.mol2: net charge -2 preserved — -2.0000
+  [PASS] cha_c_placed.mol2: 24 atoms, 16 heavy — 24/16
+  [PASS] cha_c_placed.mol2: net charge -2 preserved — -2.0000
+
+5. unbiased 4.0 A contact scan reproduced
+  [PASS] cha_a: residue set within 4.0 A matches the report — 12 found, 12 recorded
+  [PASS] cha_a: distances match the report — max difference 0.0007 A
+  [PASS] cha_b: residue set within 4.0 A matches the report — 12 found, 12 recorded
+  [PASS] cha_b: distances match the report — max difference 0.0009 A
+  [PASS] cha_c: residue set within 4.0 A matches the report — 11 found, 11 recorded
+  [PASS] cha_c: distances match the report — max difference 0.0007 A
+
+6. contact set against the published set
+  [PASS] union over the three sites equals the Agbaglo set — n=12
+
+7. cutoff sensitivity and exclusion margin (not produced by step04)
+          3.0 A : n=6   added=[]
+          3.5 A : n=12  added=[]
+          4.0 A : n=12  added=[]  <- working value
+          4.5 A : n=13  added=[9]
+          5.0 A : n=13  added=[9]
+          6.0 A : n=21  added=[8, 9, 58, 61, 76, 79, 88, 116, 117]
+         nearest excluded residues: ALA9 4.449 A, PRO58 5.164 A, GLY8 5.209 A, ARG116 5.501 A, PRO117 5.515 A
+  [PASS] the 4.0 A set is stable across 3.5-4.0 A
+
+8. chain-origin assignments in the list-driven report
+  [PASS] every chain-origin assignment recovered by measurement — 39 rows, 0 mismatched
+  [PASS] Arg116 is labelled second_shell, not active_site — 3 rows
+
+9. no severe overlap
+  [PASS] cha_a: minimum contact above the 0.80 A failure threshold — 2.782 A
+  [PASS] cha_b: minimum contact above the 0.80 A failure threshold — 2.586 A
+  [PASS] cha_c: minimum contact above the 0.80 A failure threshold — 2.709 A
+
+ALL CHECKS PASSED

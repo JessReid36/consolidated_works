@@ -1,0 +1,4 @@
+label	input	source_tsa	target_tsa	common_atoms	fit_rmsd_A	centre_offset_A
+cha_a	liga.mol2	K210	A203	17	0.1267	0.161
+cha_b	ligb.mol2	J212	B201	17	0.0797	0.160
+cha_c	ligc.mol2	L211	C202	17	0.1518	0.203

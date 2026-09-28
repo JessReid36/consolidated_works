@@ -9,7 +9,8 @@ step 02 verification against /home/claude/repos/cw_build/02_terminal_repair/outp
 
 3. superposition
   [PASS] common backbone atom count matches the report — 1396 vs 1396
-  [PASS] re-derived RMSD matches the report — 0.8037 vs 0.8037
+  [PASS] deviation of the committed aligned file matches the report — 0.8037 vs 0.8037
+  [PASS] optimal re-fit from the raw inputs matches the report — 0.8037 vs 0.8037, n=1396
 
 4. residue provenance
   [PASS] chain A grafted set matches the script patch definition — 13 residues
