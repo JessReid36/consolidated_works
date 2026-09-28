@@ -1,0 +1,10 @@
+Step 02 - A/B/C terminal repair using 1DBF
+
+Global backbone superposition RMSD: 0.8037 A (1396 atoms)
+Unadjusted bad peptide links: 2
+Adjusted bad peptide links: 0
+Peptide links checked: 378
+
+Terminal graft joins were closed by minimal rigid translation to a canonical
+C-N distance. This is geometric pre-conditioning; graft bond angles/dihedrals
+are relaxed by downstream minimisation and MD and must be re-checked then.

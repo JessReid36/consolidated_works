@@ -1,0 +1,43 @@
+step: 02_terminal_repair
+title: Terminal repair of the 2CHT A/B/C trimer from 1DBF
+scripts: step02_terminal_repair_abc.sh
+cited_by: Methods X.1.2
+consumes: 01_inputs_acquisition/outputs/2cht_raw.pdb, 1dbf_raw.pdb
+  (continuity verified by SHA-256 in checks/step02_verify.py, check 1)
+
+## scripts   (canonical home: JessReid36/chorismate-thesis-code)
+   branch=tier1-realism commit=f0e059cf11eda91dea939c42f8e12d1a8bf829a1
+  phase1_system_dev/step02_terminal_repair_abc.sh  10834  d561f9cb0005fe3cca9f755856d7d41a29cbdfd5e0abcc014676fb04d4284e1e
+
+## scripts_as_run   (copies archived in results 00_admin at run time; MAY DIVERGE)
+   canonical home: JessReid36/chorismate-thesis-results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  00_admin/step02_terminal_repair_abc.sh  10834  d561f9cb0005fe3cca9f755856d7d41a29cbdfd5e0abcc014676fb04d4284e1e
+  divergence: NONE. Byte-identical to scripts/.
+
+## outputs   (canonical home: JessReid36/chorismate-thesis-results)
+   branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  02_preparation/protein_only/2cht_abc_raw_protein.pdb  268063  0eca8d056630c20051c9262bafc282bb6d755b860d35b3d89d66dbcc4c949a8a
+  02_preparation/protein_only/1dbf_abc_aligned_to_2cht.pdb  249340  909c229d3af0b634044bc9642bcac99a0f010225b4958a86a7f563ff70ee0965
+  02_preparation/protein_only/abc_repaired_unadjusted.pdb  287418  86ddb2493bc54addfcbe558a0b2d2c7a19a5783ccf17746e271c993a19b5ffb6
+  02_preparation/protein_only/abc_repaired.pdb  287418  a724508653436e9530705d716761e63c08bb797be62078ab99c4b458cadf1f99
+  00_admin/step02_alignment_report.tsv  72  7eb1f50628d8cc8a0db5c0e19fd1547e8fd3a76166e190b425ab3143edb63093
+  00_admin/step02_peptide_continuity_report.tsv  62  1e0d5278873722f9d6d3a4ccdd1a3c24deaed805783321cf4f2c4f863a5cf047
+  00_admin/step02_join_adjustment_report.tsv  115  8bff9f4b59458d10d542b8cbf28f6891d224762d1634c9b1289ebbecd4738e39
+  00_admin/step02_residue_source_report.tsv  6650  f3ed783ea10f5ae2b10ac91bf100060db1ff193243c4d184b564394b4ac3f220
+  00_admin/step02_repair_decision.txt  422  7bdac99172bfcec7537c115d9a0339a666e6f192053f2dff3fbea067447ab776
+
+## checks
+  step02_verify.py  8664  35e65e110033a0bf1e2e74e033e80853e82943b83a63b24219a84e3279d01d7f
+  result: 19 checks, 19 PASS, 0 FAIL  (see checks/step02_verify.out)
+
+## writeup   (drafted here; assembled into the chapter later)
+  writeup/methods_X1_2.docx  14227  b80bd3ad3a70e6f7ea9c777575339d21ffcd52e9f986894795164b606c9eeb2d
+  writeup/methods_X1_2.md  8085  9f17bc43a6a4abc487dbd46f43eb4dedf921849edcd04468145730a39fac77c8
+  note: the .docx is generated from the .md by pandoc; the .md is the source.
+
+## environment of the recorded check run
+  date_utc: 2026-09-28T16:46:27+00:00
+  python:   3.12.3
+  platform: Linux-6.18.44-fc-v42-x86_64-with-glibc2.39
+  host:     drafting container, NOT the HPC working tree.
+            Validates the committed record, not live cluster state. Re-run on the HPC.

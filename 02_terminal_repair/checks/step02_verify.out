@@ -1,0 +1,36 @@
+step 02 verification against /home/claude/repos/cw_build/02_terminal_repair/outputs
+
+1. continuity: step02's inputs are step01's outputs
+  [PASS] 2cht_raw.pdb present in step01 outputs and matches its recorded hash — b938020bbbcbe301
+  [PASS] 1dbf_raw.pdb present in step01 outputs and matches its recorded hash — 59183f711ea35c1b
+
+2. A/B/C extraction
+  [PASS] 2cht_abc_raw_protein.pdb holds chains A,B,C only — ABC
+
+3. superposition
+  [PASS] common backbone atom count matches the report — 1396 vs 1396
+  [PASS] re-derived RMSD matches the report — 0.8037 vs 0.8037
+
+4. residue provenance
+  [PASS] chain A grafted set matches the script patch definition — 13 residues
+  [PASS] chain A grafted set matches Agbaglo et al. (2024) p. 6
+  [PASS] chain B grafted set matches the script patch definition — 14 residues
+  [PASS] chain B grafted set matches Agbaglo et al. (2024) p. 6
+  [PASS] chain C grafted set matches the script patch definition — 15 residues
+  [PASS] chain C grafted set matches Agbaglo et al. (2024) p. 6
+
+5. peptide continuity, recomputed
+  [PASS] unadjusted: link count matches the report — 378 vs 378
+  [PASS] unadjusted: bad-link count matches the report — 2 vs 2  [(('A', 115, 116), 2.119), (('B', 1, 2), 2.649)]
+         worst link unadjusted: ('B', 1, 2) at 2.649 A (+1.320 from canonical, window 1.15-1.7)
+  [PASS] adjusted: link count matches the report — 378 vs 378
+  [PASS] adjusted: bad-link count matches the report — 0 vs 0
+         worst link adjusted: ('C', 114, 115) at 1.647 A (+0.318 from canonical, window 1.15-1.7)
+
+6. join adjustments
+  [PASS] A 115-116: shift equals initial C-N minus 1.329 — 0.791 vs 0.791  (block A:116-127)
+  [PASS] A 115-116 is an allowed join
+  [PASS] B 1-2: shift equals initial C-N minus 1.329 — 1.320 vs 1.320  (block B:1-1)
+  [PASS] B 1-2 is an allowed join
+
+ALL CHECKS PASSED

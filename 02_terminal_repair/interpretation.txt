@@ -1,0 +1,92 @@
+# 02_terminal_repair — Terminal repair of the 2CHT A/B/C trimer from 1DBF
+
+## What this step did
+Extracted chains A, B and C from the 2CHT deposition, globally superposed 1DBF onto that
+trimer on common backbone atoms, and transferred the unresolved terminal residues from
+the aligned 1DBF into the 2CHT frame. Where a grafted terminus did not meet the existing
+backbone at a physical C-N distance, the terminal block was closed by minimal rigid
+translation to the canonical 1.329 A. Joins outside a hard-coded permitted set are treated
+as a fatal error rather than adjusted, which guards against silently moving backbone that
+was never meant to move.
+
+Consumes step 01's 2cht_raw.pdb and 1dbf_raw.pdb. Continuity is verified by SHA-256 rather
+than assumed: checks/step02_verify.py check 1 confirms both inputs are byte-identical to
+the files recorded in 01_inputs_acquisition/outputs/sha256_step01_inputs.txt.
+
+## Key numbers
+- Superposition: 1396 common backbone atoms, RMSD 0.8037 A. Re-derived from the two
+  committed structures and reproduces the report to 4 dp.
+- Grafted residues, taken from aligned 1DBF:
+    chain A: 1, 116-127        (13 residues)
+    chain B: 1, 115-127        (14 residues)
+    chain C: 1, 2, 115-127     (15 residues)
+- Peptide continuity: 378 links checked at both stages. Unadjusted 2 bad, adjusted 0 bad.
+- Join adjustments, both within the permitted set:
+    A 115-116: initial C-N 2.120 A, block A:116-127 shifted 0.791 A
+    B 1-2:     initial C-N 2.649 A, block B:1-1    shifted 1.320 A
+  Each shift equals (initial C-N - 1.329) exactly, confirming the closure is a pure
+  translation to the canonical distance.
+- Worst remaining link after adjustment: C 114-115 at 1.647 A, i.e. +0.318 A from
+  canonical. See caveats.
+
+## Acceptance threshold and verdict
+The script's own gate: a link is bad if the C-N distance is below 1.15 A or above 1.70 A;
+any bad join outside allowed_joins aborts the run. After adjustment, 0 of 378 links fall
+outside that window. PASS.
+
+checks/step02_verify.py: 19 checks, 19 PASS. Note that the check deliberately uses the
+SCRIPT'S window (1.15-1.70), not a tighter tolerance. An earlier draft of the check used
++/-0.25 A around canonical and reported false failures; the check must reproduce the gate
+that was actually applied, not a stricter one invented afterwards.
+
+## Literature comparison
+This resolves protocol_deviations.txt deviation 1 in our favour.
+
+Claeyssens et al. (2011) do not mention terminal repair anywhere in their Methods. The
+repair therefore has no counterpart in the primary comparator.
+
+Agbaglo et al. (2024, doi:10.1039/d3cp06100k, p. 6) perform the same repair from the same
+donor and specify their ranges per chain: "residues 1 and 116-127 from 1DBF were added to
+2CHT for chain A, residues 1 and 115-127 were added for chain B, and residues 1-2 and
+115-127 were added for chain C".
+
+Our patch definition is:
+    A: [1] + 116-127
+    B: [1] + 115-127
+    C: [1,2] + 115-127
+
+These are IDENTICAL, chain for chain. The check verifies the grafted set in the committed
+abc_repaired.pdb against both the script's hard-coded definition AND the published ranges,
+so the agreement is established from the output, not from the fact that both were typed
+from the same source.
+
+So the deviation from Claeyssens is real but the choice is independently corroborated by a
+published treatment of the same structure. Upgrade deviation 1 from "follows the secondary
+reference" to "follows the secondary reference, ranges verified identical".
+
+## Caveats and known issues
+- THE THREE GRAFT JOINS ARE NOT EQUIVALENT. A and B were closed to 1.329 A exactly. The
+  C-chain graft join at C 114-115 sits at 1.647 A and was never adjusted, because 1.647
+  falls inside the acceptance window (1.15-1.70) and so was never flagged. It is the worst
+  link in the final structure, 0.318 A longer than canonical. This is not a rule violation
+  - it passed the gate as written - but the gate is wide, and the resulting structure has
+  one stretched peptide bond going into minimisation. Worth confirming it relaxes at step
+  10a rather than assuming it does.
+- The A-chain closure rigidly translated TWELVE residues (A:116-127) by 0.791 A. This
+  preserves internal geometry of the grafted block but displaces all of it relative to the
+  crystallographic frame. The block is terminal and remote from the active site, so the
+  consequence is expected to be nil, but the displacement is real and is not recorded
+  anywhere except step02_join_adjustment_report.tsv.
+- The superposition is global, over all 1396 common backbone atoms, not local to the graft
+  regions. An 0.8037 A global RMSD means the donor geometry is not a perfect match at any
+  particular terminus; local fitting would close the joins better but would distort the
+  donor block. The choice made here is the simpler one and is the same one Agbaglo
+  describe ("The two structures were globally aligned").
+- Bond ANGLES and DIHEDRALS at the graft are not checked at this step, only the C-N
+  distance. The script says so explicitly and defers them to post-minimisation. They have
+  not yet been re-checked; that check belongs at step 10a and is currently outstanding.
+- scripts/ and scripts_as_run/ are byte-identical for this step. (Contrast step 01, where
+  they differ by a thread-limit line, and step 04, where the archive is materially stale.)
+
+## Cited by
+Methods X.1.2. Table of grafted residues and join closures.

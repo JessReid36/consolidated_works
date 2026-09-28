@@ -54,5 +54,5 @@ should reconcile against the write-up's reference list.
 
 ## Status
 
-01 built, verified and drafted 2026-09-28 (code tier1-realism f0e059c, results main aa131d5).
+01 and 02 built, verified and drafted 2026-09-28 (code tier1-realism f0e059c, results main aa131d5).
 Steps 02 onward not yet added.
