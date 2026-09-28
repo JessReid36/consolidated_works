@@ -207,9 +207,19 @@ DEVIATION 7 - The ensemble samples one active site, not the trimer
 All 44 ensemble frames come from CHA#2, residue 383, site B. Sites A and C are built,
 parameterised, solvated and simulated, and then never sampled for QM/MM.
 
-REASON, as stated: computational cost, and Phase 2 examines a single-substrate reaction,
-so a three-site ensemble buys nothing the design work can use. Defensible, and it should
-be written into a method note since no committed file records it.
+REASON. Two things were conflated and step 12 separates them.
+
+  WHY SO FEW FRAMES: computational cost, and Phase 2 examines a single-substrate reaction,
+  so a three-site ensemble buys nothing the design work can use. Stated by the author.
+
+  WHY THIS SITE: not a choice at all. step12a excludes any site competent in fewer than
+  SITE_MIN of frames, competence being Arg90-O13 < 3.2 A AND forming C6-C1 < 3.7 A. From
+  the committed step12a_selection.log at site_min = 50 per cent:
+        CHA#1 (site A):   82 / 4000 competent ( 2%)   excluded
+        CHA#2 (site B): 3814 / 4000 competent (95%)   QUALIFIES
+        CHA#3 (site C):  883 / 4000 competent (22%)   excluded
+  One site met a pre-stated threshold; two did not. The write-up should say that, not
+  "we picked one site for cost" - it is a far stronger position and it is documented.
 
 WHY IT IS A DEVIATION WORTH STATING. Claeyssens et al. 2011 calculated 16 enzyme reaction
 paths and their barrier spread of +/- 1.8 kcal/mol is a spread ACROSS active-site
@@ -223,3 +233,32 @@ Site B is also the best-behaved of the three on every committed measure: TSA fit
 (sd 8.0 against 36.7 and 63.9), and Arg63' bound rather than swung. That makes it a
 defensible representative, and it makes the ensemble spread a within-site spread from the
 most ordered site available. Both halves of that should be in the write-up.
+
+===============================================================================
+DEVIATION 8 - Frames are selected in the reactant state, not restrained near the TS
+  origin step: 12_frame_selection
+  status: UNSTATED
+===============================================================================
+
+Claeyssens 2011 (p. 3) generate their starting structures by SCCDFTB/CHARMM22 QM/MM MD
+"with the chorismate QM region restrained to be close to the TS (to a reaction coordinate
+value of r = -0.3 A)", taking 16 TS complexes from a 60 ps run after 500 ps equilibration,
+saved every 4 ps. Claeyssens 2005 does the same over two 30 ps runs.
+
+Our frames are UNRESTRAINED and chosen for REACTANT competence - Arg90-O13 intact and a
+near-attack forming distance - from a 60 ns unrestrained trajectory, at intervals of 650
+to 6825 ps.
+
+THE TWO ENSEMBLES ARE NOT THE SAME KIND OF OBJECT. Theirs is a set of restrained TS-like
+structures; ours is a set of free reactant-state structures. Consequences worth stating:
+
+  - Their sampling is of TS-region configurations; ours is of Michaelis-complex
+    configurations. A barrier computed from each is measuring a different average.
+  - Restraining to r = -0.3 A removes exactly the conformational variation our NAC filter
+    selects ON. The two designs are close to complementary.
+  - Their frames are 4 ps apart within a 60 ps window; ours are 650-6825 ps apart across
+    60 ns. Their configurations are far more strongly correlated with one another than
+    ours are - which cuts in OUR favour for independence, and against us for comparability.
+
+Agbaglo 2024 differ again: 30 frames per scheme by RMSD window and random draw. Ours is
+criterion-driven. Three papers, three sampling designs.

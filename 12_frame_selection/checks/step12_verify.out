@@ -1,0 +1,47 @@
+step 12 verification against /home/claude/repos/cw_build/12_frame_selection/outputs
+
+1. which manifest is canonical
+  [PASS] the canonical manifest is present
+         canonical: selection_manifest.tsv, 45 rows
+         stage file: selection_manifest_eq30.tsv, 30 rows
+         stage file: selection_manifest_eq30_angles.tsv, 0 rows
+         stage file: selection_manifest_ext_only.tsv, 30 rows
+         stage file: selection_manifest_ext_only_angles.tsv, 0 rows
+         stage file: selection_manifest_ext_renumbered.tsv, 30 rows
+         stage file: selection_manifest_nac_extra.tsv, 3 rows
+         stage file: selection_manifest_nac_extra_angles.tsv, 0 rows
+         stage file: step12a_selection_manifest.tsv, 12 rows
+  [PASS] the canonical manifest contains every ensemble frame — 44 ensemble frames, 45 manifest rows, extra in manifest: [820]
+
+2. the site outcome was decided by a stated threshold, not chosen
+  [PASS] the selection log is committed
+  [PASS] the competence threshold is recorded in the log — site_min 50%
+  [PASS] all three sites were evaluated — 3 sites
+         CHA#1 (res 382): 82/4000 competent (2%)  excluded
+         CHA#2 (res 383): 3814/4000 competent (95%)  QUALIFIES
+         CHA#3 (res 384): 883/4000 competent (22%)  excluded
+  [PASS] exactly one site qualified — 1 qualified, 2 excluded
+  [PASS] every excluded site is genuinely below the threshold — excluded at ['2%', '22%'] against a 50% threshold
+  [PASS] the qualifying site is comfortably above it — 95%
+  [PASS] the filter is a conjunction, not distance alone — filter: Arg90-O13 < 3.2 A AND form C6-C1 < 3.7 A
+
+3. every selected frame comes from the qualifying site
+  [PASS] one substrate copy across the whole manifest — {('CHA#2', '383')}
+
+4. the near-NAC frames are traceable
+  [PASS] the near_NAC labels are exactly the frames the full test rejected — labelled ['05680', '07310', '15825'], rejected by the test ['05680', '07310', '15825']
+         theta2 deviations: 05680 21.4 deg, 07310 24.7 deg, 15825 23.0 deg
+  [PASS] all three fail marginally, on theta2 alone — against a 20 deg tolerance; Hur & Bruice's unreactive diequatorial conformers show theta2 deviations of about 110 deg
+
+5. step12b's own test: do near-NACs sit higher in barrier?
+         full_NAC n=10  mean 13.65 kcal/mol
+         near_NAC n=3  mean 17.34 kcal/mol
+  [PASS] the near-NACs do sit higher, as step12b predicted — 17.34 against 13.65. n=3, so this is directional only and must NOT be quoted as a result.
+
+6. spacing and coverage
+         45 frames from 820 to 59999 ps
+         spacing: min 650, median 1300, max 6825 ps
+  [PASS] no two selected frames are adjacent in the trajectory — minimum spacing 650 ps
+  [PASS] the selection spans beyond the 20 ns reference window — 29 of 45 frames beyond 20000 ps
+
+ALL CHECKS PASSED

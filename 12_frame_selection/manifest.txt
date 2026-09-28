@@ -1,0 +1,58 @@
+step: 12_frame_selection
+title: QM/MM frame selection
+scripts: step12a_select.sh, step12b_nac_select.py, step12b_extract.sh
+cited_by: Methods X.2/X.3, frame selection
+
+## scripts   (canonical home: JessReid36/chorismate-thesis-code)
+   branch=tier1-realism commit=f0e059cf11eda91dea939c42f8e12d1a8bf829a1
+  phase1_system_dev/step12a_select.sh  6881  e70c6a1455a4752a7d2e9908b807931fa966cea763d035d90a8d4656c74e141a
+  phase1_system_dev/step12b_extract.sh  7195  25d78f93f53ef6b5ac971dd08ecd58bd57c2494158e79f776f021cf01dcff6c8
+  phase1_system_dev/step12b_nac_select.py  13384  19627ec48887675c134ef8664cf02975b17b53df597f00087090777221dc9464
+
+## scripts_as_run
+  NONE EXISTS, as for steps 08-11.
+
+## outputs
+   canonical home: JessReid36/chorismate-thesis-results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+   NOTE THE PATHS. The canonical manifest is at the TOP LEVEL of 05_qmmm. The stage
+   files live under 05_qmmm/12_frame_selection/ and one of them shares its filename.
+  05_qmmm/12_frame_selection/12b_nac_select.log  1266  3b74ed3532b3db31220edbf7c5cdeb60450b7a2627d6249ad976b7cb47427a42
+  05_qmmm/selection_manifest.tsv  2101  4c21e0a2eab145217a531c28787087323d7a7f33c007880bc73c1f702c15b7a1
+  05_qmmm/12_frame_selection/step12a_selection.log  1359  3d48af2647692a57695fc843d98a2b76a3fe735ebae0d19fb91b9b53ce6ebc1c
+
+## stage_manifests   (intermediate; NONE is the ensemble set)
+  05_qmmm/12_frame_selection/README.txt  1211  66e6b72426aacfe2cdf67ff36e053094cafaa8ba5c1a4e755bac43d3caed5d19
+  05_qmmm/12_frame_selection/selection_manifest_eq30.tsv  1438  88b7673f71055e9466100211c50ddbb1f5ea86503b09613488d25942fa7b033d
+  05_qmmm/12_frame_selection/selection_manifest_eq30_angles.tsv  1480  58861fe1b08a25e5f51010aac270b2b4d3617de1ce755a1a97c74b26d4c32593
+  05_qmmm/12_frame_selection/selection_manifest_ext_only.tsv  1422  17281e543521f5e3059058525c3fe8837790009515f6cd6f0ad9e93c83e01818
+  05_qmmm/12_frame_selection/selection_manifest_ext_only_angles.tsv  1473  9f276a0bb2b85869fbeee6e88e566dea01f6dca91e4815b2caad77f86f5f0b32
+  05_qmmm/12_frame_selection/selection_manifest_ext_renumbered.tsv  1438  380fb1375805df7eaf9597a95d6c878bef9c3380fdbcb2abafec2ddc62b97faa
+  05_qmmm/12_frame_selection/selection_manifest_nac_extra.tsv  192  8eb124c9257718d5340feee29267c7ff3de2f58d2b64f615bc61c46072b64827
+  05_qmmm/12_frame_selection/selection_manifest_nac_extra_angles.tsv  198  978398a05cd21b9bca8e6619b6b760de42baed35fec3de886a8cc6cb6644f3e4
+  05_qmmm/12_frame_selection/selection_manifest.tsv  587  2ae739f2188d7dfbede64baaaff1e6e855c56a62e4ec757338a609f1700072db
+  step12a_selection_manifest.tsv is RENAMED from selection_manifest.tsv to avoid
+  the collision with the canonical file. See stage_manifests/README.txt.
+
+## held outside this folder
+  05_qmmm/12_frame_selection/frames/   25 files, 24 MB of extracted frame coordinates
+  and frames_manifest.tsv. Not copied here; referenced from the results repository.
+
+## checks
+  step12_verify.out  2830  4f4c811f457af44616a62c8e4c0010293412ca523fa8024ff9ad91a7d9a2fc50
+  step12_verify.py  7889  c27adffcb80fc7769bedee94f8ac4eddfedbb1464536e974f5dda1d2bd669654
+  result: 18 checks, 18 PASS, 0 FAIL  (see checks/step12_verify.out)
+
+## depends on
+  ../10_md/  (prod.nc, held outside the repository)
+  ../09_tleap_build/outputs/complex_solvated.prmtop
+  ../../chorismate-thesis-results/05_qmmm/11f_nac_check.log
+
+## literature used
+  Hur & Bruice, PNAS 2003, 100, 12015, doi:10.1073/pnas.1534873100 (NAC definition)
+  Claeyssens et al. 2011 p.3 (their restrained TS-region sampling, deviation 8)
+
+## environment of the recorded check run
+  date_utc: 2026-09-28T19:44:38+00:00
+  python:   3.12.3
+  platform: Linux-6.18.44-fc-v42-x86_64-with-glibc2.39
+  host:     drafting container, NOT the HPC working tree.

@@ -1,0 +1,23 @@
+already selected: [820, 2450, 4085, 5680, 7310, 9025, 10775, 12485, 14155, 15825, 17505, 19185]
+
+scanning every 5th of 20000 frames at CHA#2 against the full NAC criterion ...
+  2658 candidate frames satisfy all three NAC conditions and the Arg90 contact cut
+
+  selected frame  9900 (9900 ps)  min separation 875 ps
+  selected frame  8170 (8170 ps)  min separation 855 ps
+  selected frame 11630 (11630 ps)  min separation 855 ps
+
+  frame      ps    d (A)   theta1    dev   theta2    dev    Arg90
+-----------------------------------------------------------------
+   8170    8170    3.434     27.8   19.6     21.0    2.4    2.834
+   9900    9900    2.945     11.9    3.7     37.6   19.0    2.865
+  11630   11630    3.152     19.0   10.8     24.7    6.1    2.917
+
+wrote /home/18660916/system_development/05_qmmm/12_frame_selection/selection_manifest_nac_extra.tsv
+wrote /home/18660916/system_development/05_qmmm/12_frame_selection/selection_manifest_nac_extra_angles.tsv
+
+To bring these into the pipeline:
+  1. append the rows of the new manifest to selection_manifest.tsv
+  2. re-run step12b_extract.sh (re-extracting the existing twelve is
+     idempotent - identical frames give identical rst7 files)
+  3. bash step19a_ensemble_prepare.sh <frame> for each new frame

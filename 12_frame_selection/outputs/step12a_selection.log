@@ -1,0 +1,19 @@
+STEP 12a - frame selection  [stride 5, 4000 scanned, N 12, site_min 50%]
+  filter: Arg90-O13 < 3.2 A AND form C6-C1 < 3.7 A
+  CHA#1 (res 382): competent 82 / 4000 (2%)  excluded (< site_min)
+  CHA#2 (res 383): competent 3814 / 4000 (95%)  QUALIFIES
+  CHA#3 (res 384): competent 883 / 4000 (22%)  excluded (< site_min)
+  selected 12 frames from 1 qualifying site(s) -> /home/18660916/system_development/05_qmmm/12_frame_selection/selection_manifest.tsv
+    # 1  frame   820 (820 ps)  CHA#2  form 3.22  r -1.74  Arg90-O13 3.13
+    # 2  frame  2450 (2450 ps)  CHA#2  form 3.41  r -1.94  Arg90-O13 2.79
+    # 3  frame  4085 (4085 ps)  CHA#2  form 3.15  r -1.70  Arg90-O13 2.79
+    # 4  frame  5680 (5680 ps)  CHA#2  form 3.03  r -1.60  Arg90-O13 2.72
+    # 5  frame  7310 (7310 ps)  CHA#2  form 3.29  r -1.80  Arg90-O13 3.14
+    # 6  frame  9025 (9025 ps)  CHA#2  form 3.50  r -2.04  Arg90-O13 3.01
+    # 7  frame 10775 (10775 ps)  CHA#2  form 3.57  r -2.08  Arg90-O13 3.16
+    # 8  frame 12485 (12485 ps)  CHA#2  form 3.46  r -2.00  Arg90-O13 3.13
+    # 9  frame 14155 (14155 ps)  CHA#2  form 3.28  r -1.88  Arg90-O13 2.92
+    #10  frame 15825 (15825 ps)  CHA#2  form 3.39  r -1.90  Arg90-O13 2.85
+    #11  frame 17505 (17505 ps)  CHA#2  form 3.39  r -1.92  Arg90-O13 2.75
+    #12  frame 19185 (19185 ps)  CHA#2  form 2.99  r -1.53  Arg90-O13 2.86
+STEP 12a DONE

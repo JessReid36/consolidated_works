@@ -1,0 +1,98 @@
+# 12_frame_selection — QM/MM frame selection
+
+## What this step did
+Selected reactant frames for QM/MM path calculations. Two passes: step12a applies a site
+competence filter plus the distance clause of the near-attack definition; step12b adds
+frames satisfying the FULL three-condition Hur & Bruice definition, after a check found
+three of the twelve failed the angular clauses.
+
+## THE SITE OUTCOME WAS NOT A CHOICE. IT WAS A THRESHOLD.
+This corrects what was recorded at step 10, where the single-site ensemble was attributed
+to computational cost and the single-substrate scope of Phase 2. Those explain the frame
+COUNT. They do not explain which site, and the committed log shows the site was never
+chosen at all.
+
+step12a excludes any site competent in fewer than SITE_MIN of frames, with competence
+defined as Arg90-O13 < 3.2 A AND forming C6-C1 < 3.7 A, a conjunction not a distance
+alone. From step12a_selection.log, with site_min at 50 per cent:
+
+    CHA#1 (res 382, site A):   82 / 4000 competent ( 2%)   excluded
+    CHA#2 (res 383, site B): 3814 / 4000 competent (95%)   QUALIFIES
+    CHA#3 (res 384, site C):  883 / 4000 competent (22%)   excluded
+
+One site passed a pre-stated threshold and two did not. The threshold, the filter and the
+occupancies are all recorded in a committed log.
+
+THIS IS A MUCH STRONGER POSITION FOR THE WRITE-UP than "we picked one site for cost". The
+correct sentence is that the selection criterion excluded sites whose substrate is only
+transiently bound, and only one site met it. Write it that way.
+
+The step 11 conclusion that selection "draws from all three sites, weighted toward CHA#2"
+was therefore never achievable under the criterion step12a actually implements. See
+open_items item 10.
+
+## Key numbers
+- Canonical manifest: 05_qmmm/selection_manifest.tsv, 45 rows = 44 ensemble frames plus
+  frame 820, the excluded pilot.
+- All 45 from CHA#2, residue 383.
+- Frames span 820 to 59999 ps. Spacing: minimum 650, median 1300, maximum 6825 ps. No two
+  adjacent frames.
+- 29 of 45 lie beyond 20000 ps, i.e. in the extension beyond the reference protocol.
+- step12a scanned 4000 frames at stride 5 from the 20 ns production.
+
+## Acceptance threshold and verdict
+Verification: 18 checks, 18 PASS, 0 FAIL. See checks/step12_verify.out.
+
+## THE NEAR-NAC FRAMES ARE WELL HANDLED, AND WORTH SAYING SO
+step11f found three of the twelve step12a frames fail the full NAC definition. step12b did
+not discard them. Its reasoning, from its own header:
+
+  - All three fail on theta2 ALONE and marginally: deviations 21.4, 24.7 and 23.0 degrees
+    against a 20 degree tolerance.
+  - For scale, the unreactive diequatorial conformers Hur & Bruice identify in water show
+    theta2 deviations near 110 degrees. These are near-NACs, not misassigned structures.
+  - Rather than discard them, three ADDITIONAL frames passing all three conditions were
+    selected, giving twelve full NACs plus three near-NACs.
+  - The near-NACs then become a TEST: if near-attack geometry governs the barrier, they
+    should sit systematically higher.
+
+They do. Over the original set, full_NAC barriers average 13.65 kcal/mol and near_NAC
+17.34. n = 3, so this is DIRECTIONAL ONLY and must not be quoted as a result. But it is
+the right way to have handled marginal frames: keep them, label them, and let them test
+the hypothesis rather than quietly removing them.
+
+## Literature comparison
+- The NAC criterion is Hur & Bruice, PNAS 2003, 100, 12015, doi:10.1073/pnas.1534873100,
+  held as pnas.1534873100.pdf. The full three-condition form is implemented, not the
+  distance clause alone.
+- Claeyssens et al. 2011 selected 16 TS complexes from a 60 ps run after 500 ps of
+  equilibration, saved every 4 ps, with the substrate RESTRAINED to r = -0.3 A throughout.
+  OUR SELECTION IS DIFFERENT IN KIND: unrestrained frames chosen for reactant competence
+  from a 60 ns unrestrained trajectory. Theirs are restrained TS-like structures; ours are
+  free reactant-state structures. This is a real methodological difference and it is not
+  recorded anywhere. It bears directly on what the two barrier ENSEMBLES mean, and belongs
+  in protocol_deviations.
+- Agbaglo et al. 2024 selected 30 frames per scheme by RMSD windows and random draw. Our
+  selection is criterion-driven rather than random, which is a different sampling design
+  again.
+
+## Caveats and known issues
+- SEVEN STAGE MANIFESTS EXIST AND ONE SHARES THE CANONICAL FILENAME.
+  05_qmmm/selection_manifest.tsv is canonical, 45 rows.
+  05_qmmm/12_frame_selection/selection_manifest.tsv is the step12a output, 12 rows.
+  Copying 12_frame_selection/*.tsv into a flat directory alongside the canonical file
+  silently overwrites it. THAT HAPPENED WHILE BUILDING THIS STEP FOLDER, and was caught
+  only because the check compares the manifest against the ensemble. The stage files are
+  now held in outputs/stage_manifests/ with the step12a one renamed, and a README
+  recording the collision.
+- The *_angles.tsv stage files carry a different header and a d_form column. Any parser
+  reading manifests by column position must not assume one layout.
+- Frame 820 is in the canonical manifest but not in the ensemble. It is the pilot frame,
+  excluded elsewhere. A reader diffing the manifest against the barrier table will find
+  one unexplained row unless this is stated.
+- step12a scanned the 20 ns production at stride 5, but the manifest reaches 59999 ps, so
+  the later frames came from a separate pass over the extension. The two passes are not
+  documented together in any single committed file.
+
+## Cited by
+Methods X.2 or X.3, wherever frame selection is described.

@@ -96,12 +96,14 @@ The high-penalty parameters did not bias the sampled ensemble.
 - ONLY ONE OF THE THREE SUBSTRATE COPIES IS USED. Every ensemble frame comes from site B.
   Sites A and C are simulated but never sampled for QM/MM.
 
-  REASON, stated by the author 2026-09-28: a single site was chosen on computational cost,
-  and Phase 2 examines a single-substrate reaction, so a three-site ensemble would buy
-  nothing the design work can use. This is not recorded in any committed file and should
-  be added to a method note.
+  REASON, resolved at step 12 and partly corrected. Computational cost and the
+  single-substrate scope of Phase 2 explain the frame COUNT, as the author stated. They do
+  NOT explain which site, and the site was never chosen: step12a excludes any site
+  competent in fewer than 50 per cent of frames, and the committed step12a_selection.log
+  records 2 per cent at site A, 95 per cent at site B and 22 per cent at site C. One site
+  met the threshold. See 12_frame_selection/interpretation.txt.
 
-  That reason explains why ONE site, not why THIS site. Site B is, on every committed
+  The comparison below remains the useful one: Site B is, on every committed
   measure, the best-behaved of the three:
 
       site   TSA fit RMSD   centre offset   min contact   Arg63' N   torsion sd
