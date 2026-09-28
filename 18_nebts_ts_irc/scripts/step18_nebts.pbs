@@ -1,0 +1,16 @@
+#!/bin/bash
+#PBS -N cm18_nebts
+#PBS -l select=1:ncpus=8:mem=120gb
+#PBS -l walltime=168:00:00
+#PBS -m ae
+#PBS -M 18660916@sun.ac.za
+#PBS -j oe
+#PBS -o /home/18660916/system_development/05_qmmm/18_nebts/nebts.pbs.out
+cd /home/18660916/system_development/05_qmmm/18_nebts
+export PATH="/apps/openmpi/4.1.1/bin:$PATH"
+export LD_LIBRARY_PATH="/home/apps2/ORCA/6.0.1/lib:/apps/openmpi/4.1.1/lib:/apps/mambaforge/envs/medaka/lib:$LD_LIBRARY_PATH"
+export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1
+echo "host=$(hostname) start=$(date)"
+/home/apps2/ORCA/6.0.1/orca nebts.inp > nebts.out 2>&1
+echo "orca_exit=$? end=$(date)"
+grep -iE "THE NEB OPTIMIZATION HAS CONVERGED|TS OPTIMIZATION|imaginary|ORCA TERMINATED NORMALLY" nebts.out | tail -8

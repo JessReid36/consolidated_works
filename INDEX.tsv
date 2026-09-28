@@ -14,3 +14,4 @@ step	subsection	scripts	n_outputs	checks	status
 13_qmmm_setup	Methods X.3	step13a_bridge.sh, step13b_smoketest.sh, step14_dft_sp.sh	10	26 PASS	verified; covers steps 13a/13b/14
 13_14_qmmm_bridge	Methods X.3	step13a_bridge.sh, step13b_smoketest.sh, step14_dft_sp.sh	10	19 PASS	verified; deviation 9 (level of theory)
 15_17_path_endpoints_scan	Methods X.3	step15b, step16_restraint_scan, step17_product_opt	6	16 PASS	verified; scan cannot resolve the TS
+18_nebts_ts_irc	Methods X.3 + Results	step18*, stage_tsguess, band_status	19	29 PASS	verified; barrier 16.00, 15.08 resolved, item 13

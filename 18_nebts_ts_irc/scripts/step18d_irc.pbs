@@ -1,0 +1,16 @@
+#!/bin/bash
+#PBS -N cm18d_irc
+#PBS -l select=1:ncpus=16:mem=250gb
+#PBS -l walltime=168:00:00
+#PBS -m ae
+#PBS -M 18660916@sun.ac.za
+#PBS -j oe
+#PBS -o /home/18660916/system_development/05_qmmm/18d_irc/irc.pbs.out
+cd /home/18660916/system_development/05_qmmm/18d_irc
+export PATH="/apps/openmpi/4.1.1/bin:$PATH"
+export LD_LIBRARY_PATH="/home/apps2/ORCA/6.0.1/lib:/apps/openmpi/4.1.1/lib:/apps/mambaforge/envs/medaka/lib:$LD_LIBRARY_PATH"
+export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1
+echo "host=$(hostname) start=$(date)"
+/home/apps2/ORCA/6.0.1/orca irc.inp > irc.out 2>&1
+echo "orca_exit=$? end=$(date)"
+grep -iE "FORWARD IRC|BACKWARD IRC|IRC.*CONVERGED|ORCA TERMINATED NORMALLY" irc.out | tail -8

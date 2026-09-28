@@ -1,0 +1,84 @@
+step: 18_nebts_ts_irc
+title: NEB-TS band, reduced-region transition state, IRC
+scripts: step18*, stage_tsguess.sh, band_status.sh, reference_inputs/neb_nebci.inp
+cited_by: Methods X.3 and Results. THE ENZYME BARRIER LIVES HERE.
+headline: barrier +16.00 kcal/mol, 102-atom reduced active region, single frame
+
+## scripts   (canonical home: JessReid36/chorismate-thesis-code)
+   branch=tier1-realism commit=f0e059cf11eda91dea939c42f8e12d1a8bf829a1
+  phase1_system_dev/band_status.sh  2352  16dfed24a81ab9c42b5a9614efc0c12f7e974e92d388bfc412cf536e7b5859da
+  phase1_system_dev/reference_inputs/neb_nebci.inp  10155  c59add6683f21e665420abf86352436ad0449ac6e1bc55981e9ea08154e660a0
+  phase1_system_dev/stage_tsguess.sh  4016  ff5641bebc118bbde7964a45c9566ef5c1678c0c4d43a7ff1f10659067360ab7
+  phase1_system_dev/step18_nebts.inp  10155  4a7a4769ab3fff4eb6ebef77950cf810598d900038bc89c5f03a619d57314a6e
+  phase1_system_dev/step18_nebts.pbs  729  ff5267e99bd5ecd46792cafd245397c384350fc933ef01b719bc3c1c6b129e54
+  phase1_system_dev/step18c_active_reduced.txt  509  a420eb435d75613e3d3a953c36db135a6bca10f17b892f34e093a96b368d8267
+  phase1_system_dev/step18c_extract_reduced_region.py  4381  0669cb6e5932b81823badaad0fdf2cf5289977737ab8cae34396da19711e586b
+  phase1_system_dev/step18c_ts_reduced.inp  928  ff6af086437c546da4c86eb5406cd546b5139c99f9309de07d19a9a8b932b64a
+  phase1_system_dev/step18c_ts_reduced.pbs  750  de2f0b05ae7718ba4792a48e34a089bb8283dc0e3607bcc963945f884fd16b78
+  phase1_system_dev/step18d_irc.inp  839  4c115a4bb992be4583c3b8ff24b2ddde42351843bc79f7f366115953acd900a4
+  phase1_system_dev/step18d_irc.pbs  698  a798f6f97524633c873de072d6027c9099cb883b6f9c0c639a6990746b67053d
+  phase1_system_dev/step18e_reduced_region_reopt.sh  2683  e850004fb1d3cbbeaf260f12fbd91956dae555325656a4cb32297de2ba2662ec
+  phase1_system_dev/step18e_splice_reduced_start.py  2599  b1e698859ebc509a420f7ce24d10a6d042c278a527ae1c8b667579455c0d81e2
+
+## scripts_as_run
+  NONE EXISTS.
+
+## outputs   (canonical home: JessReid36/chorismate-thesis-results)
+   branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  05_qmmm/18c_reduced_region/active_reduced.txt  509  a420eb435d75613e3d3a953c36db135a6bca10f17b892f34e093a96b368d8267
+  05_qmmm/18d_irc/irc_IRC_B.QMRegion_trj.xyz  70623  43edd7c82067fcf82ee040d27774478a1ee4e7e018685a89e49a7bd2bf2b3df2
+  05_qmmm/18d_irc/irc_IRC_B.pdb  4398781  977d7a7cc32bff658d6152f3786669c474cccb471c9c026e292d676df76b2b57
+  05_qmmm/18d_irc/irc_IRC_F.QMRegion_trj.xyz  34713  a53f8a377bd7049d09a84458b4c91eb0d53d02f44f328920e794dbc497642648
+  05_qmmm/18d_irc/irc_IRC_F.pdb  4398781  388aeae0f8b91d111cd387c2323f1041e8f8af6bf3fccdac4b8b90500e4d8943
+  05_qmmm/18_nebts/nebts_MEP.QMRegion_trj.xyz  11970  d3def09865f81223ebd66b4d936fb433aa2a6ae1c45d77f9d5c957a706fcc37e
+  05_qmmm/18_nebts/nebts_MEP_ALL.QMRegion_trj.xyz  216180  dc94f66252caeb0bb7d141b1b74cb98e1a25ea86ba5c443a41102323690b3689
+  05_qmmm/18_nebts/nebts_NEB-CI_converged.activeRegion.xyz  146992  afb25ce987f7be3ff157a92b4b3cce379b841c896f6db334284b89f01b2c5ad9
+  05_qmmm/18f_product_reduced/product_freq.out  4177535  f4fa7817114c3e6fb9944dd395e18840c1e4ad90317aed221abcbff0eff80194
+  05_qmmm/18f_product_reduced/product_reduced.out  4229382  413bafde778a81af23d5d5a12cd152c0c4bf7c02b2097563af5f0cde8fd41c0a
+  05_qmmm/18f_product_reduced/product_reduced.pdb  4398787  164c0fabc78371b1d4eb647b0769c1ed7a235191e727021aec536d555ba8f7e9
+  05_qmmm/18e_reactant_reduced/reactant_freq.out  4005809  11d62793f207fa8ebfa04b40e82f9d3aa64f184e02539ba85e54758b1ab25e14
+  05_qmmm/18e_reactant_reduced/reactant_reduced.out  3738482  50e2faf7a241d1187e33637143216de7914bb1f786de98d1f7d1dea3e1499bc0
+  05_qmmm/18e_reactant_reduced/reactant_reduced.pdb  4398788  a1020c0e38276647e22fdbd719e11c7577c4962f0df3ae3fb0b91c15469e491d
+  05_qmmm/18c_reduced_region/ts_frequencies_summary.txt  543  16504f42a0b1495adeb53aed441f171e7263e9501485a981c3452dddd485165d
+  05_qmmm/18c_reduced_region/ts_reduced.QMRegion_trj.xyz  26356  0cb813700d41ff8252580bd1a376f607edda21421b118ab53b60d6a31714fd21
+  05_qmmm/18c_reduced_region/ts_reduced.out  8452247  e1161797f2f3ab88eb821817882922f968e7edd23cffe571dfc3cfe42793933d
+  05_qmmm/18c_reduced_region/ts_reduced.pdb  4398782  94fbd83e327dc39366adb6d5c7ecf9865ee520db74ebead94f023b43a2995b9f
+  05_qmmm/18c_reduced_region/ts_reduced.property.txt  257035  1ff17c786821dd42165ee1c211c3b637100e80d5d8aab556109835a5dfd03093
+
+## checks
+  step18_verify.out  3899  70a3ccca199d93fc13101adaaae646291852296f40d4636f5601cbcc2d60c6d5
+  step18_verify.py  8646  e70c32e3882751332bd13b26980e38c07a9ec054e183505385c1eff5fcbcea7b
+  result: 29 checks, 29 PASS, 0 FAIL  (see checks/step18_verify.out)
+
+## THE BARRIER, and the two active regions
+  reactant -1076.130494944   TS -1076.104998186   product -1076.151454007  (Eh)
+  barrier +16.00 kcal/mol, reaction energy -13.15 kcal/mol, 102-atom active region.
+  The superseded 15.08 differenced the SAME TS against a BAND-REGION reactant
+  (-1076.129034). The difference is exactly 0.92 kcal/mol = 16.00 - 15.08.
+  NEB band active region 1959 atoms; reduced OptTS region 102; QM region 24.
+  A QM/MM energy belongs to its active region. Never difference across regions.
+
+## DO NOT CITE ts_frequencies_summary.txt for the barrier or the mode count
+  Its header says one imaginary mode; its body lists two. Its footer states the
+  superseded 15.08. See 00_crosscutting/open_items.txt item 13.
+
+## held outside the repository (large-file policy)
+  05_qmmm/18_nebts/nebts_MEP_ALL_trj.xyz     471 MB, full-system MEP trajectory
+  05_qmmm/18c_reduced_region/ts_reduced.hess  12 MB, verified TS Hessian
+  05_qmmm/18d_irc/irc_IRC_F_trj.xyz           76 MB, forward IRC full trajectory
+  Recorded in CHECKSUMS_large_files.txt. The QM-region subsets are committed.
+
+## NOT committed, so not verifiable from here
+  The IRC ORCA output. Only the trajectories and structures survive, so the IRC's
+  role - confirming the saddle connects the intended endpoints - is asserted, not
+  checked. Likewise the NEB band energies, so the band profile cannot be re-derived.
+
+## depends on
+  ../15_17_path_endpoints_scan/  (endpoints and the scan that could not resolve the TS)
+  ../13_14_qmmm_bridge/          (bridge and level of theory)
+
+## environment of the recorded check run
+  date_utc: 2026-09-28T20:07:19+00:00
+  python:   3.12.3
+  platform: Linux-6.18.44-fc-v42-x86_64-with-glibc2.39
+  host:     drafting container, NOT the HPC working tree.

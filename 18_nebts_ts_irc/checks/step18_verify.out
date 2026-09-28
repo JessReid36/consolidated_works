@@ -1,0 +1,59 @@
+step 18 verification against /home/claude/repos/cw_build/18_nebts_ts_irc/outputs
+
+1. the reduced active region
+  [PASS] the active set is the documented 102 atoms — 102
+  [PASS] the QM region lies entirely inside the active region — QM {6207:6230}, 24 atoms, all present
+  [PASS] the active region adds mobile environment beyond the QM region — 78 environment atoms are free to relax, the rest of the system frozen
+
+2. the three reduced-region jobs
+  [PASS] reactant_reduced.out is committed — 3.6 MB
+  [PASS] reactant_reduced.out: ORCA terminated normally
+  [PASS] reactant_reduced.out: energy is on the QM/MM total scale — -1076.130494944 Eh
+  [PASS] ts_reduced.out is committed — 8.1 MB
+  [PASS] ts_reduced.out: ORCA terminated normally
+  [PASS] ts_reduced.out: energy is on the QM/MM total scale — -1076.104998186 Eh
+  [PASS] product_reduced.out is committed — 4.0 MB
+  [PASS] product_reduced.out: ORCA terminated normally
+  [PASS] product_reduced.out: energy is on the QM/MM total scale — -1076.151454007 Eh
+
+3. the barrier, and the 15.08 / 16.00 discrepancy resolved
+         reactant -1076.130494944   TS -1076.104998186   product -1076.151454007
+  [PASS] the consistent reduced-region barrier is 16.00 kcal/mol — +16.00 kcal/mol
+  [PASS] the reaction is exothermic, as expected for this rearrangement — -13.15 kcal/mol
+  [PASS] the superseded barrier and its inputs are recoverable from the file — barrier: +15.08 kcal/mol (TS -1076.104998 vs reactant -1076.129034
+  [PASS] the TS energy is the same in both derivations — -1076.104998 against -1076.104998; the TS is not in dispute
+  [PASS] the whole discrepancy lies in the REACTANT energy — -1076.129034 against the reduced-region -1076.130494944, a difference of 0.92 kcal/mol
+  [PASS] that difference exactly accounts for 16.00 minus 15.08 — 16.00 - 15.08 = 0.92 kcal/mol
+
+4. the frequency summary file contradicts itself
+  [PASS] the file's header claims ONE imaginary mode
+  [PASS] the file's body lists TWO — ['-313.30', '-18.65'] cm^-1. The header is wrong.
+  [PASS] the file's footer carries the SUPERSEDED barrier — it states +15.08 kcal/mol, which is the mismatched-region value. Anyone quoting this file directly would quote the wrong barrier.
+
+5. the two imaginary modes
+           -313.30 cm^-1   reaction coordinate
+            -18.65 cm^-1   below the 50 cm^-1 ghost-mode threshold
+  [PASS] exactly one imaginary mode is a genuine reaction coordinate — -313.30 cm^-1
+  [PASS] the second is small enough to treat as a ghost mode — -18.65 cm^-1, magnitude 18.65 < 50
+         Agbaglo et al. (2024) footnote 1 attributes exactly this artefact to
+         partial Hessians with frozen Cartesian coordinates, and avoid it with
+         a freeze-code scheme that zeroes Hessian elements involving two frozen
+         coordinates. Our reduced-region OptTS freezes everything outside 102
+         atoms, so the small mode has a published explanation. Report BOTH
+         modes and cite the threshold; do not write 'one imaginary mode'.
+
+6. band and IRC
+  [PASS] nebts_NEB-CI_converged.activeRegion.xyz is committed
+  [PASS] nebts_MEP.QMRegion_trj.xyz is committed
+  [PASS] nebts_MEP_ALL.QMRegion_trj.xyz is committed
+  [PASS] irc_IRC_F.QMRegion_trj.xyz is committed
+  [PASS] irc_IRC_B.QMRegion_trj.xyz is committed
+  [PASS] the NEB band uses a LARGER active region than the reduced-region OptTS — band 1959 atoms against reduced-region 102. These are different partitions and their energies must never be differenced against each other.
+         band active region       1959 atoms
+         reduced OptTS region      102 atoms
+         QM region (both)           24 atoms
+         The 15.08 kcal/mol value differenced a 102-atom TS against a
+         band-region reactant. 16.00 uses 102 atoms for both. Always state
+         which active region a QM/MM energy belongs to.
+
+ALL CHECKS PASSED

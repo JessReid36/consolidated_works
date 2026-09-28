@@ -1,0 +1,16 @@
+#!/bin/bash
+#PBS -N cm18c_reduced
+#PBS -l select=1:ncpus=16:mem=180gb
+#PBS -l walltime=168:00:00
+#PBS -m ae
+#PBS -M 18660916@sun.ac.za
+#PBS -j oe
+#PBS -o /home/18660916/system_development/05_qmmm/18c_reduced_region/ts_reduced.pbs.out
+cd /home/18660916/system_development/05_qmmm/18c_reduced_region
+export PATH="/apps/openmpi/4.1.1/bin:$PATH"
+export LD_LIBRARY_PATH="/home/apps2/ORCA/6.0.1/lib:/apps/openmpi/4.1.1/lib:/apps/mambaforge/envs/medaka/lib:$LD_LIBRARY_PATH"
+export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1
+echo "host=$(hostname) start=$(date)"
+/home/apps2/ORCA/6.0.1/orca ts_reduced.inp > ts_reduced.out 2>&1
+echo "orca_exit=$? end=$(date)"
+grep -iE "imaginary|OPTIMIZATION HAS CONVERGED|ORCA TERMINATED NORMALLY" ts_reduced.out | tail -10
