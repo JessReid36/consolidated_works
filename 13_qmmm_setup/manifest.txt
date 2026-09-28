@@ -28,9 +28,9 @@ cited_by: Methods X.3
   05_qmmm/13_smoketest/smoke.pbs.out  335  0ca467646ec4e1a0cf3fd5e56287c126342db78043c458b3395199c10d15893e
 
 ## checks
-  step13_verify.out  2355  3df925e080c6f46f8521313cae389b7124806b6df9c34332388fd388eb6e3df1
-  step13_verify.py  6894  70645a5c2553fc231b77b6a3c012cd547251544933a2a2066932a61757a869cd
-  result: 26 checks, 26 PASS, 0 FAIL  (see checks/step13_verify.out)
+  step13_verify.out  2730  9c670506846a4209ca499879dcbafee746dcc2d42fabf2440a0ff568c4e7ed19
+  step13_verify.py  7873  020646d14f03f57d2e1358cd6c9b50c9f74f04889a7ee09ee76ae29ad6cbb786
+  result: 27 checks, 27 PASS, 0 FAIL  (see checks/step13_verify.out)
 
 ## the QM/MM partition, for the record
   QM region      atoms 6207:6230 (ORCA 0-based) = CHA#2, 24 atoms, whole substrate

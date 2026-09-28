@@ -8,6 +8,12 @@ step 13 verification against /home/claude/repos/cw_build/13_qmmm_setup/outputs
   [PASS] the QM region is specified as a contiguous range — QMAtoms {6207:6230}
   [PASS] the QM region is 24 atoms, the whole substrate — 6207:6230 inclusive = 24 atoms
   [PASS] the range corresponds to CHA#2 under ORCA's 0-based convention — 0-based 6207:6230 == 1-based 6208:6231, which is CHA#2 per step 09
+  [PASS] the declared range is exactly one CHA residue boundary — residue 383
+         CHA residue 382: 0-based 6183:6206
+         CHA residue 383: 0-based 6207:6230  <== declared
+         CHA residue 384: 0-based 6231:6254
+         The copies abut. An off-by-one would straddle two of them and still
+         give 24 atoms, charge -2 and a converging SCF: silently wrong.
 
 3. charge and multiplicity
   [PASS] declared in the input — *pdbfile -2 1

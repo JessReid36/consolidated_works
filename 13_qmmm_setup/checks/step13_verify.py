@@ -77,6 +77,21 @@ def main():
           lo == 6207 and hi == 6230,
           f"0-based {lo}:{hi} == 1-based {lo+1}:{hi+1}, which is CHA#2 per step 09")
 
+    # The consequence of a single-index slip, spelled out because nothing in the ORCA
+    # output would reveal one. Ranges below are the 0-based CHA boundaries verified
+    # against complex_dry.prmtop at step 09; see 09_tleap_build and 19_ensemble.
+    NEIGHBOURS = {382: (6183, 6206), 383: (6207, 6230), 384: (6231, 6254)}
+    declared = (lo, hi)
+    match = [r for r, rng in NEIGHBOURS.items() if rng == declared]
+    check("the declared range is exactly one CHA residue boundary", len(match) == 1,
+          f"residue {match[0]}" if match else
+          f"{declared} matches no CHA boundary — it straddles two copies")
+    for r, (a, b) in sorted(NEIGHBOURS.items()):
+        mark = "  <== declared" if (a, b) == declared else ""
+        print(f"         CHA residue {r}: 0-based {a}:{b}{mark}")
+    print("         The copies abut. An off-by-one would straddle two of them and still")
+    print("         give 24 atoms, charge -2 and a converging SCF: silently wrong.")
+
     print("\n3. charge and multiplicity")
     pm = re.search(r"\*pdbfile\s+(-?\d+)\s+(\d+)", inp)
     check("declared in the input", bool(pm), pm.group(0) if pm else "")

@@ -11,8 +11,7 @@ step	subsection	scripts	n_outputs	checks	status
 10_md	Methods X.2	step10a/b/c/d submit + audit	49	29 PASS	verified; closes items 1, 8, 9
 11_trajectory_analysis	Methods X.2	step11a-f, plots, theta2	11	23 PASS / 2 FAIL	verified over full 60 ns; doc corrections needed (items 10, 12)
 12_frame_selection	Methods X.2/X.3	step12a_select.sh, step12b_nac_select.py, step12b_extract.sh	10 (+8 stage)	18 PASS	verified; site outcome shown algorithmic
-13_qmmm_setup	Methods X.3	step13a_bridge.sh, step13b_smoketest.sh, step14_dft_sp.sh	10	26 PASS	verified; covers steps 13a/13b/14
-13_14_qmmm_bridge	Methods X.3	step13a_bridge.sh, step13b_smoketest.sh, step14_dft_sp.sh	10	19 PASS	verified; deviation 9 (level of theory)
+13_qmmm_setup	Methods X.3	step13a_bridge.sh, step13b_smoketest.sh, step14_dft_sp.sh	10	27 PASS	verified; covers steps 13a/13b/14; deviation 9
 15_17_path_endpoints_scan	Methods X.3	step15b, step16_restraint_scan, step17_product_opt	6	16 PASS	verified; scan cannot resolve the TS
 18_nebts_ts_irc	Methods X.3 + Results	step18*, stage_tsguess, band_status	19	29 PASS	verified; barrier 16.00, 15.08 resolved, item 13
 19_ensemble	Results	step19a-e, run_ensemble_batched, s8_invacuo_new	1 (+174 frame files)	16 PASS	verified; gradient -0.978 vs published -0.95
