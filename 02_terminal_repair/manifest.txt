@@ -1,0 +1,28 @@
+step: 02_terminal_repair
+title: Terminal repair of the A/B/C trimer against 1DBF
+
+## scripts
+  phase1_system_dev/step02_terminal_repair_abc.sh  10834  d561f9cb0005fe3cca9f755856d7d41a29cbdfd5e0abcc014676fb04d4284e1e
+    repo=code branch=tier1-realism commit=f0e059cf11eda91dea939c42f8e12d1a8bf829a1
+
+## outputs
+  02_preparation/protein_only/2cht_abc_raw_protein.pdb  268063  0eca8d056630c20051c9262bafc282bb6d755b860d35b3d89d66dbcc4c949a8a
+    repo=results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  02_preparation/protein_only/1dbf_abc_aligned_to_2cht.pdb  249340  909c229d3af0b634044bc9642bcac99a0f010225b4958a86a7f563ff70ee0965
+    repo=results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  02_preparation/protein_only/abc_repaired.pdb  287418  a724508653436e9530705d716761e63c08bb797be62078ab99c4b458cadf1f99
+    repo=results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  02_preparation/protein_only/abc_repaired_unadjusted.pdb  287418  86ddb2493bc54addfcbe558a0b2d2c7a19a5783ccf17746e271c993a19b5ffb6
+    repo=results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  00_admin/step02_alignment_report.tsv  72  7eb1f50628d8cc8a0db5c0e19fd1547e8fd3a76166e190b425ab3143edb63093
+    repo=results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  00_admin/step02_join_adjustment_report.tsv  115  8bff9f4b59458d10d542b8cbf28f6891d224762d1634c9b1289ebbecd4738e39
+    repo=results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  00_admin/step02_peptide_continuity_report.tsv  62  1e0d5278873722f9d6d3a4ccdd1a3c24deaed805783321cf4f2c4f863a5cf047
+    repo=results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  00_admin/step02_repair_decision.txt  422  7bdac99172bfcec7537c115d9a0339a666e6f192053f2dff3fbea067447ab776
+    repo=results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  00_admin/step02_residue_source_report.tsv  6650  f3ed783ea10f5ae2b10ac91bf100060db1ff193243c4d184b564394b4ac3f220
+    repo=results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  00_admin/step02_terminal_repair_abc.sh  10834  d561f9cb0005fe3cca9f755856d7d41a29cbdfd5e0abcc014676fb04d4284e1e
+    repo=results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21

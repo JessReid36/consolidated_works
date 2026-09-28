@@ -1,0 +1,6 @@
+role	path
+bs_cm_scaffold	/home/18660916/system_development/01_inputs/structures/2cht_raw.pdb
+terminal_repair_template	/home/18660916/system_development/01_inputs/structures/1dbf_raw.pdb
+chorismate_ref_a	/home/18660916/system_development/01_inputs/ligands/liga.mol2
+chorismate_ref_b	/home/18660916/system_development/01_inputs/ligands/ligb.mol2
+chorismate_ref_c	/home/18660916/system_development/01_inputs/ligands/ligc.mol2

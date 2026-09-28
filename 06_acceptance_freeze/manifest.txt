@@ -1,0 +1,32 @@
+step: 06_acceptance_freeze
+title: Acceptance freeze of the pre-protonation complex
+
+## scripts
+  phase1_system_dev/step06_freeze_preprotonation.sh  9833  733d17f3a8a00ab970ab271eef3f90ce5c90891919932f8ecf07f7089d3e3ad8
+    repo=code branch=tier1-realism commit=f0e059cf11eda91dea939c42f8e12d1a8bf829a1
+
+## outputs
+  02_preparation/accepted_preprotonation/abc_cha_preprotonation.pdb  245086  e1c50d535e95789e87758a041c404d55cb8b961baf47f1cc2b659ccae07e990a
+    repo=results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  02_preparation/accepted_preprotonation/cha_a.mol2  2624  64af94697df365836da309351ad5cc4fae16ca59cdc02e64e9e50135138c6d68
+    repo=results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  02_preparation/accepted_preprotonation/cha_a_renaming.tsv  589  f73caf88d6dd9fcf03ca978e21fc5f8900412693d95a96561aca306e3b67911e
+    repo=results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  02_preparation/accepted_preprotonation/cha_b.mol2  2624  dbcb11ebe1ceaeed693d69c6263dce100bda1bf1dd5a09151513697078aa5a82
+    repo=results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  02_preparation/accepted_preprotonation/cha_b_renaming.tsv  589  78312af6b7e1a097ad2fef16a68b40f961ee667286e8fd124bc95cfce06b3fd1
+    repo=results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  02_preparation/accepted_preprotonation/cha_c.mol2  2624  08cb6d7a4df768df887eb1820f9ac280d3958f713efef1283af507bb0511626d
+    repo=results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  02_preparation/accepted_preprotonation/cha_c_renaming.tsv  589  f73caf88d6dd9fcf03ca978e21fc5f8900412693d95a96561aca306e3b67911e
+    repo=results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  00_admin/step06_acceptance_decision.txt  1528  32722b3675e07f9fa0bb91e3732b8f4809cd46369a93026fe9aec2b0ebb62b40
+    repo=results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  00_admin/step06_combined_pdb_audit.txt  199  0a463325662dfdfe880f2198ac4c67395d04c875eafc24556662c80b21e686c3
+    repo=results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  00_admin/step06_freeze_preprotonation.sh  9833  733d17f3a8a00ab970ab271eef3f90ce5c90891919932f8ecf07f7089d3e3ad8
+    repo=results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  00_admin/step06_ligand_mol2_audit.tsv  232  3d1a494548cddb8f9d70e9170686d33bf3f074d174ad9e2baa15a523d6822244
+    repo=results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  00_admin/sha256_step06_accepted_preprotonation.txt  616  d035639942b00542cf1c358af9503418fa6f14e0c35ec738c7ce2e7cedaca6ec
+    repo=results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21

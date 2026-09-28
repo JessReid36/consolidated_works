@@ -1,0 +1,28 @@
+step: 04_substrate_placement
+title: Chorismate placement and derivation of the contact set
+
+## scripts
+  phase1_system_dev/step04_place_chorismate_abc.sh  13005  d05620ecd6bc37112478f8937f6b4623ec581d17895a20f824759d3c5503bab3
+    repo=code branch=tier1-realism commit=f0e059cf11eda91dea939c42f8e12d1a8bf829a1
+  MISSING  code:phase1_system_dev/step04b_contact_criterion.py  (not present at f0e059c)
+
+## outputs
+  02_preparation/ligand_placement/abc_with_chorismate_unprotonated.pdb  245086  9c555b674f1d01208d2ae3266223cbaadbce3bcc9d4364a9f99767c9fa584edc
+    repo=results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  02_preparation/ligand_placement/cha_a_placed.mol2  2548  cfc4dcf8b22e00001a03f2883989ce041d782075cb11ade3a7876d76ea385433
+    repo=results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  02_preparation/ligand_placement/cha_b_placed.mol2  2548  d2511f3efeca8f293b2929378b5b0ee8a3e7773b0ec7f215423d6f471817ee68
+    repo=results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  02_preparation/ligand_placement/cha_c_placed.mol2  2548  c4eda9ae70401592190884c48935b9d086ba93051761d485ab4e96539eb8c35b
+    repo=results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  00_admin/step04_catalytic_contact_report.tsv  2419  440426af23a7d08648187e0a145206dd75f7bc40ad8ddcca13e72a4dbe326a83
+    repo=results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  00_admin/step04_place_chorismate_abc.sh  11888  27d27bb1b1389aeb37d1b1839432e871238971c82bee94bb4aee1e94f50dd3ac
+    repo=results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  00_admin/step04_placement_audit.txt  495  c8019dc46b89da76d701b0a74c7e535a41f146007eef80d8a4c200f1133a492e
+    repo=results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  00_admin/step04_placement_contact_report.txt  1229  1b76d92fc73374f70d446a2cee64f7daa4e8314a8c0144412f832461eef81646
+    repo=results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  00_admin/step04_placement_transform_report.tsv  200  cf63bad32762443e9384e1bc43562996a839daa478c14dd3995f0f685ff867fd
+    repo=results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  MISSING  results:00_admin/step04b_*  (not present at aa131d5)

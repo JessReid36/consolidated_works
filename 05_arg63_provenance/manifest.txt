@@ -1,0 +1,18 @@
+step: 05_arg63_provenance
+title: Arg63' rotamer provenance across the twelve crystallographic sites
+
+## scripts
+  phase1_system_dev/step05_arg63_provenance.sh  6084  c1e55e61882a97d07594db67af7343e474317af934a4ac633e42ecc15c695149
+    repo=code branch=tier1-realism commit=f0e059cf11eda91dea939c42f8e12d1a8bf829a1
+  phase1_system_dev/step05b_arg63_conformation_check.sh  4209  9d508f121557aa24ee709b089009f0e5a5c9c3a03db7bfc465d16a49e3afe8fc
+    repo=code branch=tier1-realism commit=f0e059cf11eda91dea939c42f8e12d1a8bf829a1
+
+## outputs
+  00_admin/step05_arg63_provenance.sh  6084  c1e55e61882a97d07594db67af7343e474317af934a4ac633e42ecc15c695149
+    repo=results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  00_admin/step05_arg63_provenance_report.tsv  635  6aff67f6d922cb5a01c09aa852326da63e40902c242a3b5a4ed83b8327672987
+    repo=results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  00_admin/step05b_arg63_conformation_check.sh  4205  cfcedf22f877158c89c78a06352a15b620e9938fbf9f9db4a5801711e6dc3b32
+    repo=results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  00_admin/step05b_arg63_conformation_report.tsv  128  77f0724d8fcd1480b86a4409489886e1c2e0d8cdb503d2a119d48c0568587427
+    repo=results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21

@@ -1,0 +1,44 @@
+contacts within 4.0 A of cha_a
+--------------------------------------------------
+A    7 ARG  min_dist= 2.782
+A   78 GLU  min_dist= 3.362
+A   90 ARG  min_dist= 2.845
+A  108 TYR  min_dist= 2.956
+A  115 LEU  min_dist= 3.548
+C   57 PHE  min_dist= 3.620
+C   59 ALA  min_dist= 3.358
+C   60 LYS  min_dist= 3.024
+C   63 ARG  min_dist= 2.899
+C   73 VAL  min_dist= 3.594
+C   74 THR  min_dist= 3.448
+C   75 CYS  min_dist= 3.384
+
+contacts within 4.0 A of cha_b
+--------------------------------------------------
+A   57 PHE  min_dist= 3.684
+A   59 ALA  min_dist= 3.222
+A   60 LYS  min_dist= 3.129
+A   63 ARG  min_dist= 3.060
+A   73 VAL  min_dist= 3.525
+A   74 THR  min_dist= 3.266
+A   75 CYS  min_dist= 3.231
+B    7 ARG  min_dist= 2.782
+B   78 GLU  min_dist= 2.900
+B   90 ARG  min_dist= 2.865
+B  108 TYR  min_dist= 2.586
+B  115 LEU  min_dist= 3.764
+
+contacts within 4.0 A of cha_c
+--------------------------------------------------
+B   57 PHE  min_dist= 3.390
+B   59 ALA  min_dist= 2.964
+B   60 LYS  min_dist= 3.080
+B   73 VAL  min_dist= 3.492
+B   74 THR  min_dist= 3.612
+B   75 CYS  min_dist= 3.188
+C    7 ARG  min_dist= 2.709
+C   78 GLU  min_dist= 3.098
+C   90 ARG  min_dist= 2.997
+C  108 TYR  min_dist= 2.785
+C  115 LEU  min_dist= 3.301
+

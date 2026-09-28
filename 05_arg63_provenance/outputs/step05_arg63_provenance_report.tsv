@@ -1,0 +1,16 @@
+source	site	nearest_N_dist_A	N_chain	nearest_any_dist_A	any_chain	any_atom	flag
+raw_2cht	A203	2.900	C	2.893	C	HH11	
+raw_2cht	B201	2.876	A	2.238	A	HH11	
+raw_2cht	C202	8.385	B	6.134	B	H	SWUNG
+raw_2cht	D206	4.323	F	3.441	F	HE	
+raw_2cht	E204	3.144	D	2.705	D	HH11	
+raw_2cht	F205	5.698	E	5.317	E	HH11	SWUNG
+raw_2cht	G209	4.034	I	3.447	I	HH11	
+raw_2cht	H207	7.057	G	5.436	G	CG	SWUNG
+raw_2cht	I208	5.480	H	4.689	H	HE	SWUNG
+raw_2cht	J212	5.705	L	4.472	L	CD	SWUNG
+raw_2cht	K210	6.751	J	5.145	J	CG	SWUNG
+raw_2cht	L211	7.282	K	5.650	K	CG	SWUNG
+placed	A201	2.899	C	2.899	C	NH1	
+placed	B201	3.060	A	3.060	A	NH1	
+placed	C201	8.479	B	6.380	B	CB	SWUNG

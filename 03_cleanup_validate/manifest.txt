@@ -1,0 +1,16 @@
+step: 03_cleanup_validate
+title: Hydrogen strip, altloc resolution and scaffold validation
+
+## scripts
+  phase1_system_dev/step03_cleanup_validate.sh  8525  1f2ff08eaaf65aaf1bad01e27bcda47c2ed517b4ed368bc196c97001d7d190f2
+    repo=code branch=tier1-realism commit=f0e059cf11eda91dea939c42f8e12d1a8bf829a1
+
+## outputs
+  02_preparation/protein_only/abc_repaired_clean.pdb  239386  0bb491624bbed701cc134be849897655cb0413371c57065eed3022331b7cbc7b
+    repo=results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  00_admin/step03_cleanup_report.tsv  226  3226aa4a74588efa99a91a7bc6cb78b57e6caddb49538cebbf4cc44ab5f8c450
+    repo=results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  00_admin/step03_cleanup_validate.sh  8459  4cb0b9294fdc0e86ed954900563dafd614e7233ece44b14d4994270498a52935
+    repo=results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
+  00_admin/step03_validation_audit.txt  473  2fa3847a2d814249f94a8685aea559cacbc89441059f38b753ab115721f27f94
+    repo=results branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21

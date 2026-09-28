@@ -1,0 +1,30 @@
+# 03_cleanup_validate — Hydrogen strip, altloc resolution and scaffold validation
+
+## What this step did
+Stripped crystallographic hydrogens by element, resolved alternate-location groups to a
+single occupancy, and validated the resulting heavy-atom scaffold for backbone continuity,
+duplicate atom names, non-standard residue names and active-site completeness.
+
+## Key numbers
+- Initial atoms 3638; element column populated 3638
+- Hydrogens removed 601; altloc groups resolved 7
+- Final heavy atoms 3030; final hydrogens 0; final altlocs 0; final OXT 3
+- Peptide links checked 378, bad 0
+- Non-standard resnames: none. Duplicate atom residues: 0. Active-site missing: 0
+
+## Acceptance threshold and verdict
+Gate: zero bad peptide links, zero duplicates, zero non-standard names, no missing
+active-site residue. PASS on all four.
+
+## Literature comparison
+None. This is a construction step with no literature analogue to measure against.
+
+## Caveats and known issues
+- The 3030 heavy-atom count is the number every later drift audit is measured against
+  (step 07b confirms 3030 preserved, 0 added, 0 missing). If this number changes, every
+  downstream acceptance decision has to be recomputed.
+- The archived copy of step03_cleanup_validate.sh (sha256 4cb0b929...) differs from the
+  code-repo copy (sha256 1f2ff08e...) by an added OMP_NUM_THREADS export. Cosmetic.
+
+## Cited by
+Methods X.1.3

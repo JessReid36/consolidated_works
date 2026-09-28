@@ -1,0 +1,8 @@
+category	chain	resid	resname	atom	kept_altloc	dropped
+altloc	A	122	THR	CB	B	A
+altloc	A	122	THR	OG1	B	A
+altloc	A	122	THR	CG2	B	A
+altloc	C	127	LEU	CB	A	B
+altloc	C	127	LEU	CG	A	B
+altloc	C	127	LEU	CD1	A	B
+altloc	C	127	LEU	CD2	A	B

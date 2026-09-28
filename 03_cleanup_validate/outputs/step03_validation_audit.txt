@@ -1,0 +1,15 @@
+input	/home/18660916/system_development/02_preparation/protein_only/abc_repaired.pdb
+output	/home/18660916/system_development/02_preparation/protein_only/abc_repaired_clean.pdb
+initial_atoms	3638
+element_column_populated	3638
+hydrogens_removed_by_element	601
+altloc_groups_resolved	7
+final_heavy_atoms	3030
+final_hydrogens	0
+final_altlocs	0
+final_OXT	3
+nonstandard_resnames	none
+duplicate_atom_residues	0
+peptide_links_checked	378
+bad_peptide_links	0
+active_site_missing	0
