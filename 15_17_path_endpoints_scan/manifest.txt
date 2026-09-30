@@ -41,7 +41,7 @@ combined because: the scan is uninterpretable without both endpoints, and the
   its maximum is a terminus and its barrier is a lower bound.
 
 ## depends on
-  ../13_14_qmmm_bridge/  (the ORCAFF bridge and the validated level of theory)
+  ../13_qmmm_setup/  (the ORCAFF bridge and the validated level of theory)
   ../12_frame_selection/  (the starting frame)
 
 ## NOT committed

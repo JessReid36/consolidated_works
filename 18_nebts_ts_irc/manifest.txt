@@ -75,7 +75,7 @@ headline: barrier +16.00 kcal/mol, 102-atom reduced active region, single frame
 
 ## depends on
   ../15_17_path_endpoints_scan/  (endpoints and the scan that could not resolve the TS)
-  ../13_14_qmmm_bridge/          (bridge and level of theory)
+  ../13_qmmm_setup/          (bridge and level of theory)
 
 ## environment of the recorded check run
   date_utc: 2026-09-28T20:07:19+00:00
