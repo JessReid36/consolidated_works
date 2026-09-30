@@ -85,6 +85,12 @@ discharges: open_items 1, 8 and 9
   step11g_torsion_check.py is the HPC-side test for open item 8. It needs prod.nc and
   cannot run from this repository; its output is 00_admin/step11g_torsion_check.tsv.
 
+## writeup   (X.2 covers steps 10, 11 and 12; drafted here)
+  writeup/methods_X2.docx  16986  9dce2ec04ced4f7bc711ce7f17ea2a857fcd1dc5f9411061e3d4589cf61097de
+  writeup/methods_X2.md  13847  c1dd8797dc7c5b09f1e86e2f03e225e3647622abb6171b0ff4b5bf1225e2589b
+  note: the .docx is generated from the .md by pandoc; the .md is the source.
+  11_trajectory_analysis and 12_frame_selection point here rather than holding a copy.
+
 ## depends on
   ../09_tleap_build/outputs/complex_solvated.{prmtop,inpcrd,pdb}
   ../../chorismate-thesis-results/05_qmmm/selection_manifest.tsv  (canonical, 45 rows)

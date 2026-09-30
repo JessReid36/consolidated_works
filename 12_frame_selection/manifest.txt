@@ -42,6 +42,10 @@ cited_by: Methods X.2/X.3, frame selection
   step12_verify.py  8506  45e4820b5d8e3863af49aceb2d55391f8e044bf2b5afd6a8f6c4f5228c291681
   result: 18 checks, 18 PASS, 0 FAIL  (see checks/step12_verify.out)
 
+## writeup
+  writeup/README.txt  327  b562de3e12d97e787b2759bf6665805cb86ab161c8e25feffeb5d983798989cb
+  note: no standalone subsection. X.2 is drafted in 10_md/writeup.
+
 ## depends on
   ../10_md/  (prod.nc, held outside the repository)
   ../09_tleap_build/outputs/complex_solvated.prmtop

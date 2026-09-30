@@ -45,6 +45,10 @@ status: numbers verified over the FULL 60 ns; TWO documentation discrepancies an
   the data. Every .dat figure reproduces exactly. They are retained as failures so
   that the check keeps failing until step11_trajectory_analysis.md is corrected.
 
+## writeup
+  writeup/README.txt  418  29a21192193a6e21fd3d3332da25257d9ed441c319a30c1ff24adc305e417c5a
+  note: no standalone subsection. X.2 is drafted in 10_md/writeup.
+
 ## depends on
   ../10_md/  (prod.nc, held outside the repository)
   ../../chorismate-thesis-results/05_qmmm/selection_manifest.tsv
