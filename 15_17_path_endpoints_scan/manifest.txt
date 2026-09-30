@@ -40,6 +40,10 @@ combined because: the scan is uninterpretable without both endpoints, and the
   TS at r = -0.50, inside that gap. The scan cannot resolve the transition state, so
   its maximum is a terminus and its barrier is a lower bound.
 
+## writeup
+  writeup/README.txt  617  81759b6cb7287caadc234026b49a8a65aae9a67c93905efe6ec5327b237f178a
+  note: no standalone subsection. X.3 is drafted in 13_14_qmmm_setup/writeup.
+
 ## depends on
   ../13_14_qmmm_setup/  (the ORCAFF bridge and the validated level of theory)
   ../12_frame_selection/  (the starting frame)

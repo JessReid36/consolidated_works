@@ -41,6 +41,14 @@ cited_by: Methods X.3
   energy scales  QM -836.79 Eh, MM -236.67 Eh, QM/MM -1073.45 Eh; QM/MM = QM + MM
                  exactly (residual 1.1e-12). NEVER difference across scales.
 
+## writeup   (X.3 covers steps 13, 14, 15, 16, 17 and 18; drafted here)
+  writeup/methods_X3.docx  16582  187609d2943f9314a76d2371a6ac1f327fd0bf93974a75fafa20ecf9e5e213c3
+  writeup/methods_X3.md  13307  fe87036790099051256a595ab95c1f67ffefded29741d5446cf59316d82d4c77
+  note: the .docx is generated from the .md by pandoc; the .md is the source.
+  NO BARRIER IS REPORTED IN X.3. Barriers belong to the Results chapter, and each
+  must state the active region it was computed over.
+  15_17_path_endpoints_scan and 18_nebts_ts_irc point here rather than holding a copy.
+
 ## depends on
   ../09_tleap_build/outputs/complex_solvated.prmtop  (held as a pointer)
   ../12_frame_selection/  (frame 00820, the pilot, used for the single point)

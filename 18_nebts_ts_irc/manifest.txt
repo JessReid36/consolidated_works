@@ -73,6 +73,10 @@ headline: barrier +16.00 kcal/mol, 102-atom reduced active region, single frame
   role - confirming the saddle connects the intended endpoints - is asserted, not
   checked. Likewise the NEB band energies, so the band profile cannot be re-derived.
 
+## writeup
+  writeup/README.txt  755  6b65ee298e69a6ad3b7a09029f5541106bc63c92ef51c800b6722decf97f314b
+  note: no standalone subsection. X.3 is drafted in 13_14_qmmm_setup/writeup.
+
 ## depends on
   ../15_17_path_endpoints_scan/  (endpoints and the scan that could not resolve the TS)
   ../13_14_qmmm_setup/          (bridge and level of theory)
