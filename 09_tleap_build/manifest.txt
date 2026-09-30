@@ -45,6 +45,11 @@ cited_by: Methods X.1.7
   step09_verify.out  3724  6d2d99b7d04309458a96623b76e1cfbf2033d37fbecc67e7c6a230c63550219b
   result: 36 checks, 36 PASS, 0 FAIL  (see checks/step09_verify.out)
 
+## writeup   (drafted here; assembled into the chapter later)
+  writeup/methods_X1_7.docx  13916  fc8a65175ec42af22131c2a6ef8adc04e16f5d9795334dfbd4c34ab36cec58dc
+  writeup/methods_X1_7.md  7310  2829b055a2423c7f88cbaac0d572177a6295e7b41cc90a7ef57b280527b331f4
+  note: the .docx is generated from the .md by pandoc; the .md is the source.
+
 ## depends on
   ../07_protonation_hpp/outputs/abc_protonated_hpp_accepted.pdb
   ../06_acceptance_freeze/outputs/abc_cha_preprotonation.pdb
