@@ -3,11 +3,11 @@ step 19 verification against /home/claude/repos/cw_build/19_ensemble/outputs
 1. table integrity
   [PASS] the table is populated — 44 frames
          pilot     rows  14   barrier  14   in vacuo  13   stab_TS  13
-         extended  rows  30   barrier   8   in vacuo   8   stab_TS   8
+         extended  rows  30   barrier  28   in vacuo  22   stab_TS  22
   [PASS] every frame with an in vacuo reference also has a stabilisation
 
 2. barriers re-derived from the committed energies
-  [PASS] barrier equals (E_ci - E_qmmm_R) for every frame that has both — 22 frames checked, worst disagreement 0.0063 kcal/mol
+  [PASS] barrier equals (E_ci - E_qmmm_R) for every frame that has both — 42 frames checked, worst disagreement 0.0063 kcal/mol
   [PASS] stab_TS equals barrier minus barrier_vac — worst disagreement 2.66e-15 kcal/mol
 
 3. do-not-quote entries
@@ -15,29 +15,29 @@ step 19 verification against /home/claude/repos/cw_build/19_ensemble/outputs
   [PASS] frame 08170 carries the collapsed-band signature — barrier exactly 0.00, which is not a barrier; it must be excluded from every statistic
 
 4. the sign convention
-  [PASS] stabilisation is recorded as negative, i.e. the environment lowers the barrier — mean -4.794 kcal/mol over 21 frames
+  [PASS] stabilisation is recorded as negative, i.e. the environment lowers the barrier — mean -4.844 kcal/mol over 35 frames
          Claeyssens define stabilisation with the OPPOSITE sign: their mean is
          +7.3 (2011) and +4.2 (2005) kcal/mol.
-         Ours of -4.79 is the same physics with the sign flipped.
+         Ours of -4.84 is the same physics with the sign flipped.
          Consequently our regression gradient is the NEGATIVE of theirs.
 
 5. the regression, per sub-ensemble, against Claeyssens 2005
          comparator: Y = 16.02 -0.95 X, R = 0.97   (enzyme-only, 16 paths)
          set                      n     grad  in their sign  intercept       r  mean vac
          pilot                   13   +1.062         -1.062      19.08  +0.846    18.818
-         extended                 8   +0.978         -0.978      18.27  +0.929    18.391
-         pooled                  21   +1.037         -1.037      18.83  +0.873    18.655
-  [PASS] the extended ensemble reproduces the published gradient magnitude — ours -0.978 in their sign against -0.95
-  [PASS] the extended ensemble reproduces the published correlation — r = +0.929 against their R = 0.97
+         extended                22   +0.998         -0.998      18.21  +0.933    18.222
+         pooled                  35   +1.029         -1.029      18.58  +0.893    18.443
+  [PASS] the extended ensemble reproduces the published gradient magnitude — ours -0.998 in their sign against -0.95
+  [PASS] the extended ensemble reproduces the published correlation — r = +0.933 against their R = 0.97
 
 6. the internal consistency test both papers state
          the regression intercept should equal the mean in vacuo barrier
          pilot                  intercept  19.08  mean in vacuo  18.82  gap 0.27
-         extended               intercept  18.27  mean in vacuo  18.39  gap 0.12
-         pooled                 intercept  18.83  mean in vacuo  18.66  gap 0.18
-  [PASS] the extended ensemble passes it at least as well as the published fit — our gap 0.12 against their 0.18
+         extended               intercept  18.21  mean in vacuo  18.22  gap 0.01
+         pooled                 intercept  18.58  mean in vacuo  18.44  gap 0.14
+  [PASS] the extended ensemble passes it at least as well as the published fit — our gap 0.01 against their 0.18
 
 7. leave-one-out stability of the extended fit
-  [PASS] no single frame controls the gradient — gradient spans +0.910 to +1.022 across 8 leave-one-out fits
+  [PASS] no single frame controls the gradient — gradient spans +0.980 to +1.022 across 22 leave-one-out fits
 
 ALL CHECKS PASSED

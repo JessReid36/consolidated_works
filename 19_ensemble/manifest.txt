@@ -21,12 +21,12 @@ headline: extended ensemble gradient -0.978 in Claeyssens' sign, r = +0.929,
 
 ## outputs   (canonical home: JessReid36/chorismate-thesis-results)
    branch=main commit=aa131d526c9b8f0da28e27bb11d4c6d36f69ae21
-  05_qmmm/19_ensemble_barriers/ensemble_barriers.tsv  6501  49cbf64e9ac8b7273248f9c8aa7c25dc3075564538caa3bdf01634b4747e1296
+  05_qmmm/19_ensemble_barriers/ensemble_barriers.tsv  8170  8fc4306f802116a9fccf3af42419a603b36561e70b3786cdf24b831e20fcc433
   05_qmmm/19_ensemble_barriers/frame_*/   196 entries, per-frame QM geometries and in vacuo inputs
     (individually hashed in frames_sha256.txt beside this manifest)
 
 ## checks
-  step19_verify.out  2684  d58e71670ec17d69b89c73118c26103bc919c6d75688b2d673c0475c2c2440ec
+  step19_verify.out  2685  78f1b673a4c9a2d86450b4083247edc863d93ff8e1ec0bd504872dc785808c13
   step19_verify.py  9035  032921e5d0e0915d79a7109b69ab3c3a06f7c0f71f425a288a0a4520c85299c3
   result: 16 checks, 16 PASS, 0 FAIL  (see checks/step19_verify.out)
 

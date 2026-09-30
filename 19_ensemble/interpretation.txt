@@ -10,7 +10,11 @@ produce, and the only one directly comparable with the published work.
 Two sub-ensembles, distinguished by frame number:
 
       pilot     14 rows   14 barriers   13 in vacuo   13 stabilisations
-      extended  30 rows    8 barriers    8 in vacuo    8 stabilisations
+      extended  30 rows   28 barriers   22 in vacuo   22 stabilisations
+
+PROVISIONAL. Two bands were still running at results HEAD 372fc3d (PBS 412717 and
+413741, elapsed 44h and 19h). Two of the thirty extended frames therefore have no
+barrier yet, and eight have no in vacuo reference. Every figure below will move.
 
 Barriers were re-derived as (E_ci - E_qmmm_R) for all 22 frames that carry both energies;
 worst disagreement with the tabulated barrier 0.0063 kcal/mol. stab_TS reproduces
@@ -22,12 +26,12 @@ Fig. 2(b) because the body text gives the gradient unsigned:  Y = 16.02 - 0.95 X
 
       set          n    gradient   in their sign   intercept      r    mean in vacuo
       pilot       13      +1.062          -1.062       19.08   +0.846        18.818
-      extended     8      +0.978          -0.978       18.27   +0.929        18.391
-      pooled      21      +1.037          -1.037       18.83   +0.873        18.655
+      extended    22      +0.998          -0.998       18.21   +0.933        18.222
+      pooled      35      +1.029          -1.029       18.58   +0.893        18.443
 
-THE EXTENDED ENSEMBLE REPRODUCES THE PUBLISHED FIT: gradient -0.978 against -0.95, and
-r = +0.929 against R = 0.97. Leave-one-out gives gradients from +0.910 to +1.022 across
-the eight frames, so no single point controls it.
+THE EXTENDED ENSEMBLE REPRODUCES THE PUBLISHED FIT: gradient -0.998 against -0.95, and
+r = +0.933 against R = 0.97, on 22 frames rather than the 8 available at the previous
+HEAD. The agreement improved as the ensemble grew, which is the right direction.
 
 ## THE SIGN CONVENTION, WHICH MUST BE STATED EVERY TIME
 stab_TS is defined here as barrier - barrier_vac, so NEGATIVE means the environment lowers
@@ -46,12 +50,15 @@ because at zero stabilisation the enzyme barrier is the gas-phase one. Claeyssen
 intercept 16.02 against a mean in vacuo of 16.2, a gap of 0.18.
 
       pilot     intercept 19.08   mean in vacuo 18.82   gap 0.27
-      extended  intercept 18.27   mean in vacuo 18.39   gap 0.12
-      pooled    intercept 18.83   mean in vacuo 18.66   gap 0.18
+      extended  intercept 18.21   mean in vacuo 18.22   gap 0.01
+      pooled    intercept 18.58   mean in vacuo 18.44   gap 0.14
 
-The extended ensemble passes the published test better than the published fit does. That
-is worth stating plainly, because it is an independent check that neither the barriers nor
-the in vacuo references are systematically wrong.
+THE EXTENDED ENSEMBLE PASSES AT A GAP OF 0.01 kcal/mol, against 0.18 for the published
+fit. This is not my inference about what the intercept ought to mean: both papers state it
+themselves. Claeyssens 2005 calls the intercept "the predicted 'intrinsic' barrier from
+the bound substrate conformation in the absence of TS stabilization", and 2011 adds that
+it "is in good agreement with the gas phase barriers in both environments". The test is
+theirs; we pass it more tightly than they do.
 
 ## WHY THE TWO SUB-ENSEMBLES MUST NOT BE POOLED
 The pooled row above is computed for completeness and SHOULD NOT BE QUOTED. The two sets
@@ -95,11 +102,32 @@ and a different sampling design. That is a stronger claim than matching a number
 is the one the evidence supports.
 
 ## Caveats and known issues
-- ONLY 8 OF 30 EXTENDED FRAMES HAVE BARRIERS, and 8 have in vacuo references. The
-  regression rests on eight points. It is a good eight - leave-one-out is stable and the
-  intercept test passes - but eight is eight, and the write-up should say so rather than
-  implying a 30-frame result.
-- 22 of 44 frames have barriers at all. The ensemble is half complete.
+- THE ENSEMBLE IS NOT FINISHED. 28 of 30 extended frames have barriers and 22 have in
+  vacuo references; 42 of 44 frames have a barrier. Two bands were still running at HEAD
+  372fc3d. Every figure here is provisional and will move.
+- THE IN VACUO REFERENCE IS AN ELECTRONICALLY UNBOUND DIANION, and this must be stated
+  rather than left to be found. From refstate_diagnostic.pbs.out, recorded in
+  SOLVATION_DECISION_NOTE.md:
+
+      basis      environment      barrier    HOMO(R) Eh    bound?
+      def2-SVP   vacuum            17.905    +0.082179      NO
+      def2-SVP   CPCM eps = 4      17.474    -0.126365      yes
+      def2-SVP   CPCM eps = 78.4   17.244    -0.192726      yes
+
+  A positive HOMO means the highest occupied orbital lies above the vacuum level. Diffuse
+  functions reduce it (+0.082 to +0.044 at def2-SVPD) but do not fix it.
+
+  IT IS RETAINED, FOR TWO REASONS, BOTH CHECKABLE:
+    1. The barrier is almost insensitive to it. Vacuum to bulk water moves the barrier by
+       0.661 kcal/mol, despite the reactant itself being stabilised by -182 kcal/mol at
+       eps = 78.4. The continuum stabilises reactant and transition state nearly equally,
+       so the unboundedness cancels in the difference. That is also why a continuum cannot
+       be a source of catalysis.
+    2. CLAEYSSENS USED THE SAME REFERENCE, and said why. 2011 p. 6: "single-point
+       calculations on the isolated QM region were carried out for the QM/MM optimized
+       geometries ... calculating the energy of the reacting system without the effects of
+       the protein or water environment". 2005: "We use the gas-phase profiles as a
+       convenient and meaningful reference." The convention is inherited, not invented.
 - The in vacuo references are single points at the optimised QM/MM geometries, not
   separately optimised gas-phase structures. That is the correct construction for a
   differential stabilisation, and it matches what Claeyssens do, but it should be stated.

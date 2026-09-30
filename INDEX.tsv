@@ -14,4 +14,4 @@ step	subsection	scripts	n_outputs	checks	status
 13_qmmm_setup	Methods X.3	step13a_bridge.sh, step13b_smoketest.sh, step14_dft_sp.sh	10	27 PASS	verified; covers steps 13a/13b/14; deviation 9
 15_17_path_endpoints_scan	Methods X.3	step15b, step16_restraint_scan, step17_product_opt	6	16 PASS	verified; scan cannot resolve the TS
 18_nebts_ts_irc	Methods X.3 + Results	step18*, stage_tsguess, band_status	19	29 PASS	verified; barrier 16.00, 15.08 resolved, item 13
-19_ensemble	Results	step19a-e, run_ensemble_batched, s8_invacuo_new	1 (+174 frame files)	16 PASS	verified; gradient -0.978 vs published -0.95
+19_ensemble	Results	step19a-e, run_ensemble_batched, s8_invacuo_new	1 (+frame tree)	16 PASS	PROVISIONAL, 2 bands running; gradient -0.998 (n=22) vs published -0.95

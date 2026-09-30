@@ -91,6 +91,23 @@ write "one imaginary mode".
 - The reaction energy of -13.15 kcal/mol is the exothermicity of the rearrangement, and is
   a useful sanity check that the product optimisation found the right minimum.
 
+## THE 102-ATOM REGION IS NOT THE ENSEMBLE'S REGION, AND THE TWO MUST NOT BE CONFLATED
+Added 2026-09-30 against results HEAD 372fc3d.
+
+HANDOFF now records that the 102-atom movable region is no longer a candidate explanation
+for the barrier sitting above Claeyssens, because the ENSEMBLE uses 1959 atoms including
+139 mobile waters. That is correct and it does not contradict anything here. Two different
+jobs with two different partitions:
+
+      this step, single-frame reduced-region OptTS : 102 atoms movable
+      the step 19 ensemble, NEB-CI bands           : 1959 atoms movable
+
+The 16.00 kcal/mol figure belongs to the 102-atom job and to no other. The ensemble
+barriers belong to the 1959-atom bands. Section 5 of the check already asserts that
+energies from the two partitions must never be differenced; this is the same rule stated
+from the other side. When the write-up quotes 16.00 it must name the 102-atom region, and
+when it quotes an ensemble barrier it must name the 1959-atom one.
+
 ## Caveats and known issues
 - The 16.00 value is from ONE frame. It is not the ensemble result and must not be
   presented as the enzyme barrier of this work without that qualification.

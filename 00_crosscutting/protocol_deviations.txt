@@ -265,70 +265,41 @@ criterion-driven. Three papers, three sampling designs.
 
 ===============================================================================
 DEVIATION 9 - Level of theory: B3LYP-D3BJ/def2-SVP, not B3LYP/6-31G(d)
-  origin step: 13_qmmm_setup (and every barrier thereafter)
-  status: UNSTATED in the repos. The work log records that no written justification
-          exists anywhere. This entry supplies the literature basis for one half of it.
+  origin step: 13_qmmm_setup, and every barrier thereafter
+  status: NARROWED 2026-09-30. Half of it is closed; the half that matters is not.
 ===============================================================================
 
-Claeyssens 2011, abstract: B3LYP/6-31G(d)/CHARMM27.
-Ours, read from the committed dft_sp.inp: B3LYP D3BJ def2-SVP def2/J RIJCOSX, with
-electrostatic embedding onto the ff14SB system through an ORCAFF bridge.
+Claeyssens et al. 2011 and 2005 both compute at B3LYP/6-31G(d). This work uses
+B3LYP-D3BJ/def2-SVP with def2/J and RIJCOSX.
 
-TWO SEPARATE CHANGES, and they are not equally easy to defend.
+WHAT IS NOW CLOSED. HANDOFF.md section 8, corrected 2026-09-30, establishes that ONE
+structural level is used throughout: optimisations, scans, bands and barriers are all
+B3LYP-D3BJ/def2-SVP in both phases. def2-SVPD appears in exactly four files, all
+difference-potential single points, one of which runs both bases deliberately to compare
+them. The earlier claim that the level of theory was inconsistent was an overstatement and
+has been withdrawn. Verified: the split is structural work versus dv work, not Phase 1
+versus Phase 2.
 
-1. DISPERSION: D3BJ added.
-   Claeyssens name this as a limitation of their own calculation (p. 10): "dispersion is
-   not represented, which can be important for some enzyme-catalysed reactions". Adding
-   D3BJ addresses a deficiency the primary comparator itself identifies. That is a
-   defensible improvement and should be presented as one, with their sentence cited.
+The SVP-versus-SVPD question is also closed, and quantitatively. From
+refstate_diagnostic.pbs.out via SOLVATION_DECISION_NOTE.md, basis sensitivity of the
+barrier is 0.090 kcal/mol in vacuum, 0.061 at eps = 4 and 0.064 at eps = 78.4. Under a
+tenth of a kcal/mol. def2-SVP is adequate.
 
-2. BASIS SET: def2-SVP in place of 6-31G(d).
-   No justification is recorded anywhere. Both are split-valence double-zeta sets of
-   broadly similar size, and def2-SVP is the natural partner for def2/J and RIJCOSX in
-   ORCA, so the change is most likely a tooling consequence of moving from their
-   Jaguar/Tinker/QoMMMa stack to ORCA. THAT IS A REASON, NOT A JUSTIFICATION, and it
-   should be written down as such rather than left unmentioned.
+WHAT REMAINS OPEN, AND IT IS THE PART THAT MATTERS. Nothing above compares def2-SVP with
+6-31G(d). Those are different basis sets from different families, and a def2-SVP versus
+def2-SVPD difference of 0.06 kcal/mol says nothing about a def2-SVP versus 6-31G(d)
+difference. Our mean barrier is compared against Claeyssens' 11.3 +/- 1.8 and 12.0 +/- 1.7,
+and that comparison still carries an unquantified basis offset with no written
+justification anywhere.
 
-THE THIRD THING, WHICH IS NOT A DEVIATION BUT MATTERS MORE THAN EITHER.
-Claeyssens state that B3LYP underestimates this barrier by about 3 kcal/mol against
-LCCSD(T), and that the underestimation is similar in enzyme and in water. So:
-  - Their 11.3 kcal/mol is, by their own account, about 3 kcal/mol low.
-  - Any comparison of OUR absolute barrier against 11.3 inherits that, and must say so.
-  - The error largely cancels in the enzyme-minus-water difference, so the catalytic
-    effect and the stabilisation regression are more robust than the absolute barrier.
-This is not currently stated anywhere in the project and it changes how the headline
-barrier comparison should be worded.
-
-===============================================================================
-DEVIATION 9 - Level of theory: B3LYP-D3BJ/def2-SVP, not B3LYP/6-31G(d)
-  origin step: 13_14_qmmm_bridge, and every barrier thereafter
-  status: UNSTATED, and this is the most consequential unstated deviation so far
-===============================================================================
-
-Claeyssens et al. 2011 compute their QM/MM reaction paths with B3LYP and the 6-31G(d)
-basis set.
-
-This work uses, read from the committed dft_sp.inp:
-    ! QMMM B3LYP D3BJ def2-SVP def2/J RIJCOSX EnGrad
-
-Same functional. Three differences:
-  - def2-SVP rather than 6-31G(d). Both are split-valence double-zeta with polarisation,
-    but they are not the same basis and barrier heights are basis-sensitive.
-  - D3BJ dispersion, which Claeyssens do not apply.
-  - RIJCOSX with def2/J, a resolution-of-the-identity and chain-of-spheres approximation
-    to the Coulomb and exchange integrals, which Claeyssens do not use.
-
-WHY IT MATTERS MORE THAN THE OTHER DEVIATIONS. Deviations 1 to 8 concern how the ensemble
-was built and sampled. This one enters the energy of every barrier directly. Our mean
-barrier is compared against Claeyssens' 11.3 +/- 1.8 kcal/mol, and the two are computed
-with different basis sets and different dispersion treatment.
-
-NO JUSTIFICATION IS WRITTEN ANYWHERE in either repository. The QM region itself matches
-Claeyssens exactly - chorismate only, electrostatic embedding, no link atoms - which makes
-the unexplained basis-set change stand out more, not less.
-
-TO CLOSE, in order of increasing effort:
-  1. State the deviation and the reason in the methods. Minimum.
-  2. Quantify it: a single-frame single point at B3LYP/6-31G(d) on the same geometry gives
-     the offset directly. One cheap job, no re-run of anything.
-  3. If the offset is large, say so when comparing against Claeyssens' barrier.
+HOW TO CLOSE IT, and HANDOFF now proposes the better route:
+  "argue it via stabilisation, where basis error largely cancels."
+  That is right, and it is what our own evidence already supports. The stabilisation is a
+  difference of differences - barrier minus in vacuo barrier, at the same geometry, in the
+  same basis - so a systematic basis offset cancels to first order. The REGRESSION is
+  therefore basis-robust in a way the ABSOLUTE BARRIER is not.
+  So: present the gradient and the intercept test as the comparison with Claeyssens, and
+  present the absolute barrier with the offset stated as unquantified. That is the honest
+  division, and it happens to put the weight on the stronger result.
+  If a number is wanted anyway, one single point at B3LYP/6-31G(d) on an existing geometry
+  gives it. No re-run of anything.
