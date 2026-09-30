@@ -1,4 +1,4 @@
-# 13_qmmm_setup — QM/MM bridge, smoke test and DFT single point
+# 13_14_qmmm_setup — QM/MM bridge, smoke test and DFT single point
 
 Covers pipeline steps 13a, 13b and 14 as one unit: they establish the QM/MM partition
 that every barrier in Phase 1 depends on, and validate it.

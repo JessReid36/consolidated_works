@@ -18,20 +18,20 @@ cover more than one step, and one step number appears in no folder name.
 | `10_md` | 10, 10a–10d | X.2 |
 | `11_trajectory_analysis` | 11a–11f | X.2 (points to `10_md`) |
 | `12_frame_selection` | 12a, 12b | X.2 (points to `10_md`) |
-| `13_qmmm_setup` | **13a, 13b and 14** | X.3 |
+| `13_14_qmmm_setup` | **13a, 13b and 14** | X.3 |
 | `15_17_path_endpoints_scan` | 15, 16, 17 | X.3 |
 | `18_nebts_ts_irc` | 18, 18c–18f | X.3 and Results |
 | `19_ensemble` | 19a–19e | Results |
 
 ## Two things the folder names do not say
 
-**There is no folder named for step 14.** `13_qmmm_setup` covers steps 13a, 13b and 14
+**There is no folder named for step 14.** `13_14_qmmm_setup` covers steps 13a, 13b and 14
 together: the bridge, the smoke test and the DFT single point are one operation and
 neither half is interpretable alone. A folder `13_14_qmmm_bridge` existed briefly as a
 duplicate and was removed; if a manifest or note still references it, that reference is
 stale.
 
-**Three folders cover ranges.** `13_qmmm_setup`, `15_17_path_endpoints_scan` and
+**Three folders cover ranges.** `13_14_qmmm_setup`, `15_17_path_endpoints_scan` and
 `10_md` each cover several pipeline steps. The Subsection column, not the folder name,
 is what maps to the thesis.
 

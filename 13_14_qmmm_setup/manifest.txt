@@ -1,4 +1,4 @@
-step: 13_qmmm_setup
+step: 13_14_qmmm_setup
 title: QM/MM bridge, smoke test and DFT single point
 covers: pipeline steps 13a, 13b and 14, combined as one unit because together they
         establish and validate the QM/MM partition every later barrier depends on

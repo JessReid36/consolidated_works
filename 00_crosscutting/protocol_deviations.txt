@@ -265,7 +265,7 @@ criterion-driven. Three papers, three sampling designs.
 
 ===============================================================================
 DEVIATION 9 - Level of theory: B3LYP-D3BJ/def2-SVP, not B3LYP/6-31G(d)
-  origin step: 13_qmmm_setup, and every barrier thereafter
+  origin step: 13_14_qmmm_setup, and every barrier thereafter
   status: NARROWED 2026-09-30. Half of it is closed; the half that matters is not.
 ===============================================================================
 
